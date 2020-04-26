@@ -18,12 +18,14 @@ import org.json.simple.parser.ParseException;
  */
 public class interfazSesion extends javax.swing.JFrame {
     LeerJson read;
+    Usuario userLog;
     /**
      * Creates new form interfazSesion
      */
-    public interfazSesion(LeerJson read) {
+    public interfazSesion(LeerJson read, Usuario userLog) {
         initComponents();
         this.read = read;
+        this.userLog = userLog;
         
     }
 
@@ -132,9 +134,11 @@ public class interfazSesion extends javax.swing.JFrame {
 
     private void ingresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ingresarActionPerformed
         int carnet = Integer.parseInt(user_txt.getText());
-        if(read.hash.ingreso(carnet, pass_txt.getText())){
+        Usuario userAux = read.hash.ingreso(carnet, pass_txt.getText());
+        if(userAux!= null){
             new Interfaz(read).setVisible(true);
             this.setVisible(false);
+            userLog = userAux;
         }else{
             JOptionPane.showMessageDialog(null, "DATOS INCORRECTOS");
         }

@@ -22,7 +22,5 @@ public class Nodo {
         this.izq = this.der = null;
         this.Btree = new ArbolB(5);
     }
-    public Nodo(String dato, Nodo izq, Nodo der){
-        
-    }
+    
 }

@@ -5,276 +5,339 @@
  */
 package proyecto2_edd;
 
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author lourd
  */
 public class ArbolB {
-    public  Pagina raiz;
-    public  int orden;
-    public ArbolB(int orden){
-        this.raiz = null;
-        this.orden = 5;
-    }
-    public  void insertar(Libro libro){
-        if(buscar(libro.ISBN)==null){//si el ISBN no existe
-            if(raiz == null)
-                raiz = new Pagina(orden);
-            if(raiz.claves[0] == null){//si la raiz es nula ingresar el ISBN en el
-                insertarEnClave(libro, raiz);
-            }else{
-                Pagina pagInsert = buscarClave(libro.ISBN);
-                if(pagInsert != null){
-                    if(pagInsert.clavesLlenas == false)//si no tiene las claves llenas insertar en ella
-                        insertarEnClave(libro, pagInsert);
-                    else{//si no tiene espacio hacer un split
-                      split(pagInsert, libro);
-                      
+    protected BTreeNode root;
+/*     */   int order;
+/*     */ 
+/*     */   ArbolB(int paramInt)
+/*     */   {
+/*  28 */     if (paramInt < 1) {
+/*  29 */       paramInt = 1;
+/*     */     }
+/*  31 */     this.order = paramInt;
+/*     */ 
+/*  34 */     this.root = new BTreeNode(paramInt, true);
+/*     */   }
+/*     */ 
+/*     */   public BTreeComparable find(BTreeComparable paramBTreeComparable)
+/*     */   {
+              
+/*  40 */     if (this.root == null) {
+/*  41 */       throw new IllegalStateException();
+/*     */     }
+/*  43 */     if (this.root.isEmpty()) {
+/*  44 */       return null;
+/*     */     }
+/*  46 */     BTreeNode localBTreeNode = findNode(paramBTreeComparable);
+/*  47 */     if (localBTreeNode == null) {
+/*  48 */       throw new IllegalStateException();
+/*     */     }
+/*  50 */     int i = localBTreeNode.findKeyPosition(paramBTreeComparable);
+/*  51 */     if ((i & 0x1) != 1) {
+/*  52 */       return null;
+/*     */     }
+/*  54 */     return localBTreeNode.getKey(i >> 1);
+/*     */   }
+/*     */ 
+/*     */   public void add(BTreeComparable paramBTreeComparable) {
+/*  58 */     if (find(paramBTreeComparable) != null) {
+/*  59 */       return;
+/*     */     }
+/*  61 */     BTreeNode localBTreeNode = findLeaf(paramBTreeComparable);
+/*     */ 
+/*  63 */     addHere(localBTreeNode, paramBTreeComparable, null, null);
+/*     */   }
+/*     */ 
+/*     */   public void insert(BTreeComparable paramBTreeComparable) {
+/*  67 */     add(paramBTreeComparable);
+/*     */   }
+/*     */ 
+/*     */   public void delete(BTreeComparable paramBTreeComparable) {
+/*  71 */     if (find(paramBTreeComparable) == null) {
+/*  72 */       return;
+/*     */     }
+/*  74 */     BTreeNode localBTreeNode = findNode(paramBTreeComparable);
+/*  75 */     int i = localBTreeNode.findKeyPosition(paramBTreeComparable) >> 1;
+/*  76 */     if (localBTreeNode.isLeaf() == false) {
+/*  77 */       localBTreeNode = swapWithLeaf(localBTreeNode, i);
+/*  78 */       i = 0;
+/*     */     }
+/*     */ 
+/*  81 */     removeOne(localBTreeNode, i);
+/*     */ 
+/*  83 */     if (localBTreeNode == this.root) {
+/*  84 */       return;
+/*     */     }
+/*  86 */     notEnoughKeys(localBTreeNode);
+/*     */   }
+/*     */ 
+/*     */   public void remove(BTreeComparable paramBTreeComparable) {
+/*  90 */     delete(paramBTreeComparable);
+/*     */   }
+/*     */ 
+/*     */   private BTreeNode findNode(BTreeComparable paramBTreeComparable)
+/*     */   {
+/*  96 */     if ((this.root == null) || (this.root.isEmpty())) {
+/*  97 */       throw new IllegalStateException();
+/*     */     }
+/*  99 */     BTreeNode localBTreeNode = this.root;
+/*     */ 
+/* 102 */     while (localBTreeNode != null) {
+/* 103 */       int i = localBTreeNode.findKeyPosition(paramBTreeComparable);
+/* 104 */       if (((i & 0x1) == 1) || (localBTreeNode.isLeaf()))
+/* 105 */         return localBTreeNode;
+/* 106 */       localBTreeNode = localBTreeNode.getChild(i >> 1);
+/*     */     }
+/* 108 */     throw new IllegalStateException();
+/*     */   }
+/*     */ 
+/*     */   private BTreeNode findLeaf(BTreeComparable paramBTreeComparable) {
+/* 112 */     BTreeNode localBTreeNode = this.root;
+/*     */ 
+/* 115 */     while (localBTreeNode != null) {
+/* 116 */       if (localBTreeNode.isLeaf())
+/* 117 */         return localBTreeNode;
+/* 118 */       int i = localBTreeNode.findKeyPosition(paramBTreeComparable);
+/* 119 */       if ((i & 0x1) == 1) {
+/* 120 */         i--;
+/*     */       }
+/* 122 */       localBTreeNode = localBTreeNode.getChild(i >> 1);
+/*     */     }
+/* 124 */     throw new IllegalStateException();
+/*     */   }
+/*     */ 
+/*     */   protected void addHere(BTreeNode paramBTreeNode1, BTreeComparable paramBTreeComparable, BTreeNode paramBTreeNode2, BTreeNode paramBTreeNode3) {
+/* 128 */     if (paramBTreeNode1.isEmpty()) {
+/* 129 */       addHereToEmpty(paramBTreeNode1, paramBTreeComparable, paramBTreeNode2, paramBTreeNode3);
+/* 130 */       return;
+/*     */     }
+/*     */ 
+/* 133 */     int i = paramBTreeNode1.findKeyPosition(paramBTreeComparable);
+/* 134 */     if ((i & 0x1) == 1) {
+/* 135 */       throw new IllegalStateException("filled: " + paramBTreeNode1.getFilled() + " position: " + i + " item: " + paramBTreeComparable.toString());
+/*     */     }
+/* 137 */     i >>= 1;
+/* 138 */     if (paramBTreeNode1.getChild(i) != paramBTreeNode2) {
+/* 139 */       throw new IllegalStateException();
+/*     */     }
+/* 141 */     if (paramBTreeNode1.getFilled() < 2 * paramBTreeNode1.getOrder()) {
+/* 142 */       addHereNotFull(paramBTreeNode1, paramBTreeComparable, paramBTreeNode2, paramBTreeNode3, i);
+/* 143 */       return;
+/*     */     }
+/*     */ 
+/* 146 */     BTreeComparable[] arrayOfBTreeComparable1 = new BTreeComparable[this.order * 2 + 1];
+/* 147 */     BTreeNode[] arrayOfBTreeNode1 = new BTreeNode[this.order * 2 + 2];
+/* 148 */     addHereMakeTmp(paramBTreeNode1, paramBTreeComparable, paramBTreeNode2, paramBTreeNode3, arrayOfBTreeComparable1, arrayOfBTreeNode1, i);
+/* 149 */     BTreeNode localBTreeNode = addHereNewRight(paramBTreeNode1, arrayOfBTreeComparable1, arrayOfBTreeNode1, this.order);
+/* 150 */     addHereSetLeft(paramBTreeNode1, arrayOfBTreeComparable1, arrayOfBTreeNode1);
+/*     */ 
+/* 153 */     if (!localBTreeNode.isLeaf()) {
+/* 154 */       for (int j = 0; j <= this.order; j++)
+/* 155 */         localBTreeNode.getChild(j).parent = localBTreeNode;
+/*     */     }
+/* 157 */     if (paramBTreeNode1 == this.root) {
+/* 158 */       BTreeComparable[] arrayOfBTreeComparable2 = { arrayOfBTreeComparable1[this.order] };
+/* 159 */       BTreeNode[] arrayOfBTreeNode2 = { paramBTreeNode1, localBTreeNode };
+/* 160 */       this.root = new BTreeNode(this.order, null, arrayOfBTreeComparable2, arrayOfBTreeNode2, false);
+/* 161 */       paramBTreeNode1.parent = this.root;
+/* 162 */       localBTreeNode.parent = this.root;
+/*     */     } else {
+/* 164 */       addHere(paramBTreeNode1.getParent(), arrayOfBTreeComparable1[this.order], paramBTreeNode1, localBTreeNode);
+/*     */     }
+/*     */   }
+/*     */ 
+/*     */   protected void addHereToEmpty(BTreeNode paramBTreeNode1, BTreeComparable paramBTreeComparable, BTreeNode paramBTreeNode2, BTreeNode paramBTreeNode3) {
+/* 169 */     paramBTreeNode1.child[0] = paramBTreeNode2;
+/* 170 */     paramBTreeNode1.child[1] = paramBTreeNode3;
+/* 171 */     paramBTreeNode1.key[0] = paramBTreeComparable;
+/* 172 */     paramBTreeNode1.filled = 1;
+/*     */   }
+/*     */ 
+/*     */   protected void addHereNotFull(BTreeNode paramBTreeNode1, BTreeComparable paramBTreeComparable, BTreeNode paramBTreeNode2, BTreeNode paramBTreeNode3, int paramInt) {
+/* 176 */     int i = paramBTreeNode1.getFilled() - paramInt; int j = paramInt;
+/* 177 */     System.arraycopy(paramBTreeNode1.key, j, paramBTreeNode1.key, j + 1, i);
+/* 178 */     System.arraycopy(paramBTreeNode1.child, j + 1, paramBTreeNode1.child, j + 2, i);
+/* 179 */     paramBTreeNode1.key[paramInt] = paramBTreeComparable;
+/* 180 */     paramBTreeNode1.child[(paramInt + 1)] = paramBTreeNode3;
+/* 181 */     paramBTreeNode1.filled += 1;
+/*     */   }
+/*     */ 
+/*     */   protected BTreeNode addHereNewRight(BTreeNode paramBTreeNode, BTreeComparable[] paramArrayOfBTreeComparable, BTreeNode[] paramArrayOfBTreeNode, int paramInt) {
+/* 185 */     BTreeComparable[] arrayOfBTreeComparable = new BTreeComparable[paramInt];
+/* 186 */     BTreeNode[] arrayOfBTreeNode = new BTreeNode[paramInt + 1];
+/* 187 */     System.arraycopy(paramArrayOfBTreeComparable, paramInt + 1, arrayOfBTreeComparable, 0, paramInt);
+/* 188 */     System.arraycopy(paramArrayOfBTreeNode, paramInt + 1, arrayOfBTreeNode, 0, paramInt + 1);
+/* 189 */     return new BTreeNode(paramInt, paramBTreeNode.getParent(), arrayOfBTreeComparable, arrayOfBTreeNode, paramBTreeNode.isLeaf());
+/*     */   }
+/*     */ 
+/*     */   protected void addHereMakeTmp(BTreeNode paramBTreeNode1, BTreeComparable paramBTreeComparable, BTreeNode paramBTreeNode2, BTreeNode paramBTreeNode3, BTreeComparable[] paramArrayOfBTreeComparable, BTreeNode[] paramArrayOfBTreeNode, int paramInt) {
+/* 193 */     int i = paramBTreeNode1.getFilled() - paramInt;
+/* 194 */     System.arraycopy(paramBTreeNode1.key, 0, paramArrayOfBTreeComparable, 0, paramInt);
+/* 195 */     System.arraycopy(paramBTreeNode1.child, 0, paramArrayOfBTreeNode, 0, paramInt);
+/* 196 */     System.arraycopy(paramBTreeNode1.key, paramInt, paramArrayOfBTreeComparable, paramInt + 1, i);
+/* 197 */     System.arraycopy(paramBTreeNode1.child, paramInt + 1, paramArrayOfBTreeNode, paramInt + 2, i);
+/* 198 */     paramArrayOfBTreeComparable[paramInt] = paramBTreeComparable;
+/* 199 */     paramArrayOfBTreeNode[paramInt] = paramBTreeNode2;
+/* 200 */     paramArrayOfBTreeNode[(paramInt + 1)] = paramBTreeNode3;
+/*     */   }
+/*     */ 
+/*     */   protected void addHereSetLeft(BTreeNode paramBTreeNode, BTreeComparable[] paramArrayOfBTreeComparable, BTreeNode[] paramArrayOfBTreeNode) {
+/* 204 */     paramBTreeNode.filled = paramBTreeNode.getOrder();
+/* 205 */     paramBTreeNode.cleanNode();
+/* 206 */     System.arraycopy(paramArrayOfBTreeComparable, 0, paramBTreeNode.key, 0, paramBTreeNode.getFilled());
+/* 207 */     System.arraycopy(paramArrayOfBTreeNode, 0, paramBTreeNode.child, 0, paramBTreeNode.getFilled() + 1);
+/*     */   }
+/*     */ 
+/*     */   protected BTreeNode findLogicalNext(BTreeNode paramBTreeNode, int paramInt) {
+/* 211 */     paramBTreeNode = paramBTreeNode.getChild(paramInt + 1);
+/* 212 */     while (paramBTreeNode.isLeaf() == false)
+/* 213 */       paramBTreeNode = paramBTreeNode.getChild(0);
+/* 214 */     return paramBTreeNode;
+/*     */   }
+/*     */ 
+/*     */   protected BTreeNode swapWithLeaf(BTreeNode paramBTreeNode, int paramInt) {
+/* 218 */     BTreeNode localBTreeNode = findLogicalNext(paramBTreeNode, paramInt);
+/* 219 */     BTreeComparable localBTreeComparable = paramBTreeNode.key[paramInt];
+/* 220 */     paramBTreeNode.key[paramInt] = localBTreeNode.key[0];
+/* 221 */     localBTreeNode.key[0] = localBTreeComparable;
+/* 222 */     return localBTreeNode;
+/*     */   }
+/*     */ 
+/*     */   protected void removeOne(BTreeNode paramBTreeNode, int paramInt) {
+/* 226 */     System.arraycopy(paramBTreeNode.key, paramInt + 1, paramBTreeNode.key, paramInt, paramBTreeNode.getFilled() - paramInt - 1);
+/* 227 */     paramBTreeNode.filled -= 1;
+/* 228 */     paramBTreeNode.cleanNode();
+/*     */   }
+/*     */ 
+/*     */   protected void notEnoughKeys(BTreeNode paramBTreeNode) {
+/* 232 */     if ((paramBTreeNode.getFilled() >= this.order) || (paramBTreeNode == this.root)) {
+/* 233 */       return;
+/*     */     }
+/* 235 */     BTreeNode localBTreeNode1 = paramBTreeNode.getParent();
+/* 236 */     int i = localBTreeNode1.findChildPosition(paramBTreeNode);
+/*     */ 
+/* 238 */     if ((i > 0) && (localBTreeNode1.getChild(i - 1).getFilled() > this.order)) {
+/* 239 */       deleteBorrowLeft(paramBTreeNode, localBTreeNode1, i);
+/* 240 */     } else if ((i < localBTreeNode1.getFilled()) && (localBTreeNode1.getChild(i + 1).getFilled() > this.order)) {
+/* 241 */       deleteBorrowRight(paramBTreeNode, localBTreeNode1, i);
+/*     */     }
+/*     */     else
+/*     */     {
+/*     */       BTreeNode localBTreeNode2;
+/*     */       BTreeNode localBTreeNode3;
+/* 245 */       if (i > 0) {
+/* 246 */         localBTreeNode2 = localBTreeNode1.getChild(--i);
+/* 247 */         localBTreeNode3 = paramBTreeNode;
+/*     */       } else {
+/* 249 */         localBTreeNode2 = paramBTreeNode;
+/* 250 */         localBTreeNode3 = localBTreeNode1.getChild(i + 1);
+/*     */       }
+/*     */ 
+/* 253 */       deleteJoinNode(localBTreeNode2, localBTreeNode3, localBTreeNode1, i);
+/*     */ 
+/* 255 */       if ((localBTreeNode1 == this.root) && (localBTreeNode1.getFilled() == 0)) {
+/* 256 */         this.root = localBTreeNode2;
+/* 257 */         return;
+/*     */       }
+/*     */     }
+/*     */ 
+/* 261 */     notEnoughKeys(localBTreeNode1);
+/*     */   }
+/*     */ 
+/*     */   protected void deleteBorrowLeft(BTreeNode paramBTreeNode1, BTreeNode paramBTreeNode2, int paramInt) {
+/* 265 */     System.arraycopy(paramBTreeNode1.key, 0, paramBTreeNode1.key, 1, paramBTreeNode1.filled);
+/* 266 */     System.arraycopy(paramBTreeNode1.child, 0, paramBTreeNode1.child, 1, ++paramBTreeNode1.filled);
+/* 267 */     paramBTreeNode1.key[0] = paramBTreeNode2.key[(paramInt - 1)];
+/* 268 */     BTreeNode localBTreeNode = paramBTreeNode2.getChild(paramInt - 1);
+/* 269 */     paramBTreeNode1.child[0] = localBTreeNode.child[localBTreeNode.filled];
+/* 270 */     if (paramBTreeNode1.isLeaf() == false)
+/* 271 */       paramBTreeNode1.child[0].parent = paramBTreeNode1;
+/* 272 */     paramBTreeNode2.key[(paramInt - 1)] = localBTreeNode.key[(--localBTreeNode.filled)];
+/* 273 */     localBTreeNode.cleanNode();
+/*     */   }
+/*     */ 
+/*     */   protected void deleteBorrowRight(BTreeNode paramBTreeNode1, BTreeNode paramBTreeNode2, int paramInt) {
+/* 277 */     BTreeNode localBTreeNode = paramBTreeNode2.getChild(paramInt + 1);
+/* 278 */     paramBTreeNode1.key[(paramBTreeNode1.filled++)] = paramBTreeNode2.key[paramInt];
+/* 279 */     paramBTreeNode2.key[paramInt] = localBTreeNode.key[0];
+/* 280 */     paramBTreeNode1.child[paramBTreeNode1.filled] = localBTreeNode.child[0];
+/* 281 */     if (paramBTreeNode1.isLeaf() == false)
+/* 282 */       paramBTreeNode1.child[paramBTreeNode1.filled].parent = paramBTreeNode1;
+/* 283 */     localBTreeNode.filled -= 1;
+/* 284 */     System.arraycopy(localBTreeNode.key, 1, localBTreeNode.key, 0, localBTreeNode.filled);
+/* 285 */     System.arraycopy(localBTreeNode.child, 1, localBTreeNode.child, 0, localBTreeNode.filled + 1);
+/* 286 */     localBTreeNode.cleanNode();
+/*     */   }
+/*     */ 
+/*     */   protected void deleteJoinNode(BTreeNode paramBTreeNode1, BTreeNode paramBTreeNode2, BTreeNode paramBTreeNode3, int paramInt) {
+/* 290 */     BTreeComparable[] arrayOfBTreeComparable = new BTreeComparable[paramBTreeNode1.getFilled() + paramBTreeNode2.getFilled() + 1];
+/* 291 */     BTreeNode[] arrayOfBTreeNode = new BTreeNode[paramBTreeNode1.getFilled() + paramBTreeNode2.getFilled() + 2];
+/*     */ 
+/* 293 */     System.arraycopy(paramBTreeNode1.key, 0, arrayOfBTreeComparable, 0, paramBTreeNode1.getFilled());
+/* 294 */     System.arraycopy(paramBTreeNode2.key, 0, arrayOfBTreeComparable, paramBTreeNode1.getFilled() + 1, paramBTreeNode2.getFilled());
+/* 295 */     arrayOfBTreeComparable[paramBTreeNode1.getFilled()] = paramBTreeNode3.key[paramInt];
+/* 296 */     System.arraycopy(paramBTreeNode1.child, 0, arrayOfBTreeNode, 0, paramBTreeNode1.getFilled() + 1);
+/* 297 */     System.arraycopy(paramBTreeNode2.child, 0, arrayOfBTreeNode, paramBTreeNode1.getFilled() + 1, paramBTreeNode2.getFilled() + 1);
+/*     */ 
+/* 299 */     System.arraycopy(arrayOfBTreeComparable, 0, paramBTreeNode1.key, 0, arrayOfBTreeComparable.length);
+/* 300 */     System.arraycopy(arrayOfBTreeNode, 0, paramBTreeNode1.child, 0, arrayOfBTreeNode.length);
+/* 301 */     paramBTreeNode1.filled = arrayOfBTreeComparable.length;
+/*     */ 
+/* 303 */     if (paramBTreeNode1.isLeaf() == false) {
+/* 304 */       for (int i = 0; i < arrayOfBTreeNode.length; i++)
+/* 305 */         paramBTreeNode1.child[i].parent = paramBTreeNode1;
+/*     */     }
+/* 307 */     System.arraycopy(paramBTreeNode3.key, paramInt + 1, paramBTreeNode3.key, paramInt, paramBTreeNode3.getFilled() - paramInt - 1);
+/* 308 */     System.arraycopy(paramBTreeNode3.child, paramInt + 2, paramBTreeNode3.child, paramInt + 1, paramBTreeNode3.getFilled() - paramInt - 1);
+/* 309 */     paramBTreeNode3.filled -= 1;
+/*     */ 
+/* 311 */     paramBTreeNode2.filled = 0;
+/*     */ 
+/* 313 */     paramBTreeNode1.cleanNode();
+/* 314 */     paramBTreeNode2.cleanNode();
+/* 315 */     paramBTreeNode3.cleanNode();
+/*     */   }
+/*     */ 
+/*     */   public String toString() {
+/* 319 */     return this.root.toString();
+/*     */   }
+            public void Gprint(DefaultTableModel tabla , int k){
+                GPrintNivel(root, tabla, k);
+            }
+            public void GPrintNivel(BTreeNode actual, DefaultTableModel tabla, int k){
+                if(actual!= null){
+                    for(int i=0; i<actual.child.length; i++){
+                        GPrintNivel(actual.child[i], tabla, k);
                     }
-                }
-            }
-        }
-        PrintNivel(raiz);
-    }
-    public  Pagina split(Pagina pagInsert, Libro libro){
-        Pagina pagAux = new Pagina(orden);
-        Libro [] aux = new Libro[orden];
-        pagAux.claves = aux;//le asigno un array con una posición más
-        for(int i = 0; i<pagInsert.claves.length; i++){//le paso los ISBNs que ya tiene
-            pagAux.claves[i]= pagInsert.claves[i];
-            pagInsert.claves[i].ISBN=0;
-        }
-        insertarEnClave(libro, pagAux);//le inserto el nuevo ISBN
-        double m =Math.ceil((pagAux.claves.length/2));
-        int n=(int)m;
-        /*if(m-1==0)
-            n=(int)m;
-        else
-            n=(int)m-1;*/
-        Pagina  nuevoPadre = new Pagina(orden);
-        Pagina pagNueva = new Pagina(orden);
-        Pagina nodoP;
-        int ISBNPadre;
-        Pagina auxp =null;//para ordenar los ramas
-        Pagina aux2;
-        int j=0;
-        for(int i=0; i<pagAux.claves.length; i++){
-            if(i<n)
-                pagInsert.claves[i]=pagAux.claves[i];
-            else if(i>n){
-                pagNueva.claves[j]=pagAux.claves[i];
-                j++;
-            } 
-        } 
-        if(pagInsert.pagPadre==null){//si nno tiene padre las nuevas pag creadas pasan a ser sus hijos
-            nuevoPadre.claves[0] = pagAux.claves[n];
-            nuevoPadre.ramas[0]=pagInsert;
-            nuevoPadre.ramas[1]=pagNueva;
-            raiz = nuevoPadre;
-            pagInsert.pagPadre = raiz;//asignar padre
-            pagNueva.pagPadre=raiz;
-            raiz.tengoHijos = true;//confirmar que tiene hijos
-        }else{//si tiene un padre
-            if(pagInsert.pagPadre.clavesLlenas==false){//si el padre tiene espacio
-                ISBNPadre =pagAux.claves[n].ISBN;
-                int pos=  insertarEnClave(libro,pagInsert.pagPadre);
-                if(pagInsert.pagPadre.ramas[pos]!=null && pagInsert !=pagInsert.pagPadre.ramas[pos])//si en la posicion que va insert no está vacio hay que correr los ramas
-                    asigRamas(pagInsert, pos);
-                else//si está vacio solo se ingresa
-                    pagInsert.pagPadre.ramas[pos]= pagInsert;
-                pos++;
-                if(pagInsert.pagPadre.ramas[pos]!=null){//si en la posicion que va la nueva pag no está vacio hay que correr los ramas
-                    asigRamas(pagNueva, pos);
-                }
-                else//si está vacio solo se ingresa
-                    pagInsert.pagPadre.ramas[pos]= pagNueva;
-            pagNueva.pagPadre =pagInsert.pagPadre;
-            }else{//si no tiene espacio hacer nuevamente split
-                Pagina padre =split(pagInsert.pagPadre, pagAux.claves[n]);
-                int i =0;
-                while(i<pagInsert.claves.length&&pagInsert.claves[i].ISBN!=0)
-                    i++;
-                i++;
-                int k;
-                for(k =0; k<pagInsert.claves.length; k++){
-                    if(i<pagInsert.pagPadre.ramas.length){
-                        padre.ramas[k]= pagInsert.pagPadre.ramas[i];
-                        pagInsert.pagPadre.ramas[i] =null;
+                    for(int i=0; i<actual.key.length; i++){
+                        if(actual.key[i]!=null){
+                            tabla.addRow(new Object[]{k,actual.key[i].title});
+                            k++;
+                        }
                     }
-                    i++;
+                    
                 }
-                pagInsert.pagPadre= padre;
-                padre.ramas[k-1]=pagNueva;
-                padre.tengoHijos = true;
-                pagNueva.pagPadre = padre;
             }
-        }
-        validarPag(pagNueva);
-        validarPag(pagInsert);
-        return pagNueva;
-    }
-    public  void asigRamas(Pagina pagAux, int pos){
-        Pagina Aux = null;
-        Pagina aux1=null;
-        for(int i = pos; i<pagAux.pagPadre.ramas.length;i++){
-            if(i==pos){
-                Aux = pagAux.pagPadre.ramas[pos];
-                pagAux.pagPadre.ramas[pos]=pagAux;
-            }else{
-                aux1 =pagAux.ramas[i];
-                pagAux.pagPadre.ramas[i]=Aux;
-                Aux = aux1;
+            public void print(){
+                PrintNivel(root);
             }
-        }
-    }
-    public Pagina buscarClave(int ISBN){
-        return buscarClave(raiz, ISBN);
-    }
-    public  Pagina buscarClave(Pagina actual, int ISBN){//busca la clave en la que se debe ingresar el ISBN
-        int posClaves =0;
-        while(actual.claves[posClaves]!=null&&posClaves<actual.claves.length&&ISBN>actual.claves[posClaves].ISBN ){
-            if(actual.claves[posClaves]==null)
-                break;
-            else
-                posClaves++;
-        }
-        if(actual.tengoHijos==false)//si no tiene hijos retorna actual
-            return actual;
-        else if(posClaves ==actual.claves.length-1){//si es mayor que el ultimo ISBN
-            if(actual.claves[actual.claves.length-1]==null)//si la posicion está vacia retornar esa pag
-                return buscarClave(actual.ramas[posClaves], ISBN);
-            else
-                return buscarClave(actual.ramas[posClaves+1], ISBN); //retornar a la derecha
-        }
-        else{
-            return buscarClave(actual.ramas[posClaves], ISBN);
-        }
-    }
-    public  int insertarEnClave(Libro libro, Pagina actual){
-       int posicion =0;
-        if(actual.claves[0]==null){//si la priemra casilla está null
-            actual.claves[0]= libro;
-            posicion= 0;
-        }
-        else if(actual.claves[actual.claves.length-2]!=null&&libro.ISBN>actual.claves[actual.claves.length-2].ISBN ){//si es mayor que el último ISBN
-            actual.claves[actual.claves.length-1]= libro;
-            posicion = actual.claves.length-1;
-            
-        }else{
-            int k=0;
-            while(actual.claves[k] != null && libro.ISBN>actual.claves[k].ISBN && k<actual.claves.length){
-                if(actual.claves[k]==null)
-                    break;
-                else
-                    k++;
+            public void PrintNivel(BTreeNode actual){
+                if(actual!= null){
+                    for(int i=0; i<actual.child.length; i++){
+                        PrintNivel(actual.child[i]);
+                    }
+                    for(int i=0; i<actual.key.length; i++){
+                        if(actual.key[i]!=null)
+                            System.out.println(actual.key[i].title + ",");
+                    }
+                    
+                }
             }
-            Libro aux=null;
-            for(int j = k; j<actual.claves.length; j++){//empezar a llenar desde i posición
-                if(j==k){
-                    aux = actual.claves[j];
-                    actual.claves[j]=libro;
-                    posicion = k;
-                }else if(aux !=null){
-                    Libro aux2 = actual.claves[j];
-                    actual.claves[j]=aux;
-                    aux = aux2;
-                }                    
-            }
-        }
-        validarPag(actual);
-        
-       return posicion;
-    }
-    public  void validarPag(Pagina actual){
-        if(actual.claves[actual.claves.length-1]!=null)//si la ultima posición está ocupada entonces está llena
-            actual.clavesLlenas = true;
-        else
-            actual.clavesLlenas = false;
-        if(actual.claves[(orden/2)-1]!= null && actual != raiz)//si la posición orden /2 - 1 está ocupada entonces la página es válida
-            actual.clavesMin=true;
-        else
-            actual.clavesMin=false;
-    }
-    public  Pagina buscar(int ISBN){
-        return buscar(raiz, ISBN);
-    }
-    public  Pagina buscar(Pagina actual, int ISBN){
-        int posClaves=0;
-        if(actual == null){
-            posClaves=0;
-            return null;
-        }
-        if( actual.claves[posClaves]!= null && actual.claves[posClaves].ISBN==ISBN){//valor encontrado
-            posClaves =0;
-            return actual;
-        }
-        else if(actual.tengoHijos==true){
-            
-            if(actual.claves[posClaves]==null){//si la posición está vacía
-                posClaves =0;
-                return buscar(actual.ramas[posClaves], ISBN);//retorna el hijo nodo de la derecha
-            }
-            else if(ISBN < actual.claves[posClaves].ISBN&& posClaves <= actual.claves.length){//si el ISBN es menor
-                posClaves=0;
-                return buscar(actual.ramas[posClaves], ISBN);//retorna hijo nodo de la izquierda
-            }
-            else if(posClaves == actual.claves.length && ISBN > actual.claves.length){//si es la última posición y el ISBN es mayor
-                posClaves=0;
-                return buscar(actual.ramas[posClaves+1], ISBN);//retorna el hijo nodo de la derecha
-            }
-            else{//si el ISBN no es menor pero tampo es la última posición
-                    posClaves++;
-                if(posClaves<actual.claves.length)
-                    return recorrerNodo(actual, ISBN);
-                else
-                    return null;
-            }
-
-        }else{
-            posClaves++;
-            if(posClaves<actual.claves.length)
-                return recorrerNodo(actual, ISBN);
-            else
-                return null;
-            
-        }
-    }
-    public  Pagina recorrerNodo(Pagina actual, int ISBN){
-        int i =0;
-        if(actual == null)
-            return null;
-        while(i<actual.claves.length && actual.claves[i]!= null&& ISBN != actual.claves[i].ISBN){
-            i++;
-        }
-        if(actual.claves[i-1].ISBN== ISBN)
-            return actual;
-        else
-            return null;
-    }
-    public void print(){
-        PrintNivel(raiz);
-    }
-    public void PrintNivel(Pagina actual){
-        if(raiz == null)
-            System.out.println("Arbol Vacío");
-        else{
-            if(actual!= null){
-            for(int i=0; i<actual.ramas.length; i++){
-                PrintNivel(actual.ramas[i]);
-            }
-            for(int i=0; i<actual.claves.length; i++){
-                if(actual.claves[i] != null)
-                    System.out.print(actual.claves[i].ISBN+ ",");
-            }
-            System.out.println("");
-            }
-        }
-        
-    }
-    public void Eliminar(Libro libro){
-        if(buscar(libro.ISBN) != null){
-            Pagina delete = buscarClave(libro.ISBN);
-            
-        }
-    }
+    
 }

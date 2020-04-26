@@ -24,7 +24,7 @@ public class LeerJson {
     public void CargaMasivaLibros(String path) throws org.json.simple.parser.ParseException {
         JSONParser parser = new JSONParser();
         try {
-            Object obj =parser.parse(new FileReader(path));
+            Object obj =parser.parse(new FileReader("CargaLibros.json"));
             JSONObject jsonObject =  (JSONObject) obj;
             JSONArray book = (JSONArray) jsonObject.get("libros");
             for(int i = 0; i<book.size(); i++){
@@ -40,9 +40,14 @@ public class LeerJson {
                long Edicion = (long) rec.get("Edicion");
                int edicion = (int)Edicion;
                String Categoria = (String) rec.get("Categoria");
-               Libro libro = new Libro(isbn, anio, title, Autor, Editorial, edicion, Categoria, 201602935);
+               Libro libro = new Libro(isbn, anio, title, Autor, Editorial, edicion, Categoria,20166);
+               
                avl.insertar(libro);
+               
+                   
+               
             }
+            avl.inorden();
         } catch (FileNotFoundException e) {
                 //manejo de error
         }catch (IOException e) {

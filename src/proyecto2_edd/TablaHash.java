@@ -29,7 +29,7 @@ public class TablaHash {
     public void Eliminar(int carnet){
         Hash[funcionHash(carnet)].Eliminar(carnet);
     }
-    public boolean ingreso(int carnet, String pass){
+    public Usuario ingreso(int carnet, String pass){
        return  Hash[funcionHash(carnet)].buscarIngreso(carnet, pass);
     }
     public void print(){

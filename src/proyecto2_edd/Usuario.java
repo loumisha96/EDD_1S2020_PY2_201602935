@@ -16,6 +16,7 @@ public class Usuario {
     String Carrera;
     String Password;
     Usuario sig;
+    arbolAVL avlUser;
     public Usuario(int carnet, String nombre, String apellido, String carrera , String password){
         this.carne = carnet;
         this.Nombre = nombre;
@@ -23,5 +24,7 @@ public class Usuario {
         this.Carrera = carrera;
         this.Password = password;
         this.sig = null;
+        this.avlUser = new arbolAVL();
+        
     }
 }

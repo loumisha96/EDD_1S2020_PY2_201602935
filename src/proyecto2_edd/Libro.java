@@ -9,25 +9,28 @@ package proyecto2_edd;
  *
  * @author lourd
  */
-public class Libro {
-    int ISBN;
-    String title;
-    String autor;
-    String editorial;
-    int anio;
-    int edicion;
-    public String categoria;
-    String idioma;
-    int carnet;
+public class Libro extends BTreeComparable {
+    
     
     public Libro(int ISBN, int anio, String title, String autor, String editorial,  int edicion, String categoria, int carnet){
-        this.ISBN =  ISBN;
+        this.ISBN = ISBN;
+        this.anio = anio;
         this.title = title;
         this.autor = autor;
         this.editorial = editorial;
-        this.anio = anio;
-        this.categoria = categoria;
-        this.carnet = carnet;
         this.edicion = edicion;
+        this.categoria = categoria;
+        //this.propietario = pro;
+    }
+
+    @Override
+    public int compareTo(BTreeComparable paramBTreeComparable) {
+        int i = paramBTreeComparable.ISBN;
+        if(this.ISBN == i)
+            return 0;
+        if(this.ISBN <i)
+            return -1;
+        return 1;
+        
     }
 }

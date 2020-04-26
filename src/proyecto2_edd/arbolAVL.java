@@ -8,6 +8,7 @@ package proyecto2_edd;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -15,7 +16,6 @@ import java.io.IOException;
  */
 public class arbolAVL {
     public Nodo raiz;
-    public ArbolB treeB;
     public arbolAVL(){
         raiz = null;
     }
@@ -40,7 +40,7 @@ public class arbolAVL {
         Nodo nuevo = new Nodo(libro.categoria);
         if(raiz == null){
             raiz = nuevo;
-            raiz.Btree.insertar(libro);
+            raiz.Btree.insert(libro);
         }
         else
             raiz = insertar(nuevo, raiz,libro);
@@ -59,13 +59,13 @@ public class arbolAVL {
                     else
                         nuevoPadre = RotacionDobleIzquierda(subA);
                 }
-                subA.izq.Btree.insertar(libro);
+                subA.izq.Btree.insert(libro);
             }
            
         }else if(nuevo.categoria.compareToIgnoreCase(subA.categoria)>0){
             if(subA.der == null){
                 subA.der = nuevo;
-                subA.der.Btree.insertar(libro);
+                subA.der.Btree.insert(libro);
             }
                 
             else{
@@ -79,7 +79,7 @@ public class arbolAVL {
             }
              
         }else
-            subA.Btree.insertar(libro);
+            subA.Btree.insert(libro);
         //actualizar alturas{
          if(subA.izq == null && subA.der !=null)
              subA.h = subA.der.h+1;
@@ -224,9 +224,6 @@ public class arbolAVL {
         actual = aux;
         actual.h = Math.max(geth(actual.izq), geth(actual.der))+1;
         aux.h=Math.max(geth(aux.izq), geth(aux.der))+1;
-        
-       
-        
         return aux;
     }
     
@@ -258,10 +255,25 @@ public class arbolAVL {
     public void inorden(){
         inorden(raiz);
     }
+    public void Ginorden(DefaultTableModel tabla, int k){
+        Ginorden(raiz, tabla, k);
+    }
+    public void Ginorden(Nodo actual, DefaultTableModel tabla, int k){
+        if(actual != null){
+            Ginorden(actual.izq, tabla, k);
+            
+            //System.out.println("CATEGORIA " +actual.categoria );
+          //System.out.println(" ");
+            actual.Btree.Gprint(tabla, k);
+            Ginorden(actual.der, tabla, k);
+        }
+    }
     public void inorden(Nodo actual){
         if(actual != null){
             inorden(actual.izq);
-            System.out.print(actual.categoria+ ",");
+            System.out.println("CATEGORIA " +actual.categoria );
+            System.out.println(" ");
+            actual.Btree.print();
             inorden(actual.der);
         }
     }

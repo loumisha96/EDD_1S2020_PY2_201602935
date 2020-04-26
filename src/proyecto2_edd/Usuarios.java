@@ -45,12 +45,15 @@ public class Usuarios {
             aux.Password = password;
         }
     }
-    public boolean buscarIngreso(int carnet, String pass){
+    public Usuario buscarIngreso(int carnet, String pass){
         Usuario aux = primero;
         while(aux.carne !=  carnet && aux.sig != null){
             aux = aux.sig;
         }
-        return aux.carne == carnet && aux.Password.equals(pass);
+        if(aux.carne == carnet && aux.Password.equals(pass))
+            return aux;
+        else return null;
+                
     }
     public void Eliminar(int carnet){
         Usuario aux = primero;

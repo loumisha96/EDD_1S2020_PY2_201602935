@@ -5,6 +5,8 @@
  */
 package proyecto2_edd;
 
+import org.json.simple.parser.ParseException;
+
 /**
  *
  * @author lourd
@@ -14,11 +16,17 @@ public class Proyecto2_EDD {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
         // TODO code application logic here
+       Usuario userLog =  new Usuario(201602935, "lourdes", "Lorenzana","ingenieria","2121");
        LeerJson read = new LeerJson();
-       interfazSesion ven = new interfazSesion(read);
-       ven.setVisible(true);
+       read.CargaMasivaLibros("kc");
+       Interfaz i = new Interfaz(read);
+       i.setVisible(true);
+       //interfazSesion ven = new interfazSesion(read, userLog);
+       //ven.setVisible(true);
+       /*Interfaz i = new Interfaz(read);
+       i.setVisible(true);*/
        
        
         /*Libro book = new Libro(5281,2018,  "title1", "UNO", "editorial", 8, "Novela", 201602935);
