@@ -194,6 +194,7 @@ public class Interfaz extends javax.swing.JFrame {
     public void LimpiarTabla(DefaultTableModel tabla){
         for(int i =0; i<tabla.getRowCount(); i++){
             tabla.removeRow(i);
+            i-=1;
         }
     }
     private void jTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableMouseClicked

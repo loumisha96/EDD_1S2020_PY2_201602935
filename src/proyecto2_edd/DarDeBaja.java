@@ -5,8 +5,13 @@
  */
 package proyecto2_edd;
 
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -20,12 +25,33 @@ public class DarDeBaja extends javax.swing.JFrame {
     DefaultTableModel tabla;
     LeerJson read ;
     Usuario userLog;
+    Interfaz ven;
     public DarDeBaja(LeerJson read, Interfaz ven, Usuario userLog) {
         initComponents();
+        title_txt.addKeyListener(new KeyAdapter(){
+        @Override
+        public void keyReleased(final KeyEvent e){
+            String cadena =(title_txt.getText());
+            title_txt.setText(cadena);
+            repaint();
+            filtro();
+        }
+        });
+        
+        isbn_txt.addKeyListener(new KeyAdapter() {
+         public void keReleased(final KeyEvent e){
+            String cadena =(isbn_txt.getText());
+            isbn_txt.setText(cadena);
+            repaint();
+            filtro();
+         }
+});
         this.userLog = userLog;
         tabla =  (DefaultTableModel)jTable1.getModel();
         this.read = read;
+        LimpiarTabla();
         read.avl.Ginorden(tabla);
+        this.ven = ven;
         ven.setVisible(false);
     }
 
@@ -43,8 +69,9 @@ public class DarDeBaja extends javax.swing.JFrame {
         isbn_txt = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        title_txt = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -58,14 +85,36 @@ public class DarDeBaja extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
+        isbn_txt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                isbn_txtKeyTyped(evt);
+            }
+        });
+
         jLabel1.setText("ISBN");
 
         jLabel2.setText("TITULO");
+
+        title_txt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                title_txtKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                title_txtKeyTyped(evt);
+            }
+        });
 
         jButton1.setText("ELIMINAR");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Regresar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
             }
         });
 
@@ -80,36 +129,34 @@ public class DarDeBaja extends javax.swing.JFrame {
                     .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(46, 46, 46)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(isbn_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(56, 56, 56)
-                .addComponent(jButton1)
-                .addGap(49, 49, 49))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
+                    .addComponent(isbn_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(title_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(142, 142, 142)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton2)
+                    .addComponent(jButton1))
+                .addGap(41, 41, 41))
+            .addComponent(jScrollPane1)
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel2});
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {isbn_txt, jTextField2});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {isbn_txt, title_txt});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(isbn_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(12, 12, 12))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(isbn_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(jButton1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 6, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(title_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2))
+                .addGap(9, 9, 9)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -118,28 +165,59 @@ public class DarDeBaja extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         int pos = jTable1.getSelectedRow();
-        int isbn = (int)tabla.getValueAt(pos, 0);
-        if(Integer.parseInt(isbn_txt.getText()) == isbn ){
+        if(pos !=-1 ){
+            int isbn = (int)tabla.getValueAt(pos, 0);
             String cat = (String)tabla.getValueAt(pos,2);
             Nodo a =read.avl.buscarNodo(cat);
             Libro libro = new Libro(isbn, 0, null, null, null, 0, null, 0, null);
             a.Btree.delete(libro, userLog.carne);
+            isbn_txt.setText("");
+            title_txt.setText("");
         }else{
             JOptionPane.showMessageDialog(null, "Seleccione el libro");
         }
-        LimpiarTabla(tabla);
-        read.avl.Ginorden(tabla);
+        
+        LimpiarTabla();
+        filtro();
+        System.out.println("******************************************************************************************************");
         read.avl.inorden();
+        read.avl.Ginorden(tabla);
+        
         
     }//GEN-LAST:event_jButton1ActionPerformed
-    public void LimpiarTabla(DefaultTableModel tabla){
-        for(int i =0; i<tabla.getRowCount(); i++){
+
+    private void title_txtKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_title_txtKeyReleased
+        
+    }//GEN-LAST:event_title_txtKeyReleased
+
+    private void title_txtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_title_txtKeyTyped
+        filtro();
+    }//GEN-LAST:event_title_txtKeyTyped
+
+    private void isbn_txtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_isbn_txtKeyTyped
+       String filtro = isbn_txt.getText();
+       TableRowSorter<DefaultTableModel> tr = new TableRowSorter(jTable1.getModel());
+       jTable1.setRowSorter(tr);
+       tr.setRowFilter(RowFilter.regexFilter(isbn_txt.getText(),0));
+    }//GEN-LAST:event_isbn_txtKeyTyped
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+       ven.setVisible(true);
+       this.setVisible(false);
+    }//GEN-LAST:event_jButton2ActionPerformed
+    public void LimpiarTabla(){
+        for(int i =0; i<jTable1.getRowCount(); i++){
             tabla.removeRow(i);
+            i -=1;
         }
     }
-    /**
-     * @param args the command line arguments
-     */
+    private void filtro(){
+       String filtro = title_txt.getText();
+       TableRowSorter<DefaultTableModel> tr = new TableRowSorter(jTable1.getModel());
+       jTable1.setRowSorter(tr);
+       tr.setRowFilter(RowFilter.regexFilter(title_txt.getText(),1));
+       
+    }
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -175,10 +253,11 @@ public class DarDeBaja extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField isbn_txt;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField title_txt;
     // End of variables declaration//GEN-END:variables
 }

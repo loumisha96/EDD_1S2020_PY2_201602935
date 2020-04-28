@@ -60,10 +60,22 @@ public class ArbolB {
 /*     */   }
 /*     */ 
 /*     */   public void delete(BTreeComparable paramBTreeComparable, int carne) {
-              if(paramBTreeComparable.carnet == carne){
+              
                     if (find(paramBTreeComparable) == null) 
       /*  72 */       return;
       /*     */     BTreeNode localBTreeNode = findNode(paramBTreeComparable);
+                    for(int i =0; i<localBTreeNode.key.length; i++){
+                        if(localBTreeNode.key[i]!= null && paramBTreeComparable.ISBN == localBTreeNode.key[i].ISBN){
+                            if(localBTreeNode.key[i].carnet == carne){
+                                
+                            }else{
+                                JOptionPane.showMessageDialog(null,"No tiene permisos");
+                                return;
+                            }
+                                
+                        }
+                    }
+                    
       /*  75 */     int i = localBTreeNode.findKeyPosition(paramBTreeComparable) >> 1;
       /*  76 */     if (localBTreeNode.isLeaf() == false) {
       /*  77 */       localBTreeNode = swapWithLeaf(localBTreeNode, i);
@@ -76,9 +88,7 @@ public class ArbolB {
       /*  84 */       return;
       /*     */     }
       /*  86 */     notEnoughKeys(localBTreeNode);
-              }else{
-                  JOptionPane.showMessageDialog(null,"No tiene  los permisos");
-              }
+              
 /*  71 */     
 /*     */   }
 /*     */ 
@@ -312,57 +322,59 @@ public class ArbolB {
   public String toString() {
      return this.root.toString();
   }
-            public void Gprint(DefaultTableModel tabla){
-                GPrintNivel(root, tabla);
+    public void Gprint(DefaultTableModel tabla){
+        GPrintNivel(root, tabla);
+    }
+    public void GPrintNivel(BTreeNode actual, DefaultTableModel tabla){
+        if(actual!= null){
+            for(int i=0; i<actual.child.length; i++){
+                GPrintNivel(actual.child[i], tabla);
             }
-            public void GPrintNivel(BTreeNode actual, DefaultTableModel tabla){
-                if(actual!= null){
-                    for(int i=0; i<actual.child.length; i++){
-                        GPrintNivel(actual.child[i], tabla);
-                    }
-                    for(int i=0; i<actual.key.length; i++){
-                        if(actual.key[i]!=null){
-                            tabla.addRow(new Object[]{actual.key[i].ISBN,actual.key[i].title, actual.key[i].categoria});
-                        }
-                    }
+            for(int i=0; i<actual.key.length; i++){
+                if(actual.key[i]==null){
+
+                }else{
+                    tabla.addRow(new Object[]{actual.key[i].ISBN,actual.key[i].title, actual.key[i].categoria});
                 }
             }
-            public BTreeNode Serch(Libro find){
-                return Search(root, find);
+        }
+    }
+    public BTreeNode Serch(Libro find){
+        return Search(root, find);
+    }
+    public  BTreeNode Search( BTreeNode actual,  Libro find ){
+       BTreeNode aux = findNode(find);
+       BTreeNode encontrado=null;
+       if(actual!= null){
+            for(int i=0; i<actual.child.length; i++){
+                PrintNivel(actual.child[i]);
             }
-            public  BTreeNode Search( BTreeNode actual,  Libro find ){
-               BTreeNode aux = findNode(find);
-               BTreeNode encontrado=null;
-               if(actual!= null){
-                    for(int i=0; i<actual.child.length; i++){
-                        PrintNivel(actual.child[i]);
-                    }
-                    for(int i = 0; i<aux.key.length; i++){
-                        if(aux.key[i] != null && aux.key[i].ISBN == find.ISBN){
-                            encontrado = aux;
-                         }
-                    }
-                    
+            for(int i = 0; i<aux.key.length; i++){
+                if(aux.key[i] != null && aux.key[i].ISBN == find.ISBN){
+                    encontrado = aux;
+                 }
+            }
+
+        }
+       return encontrado;
+    }
+    public void print(){
+        PrintNivel(root);
+    }
+    public void PrintNivel(BTreeNode actual){
+        if(actual!= null){
+            for(int i=0; i<actual.child.length; i++){
+                PrintNivel(actual.child[i]);
+            }
+            for(int i=0; i<actual.key.length; i++){
+                if(actual.key[i] == null){
+
+                }else{
+                    System.out.println(actual.key[i].title);
                 }
-               return encontrado;
             }
-            public void print(){
-                PrintNivel(root);
-            }
-            public void PrintNivel(BTreeNode actual){
-                if(actual!= null){
-                    for(int i=0; i<actual.child.length; i++){
-                        PrintNivel(actual.child[i]);
-                    }
-                    for(int i=0; i<actual.key.length; i++){
-                        if(actual.key[i] == null){
-                            
-                        }else{
-                            System.out.println(actual.key[i].title);
-                        }
-                    }
-                    
-                }
-            }
-    
+
+        }
+    }
+
 }

@@ -734,9 +734,6 @@ public class arbolAVL {
     public void Ginorden(Nodo actual, DefaultTableModel tabla){
         if(actual != null){
             Ginorden(actual.izquierda, tabla);
-            
-            //System.out.println("CATEGORIA " +actual.categoria );
-          //System.out.println(" ");
             actual.Btree.Gprint(tabla);
             Ginorden(actual.derecha, tabla);
         }

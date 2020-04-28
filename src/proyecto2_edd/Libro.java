@@ -21,6 +21,7 @@ public class Libro extends BTreeComparable {
         this.edicion = edicion;
         this.categoria = categoria;
         this.idioma = idioma;
+        this.carnet = carnet;
         
         
     }
