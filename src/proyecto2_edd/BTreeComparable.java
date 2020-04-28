@@ -10,15 +10,17 @@ package proyecto2_edd;
  * @author lourd
  */
 public abstract class BTreeComparable {
-    int ISBN;
-    String title;
-    String autor;
-    String editorial;
-    int anio;
-    int edicion;
-    String categoria;
-    String idioma;
-    int carnet;
-    Usuario propietario;
+    public int ISBN;
+    public String title;
+    public String autor;
+    public String editorial;
+    public int anio;
+    public int edicion;
+    public String categoria;
+    public String idioma;
+    public int carnet;
+    
+    
+    int id;
     public abstract int compareTo(BTreeComparable paramBTreeComparable);
 }

@@ -20,16 +20,22 @@ import org.json.simple.parser.ParseException;
  * @author lourd
  */
 public class Interfaz extends javax.swing.JFrame {
-    LeerJson read;
+    private Servidor s;
     
+    LeerJson read;
     InterfazCrear crear;;
     DefaultTableModel tabla;
+    Usuario userLog;
     /** Creates new form Interfaz */
-    public Interfaz(LeerJson read) {
+    public Interfaz(LeerJson read, Usuario userLog) {
         initComponents();
+        s = new Servidor(5000);
+        Thread t = new Thread(s);
+        t.start();
         this.read = read;
-        crear = new InterfazCrear();
+        crear = new InterfazCrear(read, this, userLog);
         tabla =  (DefaultTableModel)jTable.getModel();
+        this.userLog = userLog;
         
     }
 
@@ -42,6 +48,8 @@ public class Interfaz extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenu5 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
@@ -49,7 +57,13 @@ public class Interfaz extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         CargaLibro = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
+        jMenu2 = new javax.swing.JMenu();
+        jMenu6 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
+
+        jMenu5.setText("jMenu5");
+
+        jMenuItem1.setText("jMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -58,12 +72,25 @@ public class Interfaz extends javax.swing.JFrame {
 
             },
             new String [] {
-                "No.", "TITULO"
+                "ISBN", "TITULO", "CATEGORIA"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable);
 
-        jButton1.setText("Mostrar Libros");
+        jButton1.setText("ACTUALIZAR");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -83,6 +110,28 @@ public class Interfaz extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         jMenu3.setText("Dar de baja");
+        jMenu3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu3MouseClicked(evt);
+            }
+        });
+
+        jMenu2.setText("Libros");
+        jMenu2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu2MouseClicked(evt);
+            }
+        });
+        jMenu3.add(jMenu2);
+
+        jMenu6.setText("Categoria");
+        jMenu6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu6MouseClicked(evt);
+            }
+        });
+        jMenu3.add(jMenu6);
+
         jMenuBar1.add(jMenu3);
 
         jMenu4.setText("Crear");
@@ -100,8 +149,9 @@ public class Interfaz extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 680, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 672, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(jButton1)
                 .addContainerGap())
         );
@@ -138,10 +188,54 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenu4MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       
-       int k =0;
-       read.avl.Ginorden(tabla, k);
+        LimpiarTabla(tabla);
+        read.avl.Ginorden(tabla);
     }//GEN-LAST:event_jButton1ActionPerformed
+    public void LimpiarTabla(DefaultTableModel tabla){
+        for(int i =0; i<tabla.getRowCount(); i++){
+            tabla.removeRow(i);
+        }
+    }
+    private void jTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableMouseClicked
+        int pos = jTable.getSelectedRow();
+        int isbn = (int)tabla.getValueAt(pos, 0);
+        String cat = (String)tabla.getValueAt(pos,2);
+        Nodo a =read.avl.buscarNodo(cat);
+        Libro libro = new Libro(isbn, 0, null, null, null, 0, null, 0, null);
+        BTreeNode b = a.Btree.Serch(libro);
+        VisualizarInfoLibros info;
+        if(b!= null){
+           for(int i = 0; i< b.key.length; i++){
+               if(b.key[i].ISBN == isbn){
+                  String title = b.key[i].title;
+                  String autor = b.key[i].autor;
+                  String edit = b.key[i].editorial;
+                  int anio = b.key[i].anio;
+                  int edic = b.key[i].edicion;
+                  String idio = b.key[i].idioma;
+                  info = new VisualizarInfoLibros(anio, autor, cat, edic, edit, idio, isbn, title);
+                  info.setVisible(true);
+               }
+            }
+        }
+        else
+            JOptionPane.showMessageDialog(null, "NO SE ENCONTRARON DATOS");
+    
+    }//GEN-LAST:event_jTableMouseClicked
+
+    private void jMenu3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu3MouseClicked
+        
+    }//GEN-LAST:event_jMenu3MouseClicked
+
+    private void jMenu2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MouseClicked
+        DarDeBaja baja = new DarDeBaja(read, this, userLog);
+        baja.setVisible(true);
+    }//GEN-LAST:event_jMenu2MouseClicked
+
+    private void jMenu6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu6MouseClicked
+        EliminarCategoria eCat = new EliminarCategoria(read, this, userLog);
+        eCat.setVisible(true);
+    }//GEN-LAST:event_jMenu6MouseClicked
 
     /**
      * @param args the command line arguments
@@ -182,9 +276,13 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JMenuItem CargaLibro;
     private javax.swing.JButton jButton1;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable;
     // End of variables declaration//GEN-END:variables

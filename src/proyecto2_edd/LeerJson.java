@@ -19,8 +19,14 @@ import org.json.simple.parser.JSONParser;
  * @author lourd
  */
 public class LeerJson {
-    arbolAVL avl = new arbolAVL();
-    TablaHash hash = new TablaHash();
+    arbolAVL avl;
+    TablaHash hash;
+    Usuario userlog;
+    public LeerJson(arbolAVL avl, TablaHash hash, Usuario userlog){
+        this.avl = avl;
+        this.hash = hash;
+        this.userlog = userlog;
+    }
     public void CargaMasivaLibros(String path) throws org.json.simple.parser.ParseException {
         JSONParser parser = new JSONParser();
         try {
@@ -40,14 +46,13 @@ public class LeerJson {
                long Edicion = (long) rec.get("Edicion");
                int edicion = (int)Edicion;
                String Categoria = (String) rec.get("Categoria");
-               Libro libro = new Libro(isbn, anio, title, Autor, Editorial, edicion, Categoria,20166);
-               
-               avl.insertar(libro);
+               Libro libro = new Libro(isbn, anio, title, Autor, Editorial, edicion, Categoria,userlog.carne , idioma);
+               avl.add(libro, userlog);
                
                    
-               
             }
             avl.inorden();
+            
         } catch (FileNotFoundException e) {
                 //manejo de error
         }catch (IOException e) {

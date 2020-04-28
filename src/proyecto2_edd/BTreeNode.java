@@ -25,6 +25,7 @@ public class BTreeNode {
 /*  37 */     this.parent = null;
 /*  38 */     this.filled = 0;
 /*  39 */     this.isLeaf = paramBoolean;
+              
 
 /*     */   }
     BTreeNode(int paramInt, BTreeNode paramBTreeNode, BTreeComparable[] paramArrayOfBTreeComparable, BTreeNode[] paramArrayOfBTreeNode, boolean paramBoolean) {

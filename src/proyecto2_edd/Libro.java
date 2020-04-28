@@ -11,8 +11,8 @@ package proyecto2_edd;
  */
 public class Libro extends BTreeComparable {
     
-    
-    public Libro(int ISBN, int anio, String title, String autor, String editorial,  int edicion, String categoria, int carnet){
+    public Libro(int ISBN, int anio, String title, String autor, String editorial,  int edicion, String categoria, int carnet , String idioma){
+        this.id = ISBN;
         this.ISBN = ISBN;
         this.anio = anio;
         this.title = title;
@@ -20,12 +20,19 @@ public class Libro extends BTreeComparable {
         this.editorial = editorial;
         this.edicion = edicion;
         this.categoria = categoria;
-        //this.propietario = pro;
+        this.idioma = idioma;
+        
+        
     }
+    public Libro(){
+        //this.book = new Libro();
+    }
+    
+    
 
     @Override
     public int compareTo(BTreeComparable paramBTreeComparable) {
-        int i = paramBTreeComparable.ISBN;
+        int i = paramBTreeComparable.id;
         if(this.ISBN == i)
             return 0;
         if(this.ISBN <i)

@@ -19,9 +19,11 @@ public class Proyecto2_EDD {
     public static void main(String[] args) throws ParseException {
         // TODO code application logic here
        Usuario userLog =  new Usuario(201602935, "lourdes", "Lorenzana","ingenieria","2121");
-       LeerJson read = new LeerJson();
+       arbolAVL avl = new arbolAVL();
+       TablaHash hash = new TablaHash();
+       LeerJson read = new LeerJson(avl, hash, userLog);
        read.CargaMasivaLibros("kc");
-       Interfaz i = new Interfaz(read);
+       Interfaz i = new Interfaz(read, userLog);
        i.setVisible(true);
        //interfazSesion ven = new interfazSesion(read, userLog);
        //ven.setVisible(true);

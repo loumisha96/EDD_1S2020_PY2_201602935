@@ -14,8 +14,14 @@ public class InterfazCrear extends javax.swing.JFrame {
     /**
      * Creates new form InterfazCrear
      */
-    public InterfazCrear() {
+    LeerJson read;
+    Interfaz inter;
+    Usuario userLog;
+    public InterfazCrear(LeerJson read , Interfaz inter, Usuario userLog) {
         initComponents();
+        this.read = read;
+        this.inter = inter;
+        this.userLog = userLog;
     }
 
     /**
@@ -183,11 +189,16 @@ public class InterfazCrear extends javax.swing.JFrame {
         int isbn = Integer.parseInt(isbn_txt.getText());
         int anio = Integer.parseInt(anio_txt.getText());
         int edicion =Integer.parseInt(edicion_txt.getText());
-        Libro libro = new Libro(isbn, anio, title_txt.getText(), autor_txt.getText(), editorial_txt.getText(), edicion, categoria_txt.getText(), 201602935);
+        Libro libro = new Libro(isbn, anio, title_txt.getText(), autor_txt.getText(), editorial_txt.getText(), edicion, categoria_txt.getText(), 201602935, idioma_txt.getText());
+        read.avl.add(libro, userLog);
+        inter.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_guardarLibroActionPerformed
 
     private void guardarCatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarCatActionPerformed
-        //insertar
+        read.avl.add(cate_txt.getText(), userLog);
+        inter.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_guardarCatActionPerformed
 
     /**
@@ -220,7 +231,7 @@ public class InterfazCrear extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new InterfazCrear().setVisible(true);
+               // new InterfazCrear().setVisible(true);
             }
         });
     }

@@ -5,6 +5,7 @@
  */
 package proyecto2_edd;
 
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -24,7 +25,7 @@ public class ArbolB {
 /*     */ 
 /*  34 */     this.root = new BTreeNode(paramInt, true);
 /*     */   }
-/*     */ 
+/*     */   
 /*     */   public BTreeComparable find(BTreeComparable paramBTreeComparable)
 /*     */   {
               
@@ -58,27 +59,31 @@ public class ArbolB {
 /*  67 */     add(paramBTreeComparable);
 /*     */   }
 /*     */ 
-/*     */   public void delete(BTreeComparable paramBTreeComparable) {
-/*  71 */     if (find(paramBTreeComparable) == null) {
-/*  72 */       return;
-/*     */     }
-/*  74 */     BTreeNode localBTreeNode = findNode(paramBTreeComparable);
-/*  75 */     int i = localBTreeNode.findKeyPosition(paramBTreeComparable) >> 1;
-/*  76 */     if (localBTreeNode.isLeaf() == false) {
-/*  77 */       localBTreeNode = swapWithLeaf(localBTreeNode, i);
-/*  78 */       i = 0;
-/*     */     }
-/*     */ 
-/*  81 */     removeOne(localBTreeNode, i);
-/*     */ 
-/*  83 */     if (localBTreeNode == this.root) {
-/*  84 */       return;
-/*     */     }
-/*  86 */     notEnoughKeys(localBTreeNode);
+/*     */   public void delete(BTreeComparable paramBTreeComparable, int carne) {
+              if(paramBTreeComparable.carnet == carne){
+                    if (find(paramBTreeComparable) == null) 
+      /*  72 */       return;
+      /*     */     BTreeNode localBTreeNode = findNode(paramBTreeComparable);
+      /*  75 */     int i = localBTreeNode.findKeyPosition(paramBTreeComparable) >> 1;
+      /*  76 */     if (localBTreeNode.isLeaf() == false) {
+      /*  77 */       localBTreeNode = swapWithLeaf(localBTreeNode, i);
+      /*  78 */       i = 0;
+      /*     */     }
+      /*     */ 
+      /*  81 */     removeOne(localBTreeNode, i);
+      /*     */ 
+      /*  83 */     if (localBTreeNode == this.root) {
+      /*  84 */       return;
+      /*     */     }
+      /*  86 */     notEnoughKeys(localBTreeNode);
+              }else{
+                  JOptionPane.showMessageDialog(null,"No tiene  los permisos");
+              }
+/*  71 */     
 /*     */   }
 /*     */ 
-/*     */   public void remove(BTreeComparable paramBTreeComparable) {
-/*  90 */     delete(paramBTreeComparable);
+/*     */   public void remove(BTreeComparable paramBTreeComparable, int carne) {
+/*  90 */     delete(paramBTreeComparable, carne);
 /*     */   }
 /*     */ 
 /*     */   private BTreeNode findNode(BTreeComparable paramBTreeComparable)
@@ -302,27 +307,44 @@ public class ArbolB {
 /* 313 */     paramBTreeNode1.cleanNode();
 /* 314 */     paramBTreeNode2.cleanNode();
 /* 315 */     paramBTreeNode3.cleanNode();
-/*     */   }
-/*     */ 
-/*     */   public String toString() {
-/* 319 */     return this.root.toString();
-/*     */   }
-            public void Gprint(DefaultTableModel tabla , int k){
-                GPrintNivel(root, tabla, k);
+ }
+
+  public String toString() {
+     return this.root.toString();
+  }
+            public void Gprint(DefaultTableModel tabla){
+                GPrintNivel(root, tabla);
             }
-            public void GPrintNivel(BTreeNode actual, DefaultTableModel tabla, int k){
+            public void GPrintNivel(BTreeNode actual, DefaultTableModel tabla){
                 if(actual!= null){
                     for(int i=0; i<actual.child.length; i++){
-                        GPrintNivel(actual.child[i], tabla, k);
+                        GPrintNivel(actual.child[i], tabla);
                     }
                     for(int i=0; i<actual.key.length; i++){
                         if(actual.key[i]!=null){
-                            tabla.addRow(new Object[]{k,actual.key[i].title});
-                            k++;
+                            tabla.addRow(new Object[]{actual.key[i].ISBN,actual.key[i].title, actual.key[i].categoria});
                         }
+                    }
+                }
+            }
+            public BTreeNode Serch(Libro find){
+                return Search(root, find);
+            }
+            public  BTreeNode Search( BTreeNode actual,  Libro find ){
+               BTreeNode aux = findNode(find);
+               BTreeNode encontrado=null;
+               if(actual!= null){
+                    for(int i=0; i<actual.child.length; i++){
+                        PrintNivel(actual.child[i]);
+                    }
+                    for(int i = 0; i<aux.key.length; i++){
+                        if(aux.key[i] != null && aux.key[i].ISBN == find.ISBN){
+                            encontrado = aux;
+                         }
                     }
                     
                 }
+               return encontrado;
             }
             public void print(){
                 PrintNivel(root);
@@ -333,8 +355,11 @@ public class ArbolB {
                         PrintNivel(actual.child[i]);
                     }
                     for(int i=0; i<actual.key.length; i++){
-                        if(actual.key[i]!=null)
-                            System.out.println(actual.key[i].title + ",");
+                        if(actual.key[i] == null){
+                            
+                        }else{
+                            System.out.println(actual.key[i].title);
+                        }
                     }
                     
                 }

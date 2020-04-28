@@ -10,6 +10,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,41 +19,41 @@ import java.util.logging.Logger;
  *
  * @author lourd
  */
-public class Servidor {
+public class Servidor implements Runnable {
     
-    public static void main (String[] args){
+    private ArrayList<Socket>clientes;
+    private int puerto;
+    public Servidor(int puerto){
+        this.puerto = puerto;
+        this.clientes = new ArrayList();
+    }
+    public void run (){
         ServerSocket servidor = null;
         Socket sc = null;
         DataInputStream in;
-        DataOutputStream out;
-        final int puerto = 5000;
-
         try{
             servidor =new ServerSocket(puerto);
-                System.out.println("servidor iniciado");
+            System.out.println("servidor iniciado");
                 while(true){
                     sc = servidor.accept();
-                    System.out.println("cliente conectado");
-                    in = new DataInputStream(sc.getInputStream());
-                    out = new DataOutputStream(sc.getOutputStream());
-                    String mensaje = in.readUTF();
-                    System.out.println("mensaje");
-                    out.writeUTF("Hola mundo Servidor");
-                    sc.close();//cerrando el cliente
-                    System.out.println("cliente desconectado");
-
+                    System.out.println("Cliente conectado");
+                    clientes.add(sc);
                 }
         } catch(IOException ex){
     }
     
     
  }
-    
-    
- 
-    
-    
-    
-    
+ public void enviarInfo(){
+     for(Socket sock: clientes){
+         try {
+             DataOutputStream dos = new DataOutputStream(sock.getOutputStream());
+             //enviar info
+             
+         } catch (IOException ex) {
+             Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
+         }
+     }
+ }
     
 }

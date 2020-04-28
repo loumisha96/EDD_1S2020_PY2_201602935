@@ -8,6 +8,14 @@ package proyecto2_edd;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Stack;
+import javax.swing.JOptionPane;
+
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -15,282 +23,749 @@ import javax.swing.table.DefaultTableModel;
  * @author lourd
  */
 public class arbolAVL {
-    public Nodo raiz;
-    public arbolAVL(){
-        raiz = null;
+    private Nodo raiz;
+    private int v[];
+    Comparator<String> comparador;
+    public arbolAVL(){	
+    }
+    public boolean add(Libro libro, Usuario userLog) {
+    	Nodo nodo = new Nodo(libro.categoria, userLog);
+    	boolean salir = false;
+    	boolean der = false;
+    	Nodo raizTmp = this.getRaiz();
+
+    	int altIzq, altDer;
+        if(raizTmp == null){
+    		this.raiz = nodo;
+                this.raiz.Btree.add(libro);
+                return true;
+    	}else
+    	if(this.contains(nodo.getcategoria())){
+                Nodo a = buscarNodo(nodo.categoria);
+                a.Btree.add(libro);
+    		return false;
+    	}
+    	else{    	
+    		while(!salir){
+   				
+                    if(this.compararcategoria(nodo.getcategoria(), raizTmp.getcategoria())>0){
+                        if(raizTmp.getDerecha()!=null){
+                                raizTmp = raizTmp.getDerecha();	
+                        }else{
+                                salir = true;
+                                der = true;
+                        }
+
+                    }
+                    else{
+                        if(raizTmp.getIzquierda()!=null){
+                                raizTmp = raizTmp.getIzquierda();
+                        }else{
+                                salir = true;
+                        }
+                    }
+    		}
+    		if(der){
+                    raizTmp.setDerecha(nodo);
+                    raizTmp.derecha.Btree.add(libro);
+                }
+                else{
+                    raizTmp.setIzquierda(nodo);
+                    raizTmp.izquierda.Btree.add(libro);
+                }
+                while(equilibrado(this.getRaiz())<0){
+				raizTmp = padre(raizTmp);
+    		
+    			if(raizTmp.getDerecha()==null){
+	    			altDer = 0;
+	    		}else{
+	    			altDer = raizTmp.getDerecha().getAltura();
+	    		}
+	    		
+	    		if(raizTmp.getIzquierda()==null){
+	    			altIzq = 0;
+	    		}else{
+	    			altIzq = raizTmp.getIzquierda().getAltura();
+	    		}
+	    		
+    			Nodo cambiar = estructurar(raizTmp, altIzq, altDer);
+    			Nodo superior = padre(raizTmp);
+	
+    			if(compararcategoria(superior.getcategoria(), raizTmp.getcategoria())!=0){
+    				if(superior.getIzquierda()!=null && compararcategoria(superior.getIzquierda().getcategoria(), raizTmp.getcategoria())==0){
+	    				superior.setIzquierda(cambiar);		
+		    		}
+		    		else if(superior.getDerecha()!=null && compararcategoria(superior.getDerecha().getcategoria(), raizTmp.getcategoria())==0){
+	    				superior.setDerecha(cambiar);
+	    			}
+    			}else{
+    				this.raiz = cambiar;
+    			}
+    		}
+    		return true;
+    	}
+    }
+    public boolean add(String libro, Usuario userLog) {
+    	Nodo nodo = new Nodo(libro,userLog );
+    	boolean salir = false;
+    	boolean der = false;
+    	Nodo raizTmp = this.getRaiz();
+
+    	int altIzq, altDer;
+        if(raizTmp == null){
+    		this.raiz = nodo;
+                return true;
+    	}else
+    	if(this.contains(nodo.getcategoria())){
+                Nodo a = buscarNodo(nodo.categoria);
+                return false;
+    	}
+    	else{    	
+    		while(!salir){
+   				
+                    if(this.compararcategoria(nodo.getcategoria(), raizTmp.getcategoria())>0){
+                        if(raizTmp.getDerecha()!=null){
+                                raizTmp = raizTmp.getDerecha();	
+                        }else{
+                                salir = true;
+                                der = true;
+                        }
+
+                    }
+                    else{
+                        if(raizTmp.getIzquierda()!=null){
+                                raizTmp = raizTmp.getIzquierda();
+                        }else{
+                                salir = true;
+                        }
+                    }
+    		}
+    		if(der){
+                    raizTmp.setDerecha(nodo);
+                    
+                }
+                else{
+                    raizTmp.setIzquierda(nodo);
+                    
+                }
+                while(equilibrado(this.getRaiz())<0){
+				raizTmp = padre(raizTmp);
+    		
+    			if(raizTmp.getDerecha()==null){
+	    			altDer = 0;
+	    		}else{
+	    			altDer = raizTmp.getDerecha().getAltura();
+	    		}
+	    		
+	    		if(raizTmp.getIzquierda()==null){
+	    			altIzq = 0;
+	    		}else{
+	    			altIzq = raizTmp.getIzquierda().getAltura();
+	    		}
+	    		
+    			Nodo cambiar = estructurar(raizTmp, altIzq, altDer);
+    			Nodo superior = padre(raizTmp);
+	
+    			if(compararcategoria(superior.getcategoria(), raizTmp.getcategoria())!=0){
+    				if(superior.getIzquierda()!=null && compararcategoria(superior.getIzquierda().getcategoria(), raizTmp.getcategoria())==0){
+	    				superior.setIzquierda(cambiar);		
+		    		}
+		    		else if(superior.getDerecha()!=null && compararcategoria(superior.getDerecha().getcategoria(), raizTmp.getcategoria())==0){
+	    				superior.setDerecha(cambiar);
+	    			}
+    			}else{
+    				this.raiz = cambiar;
+    			}
+    		}
+    		return true;
+    	}
+    }
+    public Nodo buscarNodo(String cat){
+        return buscarNodo(raiz, cat);
+    }
+    public Nodo buscarNodo(Nodo actual, String cat){
+        //actual.categoria;
+        if (actual == null)
+        {
+            return null;
+        }
+            
+        int comparacion = cat.compareToIgnoreCase(actual.categoria);
+        if(comparacion == 0)
+        {
+            
+            return actual;
+        }
+        else
+        {
+            return buscarNodo(comparacion < 0 ? actual.izquierda : actual.derecha, cat);
+        }
+    }
+    private Nodo estructurar(Nodo nodo, int altIzq, int altDer){
+        if(extraeFactorE(nodo)==2){
+                if( extraeFactorE(nodo.getDerecha() )==1  || extraeFactorE(nodo.getDerecha()) == 0){
+                        nodo = rotacionSimpleIzquierda(nodo);
+                }
+
+                else if(extraeFactorE(nodo.getDerecha() )==-1){
+                        nodo = rotacionCompuestaDerecha(nodo);
+                }
+        }
+        else if(extraeFactorE(nodo)==-2){
+                if(extraeFactorE(nodo.getIzquierda() )==-1 || extraeFactorE(nodo.getDerecha())==0){
+                        nodo = rotacionSimpleDerecha(nodo);
+                }
+
+                else if(extraeFactorE(nodo.getIzquierda())==1){
+                        nodo = rotacionCompuestaIzquierda(nodo);
+                }
+        }
+
+        return nodo;	
+    }
+    public int extraeFactorE(Nodo nodo){
+    	if(nodo!=null){
+    		return nodo.getFactorE();
+    	}else{
+    		return 0;
+    	}
+    }
+    public Nodo rotacionSimpleIzquierda(Nodo nodo){
+		Nodo nodoTmp = nodo;
+		
+    	nodo = nodoTmp.getDerecha(); //clone??
+		nodoTmp.setDerecha(nodo.getIzquierda());
+
+		nodo.setIzquierda(nodoTmp);
+
+		return nodo;
+    }
+    public Nodo rotacionSimpleDerecha(Nodo nodo){
+    	Nodo nodoTmp = nodo;
+    	nodo = nodoTmp.getIzquierda();
+
+		nodoTmp.setIzquierda(nodo.getDerecha());
+		nodo.setDerecha(nodoTmp);
+
+		return nodo;
+    }
+    public Nodo rotacionCompuestaIzquierda(Nodo nodo){
+    	Nodo nodoTmp = nodo; //57
+
+        nodoTmp = rotacionSimpleIzquierda(nodoTmp.getIzquierda()); //param 42 | sale: 54
+        
+		nodo.setIzquierda(nodoTmp); //param 54
+
+		nodoTmp = rotacionSimpleDerecha(nodo); //param 54  | sale: 54
+		
+		return nodoTmp;
+    }
+    public Nodo rotacionCompuestaDerecha(Nodo nodo){
+    	Nodo nodoTmp = nodo;
+    	
+        nodoTmp = rotacionSimpleDerecha(nodoTmp.getDerecha());
+	
+		nodo.setDerecha(nodoTmp);
+
+		nodoTmp= rotacionSimpleIzquierda(nodo);
+
+		return nodoTmp;
+    }
+    public int equilibrado(Nodo n){
+        int hIzq = 0;
+        int hDer = 0;
+
+        if(n==null)
+            return 0;
+    	hIzq = equilibrado(n.getIzquierda());
+    	
+    	if(hIzq < 0)
+    		return hIzq;
+    	hDer = equilibrado(n.getDerecha());
+    	
+    	if(hDer <0)
+    		return hDer;
+    	if(Math.abs(hIzq - hDer)>1)
+    		return -1;
+    	
+    	return Math.max(hIzq, hDer) + 1;
+    }
+    public Nodo padre(Nodo nodo){
+	Nodo raizTmp = this.getRaiz();
+        Stack<Nodo> pila = new Stack<Nodo>();
+    	pila.push(raizTmp);	
+    	while(raizTmp.getDerecha()!=null || raizTmp.getIzquierda()!=null){
+	    	if(this.compararcategoria(nodo.getcategoria(), raizTmp.getcategoria())>0){
+	    		if(raizTmp.getDerecha()!=null){   	
+	    			raizTmp = raizTmp.getDerecha();
+	    		}
+	    	}
+	    	else if(this.compararcategoria(nodo.getcategoria(), raizTmp.getcategoria())<0){	
+	    		if(raizTmp.getIzquierda()!=null){   
+		    		raizTmp = raizTmp.getIzquierda();
+	    		}
+	    	}
+	    	if(this.compararcategoria(nodo.getcategoria(), raizTmp.getcategoria())==0){
+	    		return pila.pop();
+	    	}
+                pila.push(raizTmp);	
+    	}
+    	return pila.pop();
     }
     
-    public Nodo buscar(String d, Nodo actual){
-        if(raiz == null)
-            return null;
-        else if(actual.categoria.compareToIgnoreCase(d)==0)
-            return actual;
-        else if(actual.categoria.compareToIgnoreCase(d)<0)
-            return buscar(d, actual.der);
-        else
-            return buscar(d,actual.izq);
+    public void clear( int carnet){
+    	Iterator iter = this.iterator();
+    	
+    	while(iter.hasNext()){
+    		remove(iter.next(), carnet);
+    	}
     }
-    public int geth(Nodo actual){
-        if(actual==null)
-            return -1;
-        else
-            return actual.h;
+    public boolean contains(Object o) throws ClassCastException, NullPointerException{
+    	Nodo raizTmp = this.getRaiz();
+    	if(this.isEmpty()){
+    		return false;
+    	}
+    	
+    	//si es la raiz el buscado
+    	if(this.compararcategoria((String)o, raizTmp.getcategoria())==0){
+	    	return true;
+	    }
+	    
+    	while(raizTmp.getDerecha()!=null || raizTmp.getIzquierda()!=null){
+
+	    	if(this.compararcategoria((String)o, raizTmp.getcategoria())>0){
+	    		if(raizTmp.getDerecha()!=null){   		
+	    			raizTmp = raizTmp.getDerecha();
+	    		}else{
+	    			return false;
+	    		}
+	    	}else if(this.compararcategoria((String)o, raizTmp.getcategoria())<0){	
+	    		if(raizTmp.getIzquierda()!=null){   
+		    		raizTmp = raizTmp.getIzquierda();
+	    		}else{
+	    			return false;
+	    		}
+	    	}
+	    	
+	    	if(this.compararcategoria((String)o, raizTmp.getcategoria())==0){
+	    		return true;
+	    	}
+    	}
+    	return false;
     }
-    public void insertar(Libro libro){
-        Nodo nuevo = new Nodo(libro.categoria);
-        if(raiz == null){
-            raiz = nuevo;
-            raiz.Btree.insert(libro);
-        }
-        else
-            raiz = insertar(nuevo, raiz,libro);
+    
+    public boolean containsAll(Collection<?> c) throws ClassCastException, NullPointerException{   	
+    	Iterator iter = c.iterator();
+    	List listaArbol = this.inOrden();
+    	String dato = null;
+    	
+    	if(this.isEmpty()){
+    		return false;
+    	}
+    	
+    	while(iter.hasNext()){
+    		dato = (String)iter.next();
+    		
+    		if(!listaArbol.contains(dato)){
+    			return false;
+    		}
+    	}
+    	return true;
+    }
+    public boolean isEmpty(){
+    	return this.size()==0;
+    	//?? tal vez this.getRaiz()==null?
+    }
+    public Iterator iterator(){ 
+    	List lista= this.inOrden();
+    	Iterator iter = lista.iterator();
+    	
+    	return iter;
+    }
+    public boolean remove(Object o, int carnet) throws ClassCastException, NullPointerException{
+    	Nodo borrar=null,mirar=null,cambiar=null, nPadre = null;
+    	Nodo raizTmp = this.getRaiz();
+    	String c_aux, d_aux;
+    	boolean salir = false;
+    	int altDer = 0;
+    	int altIzq = 0;
+    	int a = 0;
+    	
+    	if(this.isEmpty()){
+    		return false;
+    	}
+
+    	//el nodo a borrar es la raiz?
+    	if(this.compararcategoria((String)o, raizTmp.getcategoria())==0){
+            if(raizTmp.userLog.carne == carnet){
+                salir = true;
+	    	borrar = raizTmp;
+            }
+            else
+                JOptionPane.showMessageDialog(null,"No tiene permisos");
+	    }
+    	
+    	//si no es la raiz, lo buscamos
         
-    }
-    private Nodo insertar(Nodo nuevo, Nodo subA, Libro libro){
-        Nodo nuevoPadre = subA;
-        if(nuevo.categoria.compareToIgnoreCase(subA.categoria)<0){
-            if(subA.izq == null)
-               subA.izq = nuevo;
-            else{
-                subA.izq = insertar(nuevo, subA.izq, libro);
-                if(geth(subA.izq)-geth(subA.der)==2){
-                    if(nuevo.categoria.compareToIgnoreCase(subA.izq.categoria)<0)
-                        nuevoPadre = RotacionSimpleIzquierda(subA);
-                    else
-                        nuevoPadre = RotacionDobleIzquierda(subA);
-                }
-                subA.izq.Btree.insert(libro);
-            }
-           
-        }else if(nuevo.categoria.compareToIgnoreCase(subA.categoria)>0){
-            if(subA.der == null){
-                subA.der = nuevo;
-                subA.der.Btree.insert(libro);
-            }
+    	while(!salir && (raizTmp.getDerecha()!=null || raizTmp.getIzquierda()!=null)){
+
+	    	if(this.compararcategoria((String)o, raizTmp.getcategoria())>0){
+	    		if(raizTmp.getDerecha()!=null){   		
+	    			raizTmp = raizTmp.getDerecha();
+	    		}else{
+	    			return false;
+	    		}
+	    	}else if(this.compararcategoria((String)o, raizTmp.getcategoria())<0){
+	    	
+	    		if(raizTmp.getIzquierda()!=null){   
+		    		raizTmp = raizTmp.getIzquierda();
+	    		}else{
+	    			return false;
+	    		}
+	    	}
+	    	
+	    	if(this.compararcategoria((String)o, raizTmp.getcategoria())==0){
+	    		salir = true;
+	    		borrar = raizTmp;
+	    	}
+    	}
+    
+
+    	//existe el nodo a borrar?
+    	if(salir){
+                if(borrar.userLog.carne == carnet){
+                    
                 
-            else{
-                subA.der = insertar(nuevo, subA.der, libro);
-                if(geth(subA.der)-geth(subA.izq)==2){
-                    if(nuevo.categoria.compareToIgnoreCase(subA.der.categoria)>0)
-                        nuevoPadre = RotacionSimpleDerecha(subA);
-                    else
-                        nuevoPadre = RotacionDobleDerecha(subA);
-                }
-            }
-             
+    		mirar = borrar;
+
+	    	//es una hoja?
+	    	if(borrar.getIzquierda()==null && borrar.getDerecha()==null){
+	    		mirar= padre(borrar);
+	    		nPadre = padre(borrar);
+	    		
+	    		//es un arbol raiz con solo un nodo raiz?
+	    		if(this.size()==1){
+	    			this.raiz = null;
+	    		}
+	    		
+	    		if(nPadre.getIzquierda()!=null && compararcategoria(nPadre.getIzquierda().getcategoria(), borrar.getcategoria())==0){
+	    			nPadre.setIzquierda(null);
+	    		}else if(nPadre.getDerecha()!=null && compararcategoria(nPadre.getDerecha().getcategoria(), borrar.getcategoria())==0){
+	    			nPadre.setDerecha(null);
+	    		}
+	    		//nos lo cargamos
+	    		borrar.setcategoria(null);
+	    	}
+	    	
+	    	//solo tiene un hijo? (o 2 pero en la misma altura) entonces la altura de ese subarbol será 1 o 2 (altura raiz = 1)
+	    	else if(borrar.getAltura()<=2){
+
+	    		if(borrar.getIzquierda()!=null){
+	    			borrar.setcategoria(borrar.getIzquierda().getcategoria());
+	    			borrar.setIzquierda(null);
+	    		}
+	    		
+	    		else if(borrar.getDerecha()!=null){
+	    			borrar.setcategoria(borrar.getDerecha().getcategoria());
+	    			borrar.setDerecha(null);
+	    		}
+	    	}
+	    	
+	    	//cuando no es ni un hoja ni su padre. Es decir, está por medio del arbol.
+	    	else{
+
+	    		//buscamos el mayor de la izquierda
+		    	if(borrar.getIzquierda()!=null){
+		    		cambiar = borrar.getIzquierda();
+		    		
+		    		while(cambiar.getDerecha()!=null){
+		    			cambiar = cambiar.getDerecha();
+		    		}
+		    	}
+		    		
+		    	//buscamos el menor de la derecha
+		    	else if(borrar.getDerecha()!=null){
+		    		cambiar = cambiar.getDerecha();
+		    	
+		    		while(cambiar.getIzquierda()!=null){
+		    			cambiar = cambiar.getIzquierda();
+		    		}
+		    	}
+	    	
+		    	c_aux = cambiar.getcategoria();
+		    	Nodo papa = padre(cambiar);
+		    	
+		    	//si el nodo que hemos cambiado se ha quedado con algún hijo...
+		    	if(cambiar.getIzquierda()!=null || cambiar.getDerecha()!=null){
+			    	if(cambiar.getIzquierda()!=null){
+			    		cambiar.setcategoria(cambiar.getIzquierda().getcategoria());
+			    		cambiar.setIzquierda(null);
+			    	}else if(cambiar.getDerecha()!=null){
+			    		cambiar.setcategoria(cambiar.getDerecha().getcategoria());
+			    		cambiar.setDerecha(null);
+			    	}
+		    	}
+		    	//si no tiene hijos ya, lo eliminamos sin más
+		    	else{		    	
+			    	if(papa.getIzquierda()!=null && compararcategoria(papa.getIzquierda().getcategoria(), cambiar.getcategoria())==0){
+			    		papa.setIzquierda(null);
+			    	}else{
+			    		papa.setDerecha(null);
+			    	}
+			    	cambiar.setcategoria(borrar.getcategoria());
+			    	borrar.setcategoria(c_aux);
+		    	}		    
+	    	}
+	    	
+	    	while(equilibrado(this.getRaiz())<0){
+    			if(mirar.getDerecha()==null){
+	    			altDer = 0;
+	    		}else{
+	    			altDer = mirar.getDerecha().getAltura();
+	    		}
+	    		
+	    		if(mirar.getIzquierda()==null){
+	    			altIzq = 0;
+	    		}else{
+	    			altIzq = mirar.getIzquierda().getAltura();
+	    		}
+	    		
+    			Nodo cambiar2 = estructurar(mirar, altIzq, altDer);
+    			Nodo superior = padre(mirar);
+    			
+    			//si los nodos modificados tenian un padre anteriormente
+    			if(compararcategoria(superior.getcategoria(), mirar.getcategoria())!=0){
+    				if(superior.getIzquierda()!=null && compararcategoria(superior.getIzquierda().getcategoria(), mirar.getcategoria())==0){
+	    				superior.setIzquierda(cambiar2);		
+		    		}
+		    		else if(superior.getDerecha()!=null && compararcategoria(superior.getDerecha().getcategoria(), mirar.getcategoria())==0){
+	    				superior.setDerecha(cambiar2);
+	    			}
+    			}else{
+    				this.raiz = cambiar2;
+    			}
+    			mirar = padre(mirar);
+    		}
+    		return true;	    	
         }else
-            subA.Btree.insert(libro);
-        //actualizar alturas{
-         if(subA.izq == null && subA.der !=null)
-             subA.h = subA.der.h+1;
-         else if(subA.der == null && subA.izq != null)
-             subA.h = subA.izq.h +1;
-         else
-             subA.h = Math.max(geth(subA.izq), geth(subA.der))+1;
-         return nuevoPadre;
-             
-            
+                    JOptionPane.showMessageDialog(null, "No tiene los permisos");
+        }	
+    	return false;
     }
-    public boolean Eliminar(Libro libro){
-        Nodo aux = raiz;
-        Nodo padre = raiz;
-        boolean esHIzq = true;
-        while(!aux.categoria.equals(libro.categoria)){
-            padre = aux;
-            if(libro.categoria.compareToIgnoreCase(aux.categoria)<0){
-                esHIzq = true;
-                aux = aux.izq;
-            }else{
-                esHIzq = false;
-                aux = aux.der;
-            }
-            if(aux == null){
-                return false;
-            }
-        }
-        if(aux.izq == null && aux.der == null){
-            if(aux == raiz)
-                raiz = null;
-            else if(esHIzq)
-                padre.izq =null;
-            else
-                padre.der =null;
-            
-        }else if(aux.der == null){
-            if(aux == raiz)
-                raiz = aux.izq;
-            else if(esHIzq)
-                padre.izq =aux.izq;
-            else
-                padre.der =aux.izq;
-        }else if(aux.izq == null){
-            if(aux == raiz)
-                raiz = aux.der;
-            else if(esHIzq)
-                padre.izq =aux.der;
-            else
-                padre.der =aux.der;
-        }else{
-            Nodo reemplazo = getReemplazo(aux);
-            if(aux == raiz)
-                raiz = reemplazo;
-            else if(esHIzq)
-                padre.izq = reemplazo;
-            else
-                padre.der = reemplazo;
-            reemplazo.izq = aux.izq;
-        }
+    
+    public int size(){
+    	return this.preOrden().size();
+    }
+    public List inOrden(){
+		List lista = new ArrayList();
+    	Nodo nodo = this.getRaiz();  	
+    	Stack<Nodo> pila = new Stack<Nodo>();
+     	
+     	while((nodo!=null &&nodo.getcategoria()!=null)|| !pila.empty()){
+     		if(nodo!=null){
+     			pila.push(nodo);
+     			nodo = nodo.getIzquierda();
+     		}else{
+     			nodo = pila.pop();
+     			lista.add(nodo.getcategoria());
+     			nodo = nodo.getDerecha();
+     		}
+     	} 	
+    	
+    	return lista;
+    }
+    public List preOrden(){
+    	List lista = new ArrayList();
+    	Nodo nodo = this.getRaiz();  	
+    	Stack<Nodo> pila = new Stack<Nodo>();
+
+     	while((nodo!=null && nodo.getcategoria()!=null) || !pila.empty()){
+     		if(nodo!=null){
+     			lista.add(nodo.getcategoria());
+     			pila.push(nodo);
+     			nodo = nodo.getIzquierda();
+     		}else{
+     			nodo = pila.pop();
+     			nodo = nodo.getDerecha();
+     		}
+     	} 	
+    	
+    	return lista;
+    }
+     public int altura(String dato){
+    	Nodo nodo = this.getNodo(dato);
+    	if(!this.contains(dato)){
+    		return -1;
+    	}
+    	
+    	return nodo.getAltura();
+    }
+     public int profundidad(String dato, Usuario userLog){
+    	Nodo nodo = new Nodo(dato, userLog);
+    	int profundidad = 0;
+    	while(compararcategoria(nodo.getcategoria(), this.getRaiz().getcategoria())!=0){
+    		profundidad++;
+    		nodo = padre(nodo);
+    	}
+    	
+    	return profundidad;
+    }
+    public Nodo getRaiz(){
+    	return this.raiz;
+    }
+    public Nodo getNodo(String dato){
+     	Nodo raizTmp = this.getRaiz();
+     	
+     	if(this.isEmpty()){
+     		return null;
+     	}
+    	
+   		while(raizTmp.getDerecha()!=null || raizTmp.getIzquierda()!=null){
+
+	    	if(this.compararcategoria(dato, raizTmp.getcategoria())>0){
+	    		if(raizTmp.getDerecha()!=null){   		
+	    			raizTmp = raizTmp.getDerecha();
+	    		}else{
+	    			return null;
+	    		}
+	    	}else if(this.compararcategoria(dato, raizTmp.getcategoria())<0){	
+	    		if(raizTmp.getIzquierda()!=null){   
+		    		raizTmp = raizTmp.getIzquierda();
+	    		}else{
+	    			return null;
+	    		}
+	    	}
+	    	
+	    	if(this.compararcategoria(dato, raizTmp.getcategoria())==0){
+	    		return raizTmp;
+	    	}
+    	}
+    	
+    	return raizTmp;
+    }
+    private Comparator<String> getComparator(){
+    	return this.comparador;
+    }
+    public String extraecategoria(Nodo nodo){
+    	return nodo.getcategoria();
+    }
+    private int compararcategoria(String t1, String t2){
+    	if(this.comparador==null){
+    		return ((Comparable)t1).compareTo(t2);
+    	}else{
+    		return this.comparador.compare(t1,t2);
+    	}
         
-        actualizarh(raiz);
-        return true;
     }
-    public void actualizarh(Nodo actual){
-      if(actual != null){
-            actualizarh(actual.izq);
-            actualizarh(actual.der);
-            if(actual.der == null && actual.izq == null){
-                actual.h = 0;
-            }
-            else if(actual.der == null){
-                actual.h =actual.izq.h +1;
-            }
-            else if(actual.izq == null){
-                actual.h =actual.der.h +1;
-            }
-            else{
-                if(actual.der.h >actual.izq.h)
-                    actual.h = actual.der.h +1;
-                else
-                    actual.h = actual.izq.h +1;
-            }
-            balanceo(actual);
-            
-        }  
-    }
-    public int getFe(Nodo actual){
-        if(actual.der == null && actual.izq == null){
-            actual.fe = 0;
-        }
-        else if(actual.der == null){
-            actual.fe =geth(actual.izq)+1;
-        }
-        else if(actual.izq == null){
-            actual.fe =0-geth(actual.der) ;
+    private boolean esLleno(Nodo SubRaiz){
+        if(SubRaiz==null){
+            return true;
         }
         else{
-            actual.fe = (geth(actual.izq)+1)-(geth(actual.der)+1);
+            if(altura(raiz.getIzquierda().getcategoria())!=altura(raiz.getDerecha().getcategoria())){
+                return false;
+            }
+            return esLleno(SubRaiz.getIzquierda())&&esLleno(SubRaiz.getDerecha());
         }
-        return actual.fe;
     }
-    public void balanceo(Nodo actual){
-        Nodo aux;
-        if((geth(actual.izq)-geth(actual.der))==2){//positivo
-            if(getFe(actual.izq)==-1 && getFe(actual.izq.der)==0)
-                RotacionDobleIzquierda(actual);
-            else if(getFe(actual.izq)==1 && getFe(actual.izq.izq)==0){
-                RotacionSimpleIzquierda(actual);
-            }
-        }else if(geth(actual.der)-geth(actual.izq)==2){
-            if(getFe(actual.der) ==(-1) && getFe(actual.der.izq) == 0){
-                RotacionDobleDerecha(actual);//listo
-            }
-            else if(getFe(actual.der)==-1 && getFe(actual.der.der)==0)
-                RotacionSimpleDerecha(actual);
-            else if(getFe(actual.der)==0 && getFe(actual.der.der)==0)
-                RotacionSimpleDerecha(actual);
+    public boolean esLleno(){
+        return esLleno(this.getRaiz());
+    }
+    private int cantidad(Nodo SubRaiz){
+        if(SubRaiz==null){
+            return 0;
+        }
+        else{
+            int nodosIzq=cantidad(SubRaiz.getIzquierda());
+            int nodosDer=cantidad(SubRaiz.getDerecha());
+            return 1+nodosIzq+nodosDer;
+        }
+    }
+    
+    public int Peso(){
+        int total=cantidad(this.getRaiz());
+        if(total==0){
+            return total;
+        }
+        else{
+            return total-1;
         }
         
     }
-    public Nodo getReemplazo(Nodo actual){
-        Nodo reemPadre = actual;
-        Nodo reemplazo = actual;
-        Nodo aux = actual.der;
-        while(aux != null){
-            reemPadre = reemplazo;
-            reemplazo = aux;
-            aux = aux.izq;
+    
+    private void densidad(Nodo SubRaiz,int m[],int j){
+        if(SubRaiz!=null){
+            m[j]=0;
+            m[j]++;
+            densidad(SubRaiz.getIzquierda(),m,j+1);
+            densidad(SubRaiz.getDerecha(),m,j+1);
         }
-        if(reemplazo != actual.der){
-            reemPadre.izq = reemplazo.der;
-            reemplazo.der = actual.der;
-        }
-        System.out.println("Reemplazo"+ reemplazo);
-        return reemplazo;
-    }
-    public Nodo RotacionSimpleDerecha(Nodo actual){
-        Nodo aux = actual.der;
-        actual.der = aux.izq;
-        aux.izq = actual;
-        actual = aux;
-        actual.h = Math.max(geth(actual.izq), geth(actual.der))+1;
-        aux.h=Math.max(geth(aux.izq), geth(aux.der))+1;
-        return aux;
     }
     
-    public Nodo RotacionSimpleIzquierda(Nodo actual){
-        Nodo aux = actual.izq;
-        actual.izq = aux.der;
-        aux.der = actual;
-        actual = aux;
-        actual.h = Math.max(geth(actual.izq), geth(actual.der))+1;
-        aux.h=Math.max(geth(aux.izq), geth(aux.der))+1;
-        return aux;
+    private int[] VAltura(){
+         int m[]=new int[altura(raiz.getcategoria())];
+        return m;
     }
-    public Nodo RotacionDobleDerecha(Nodo actual){
-        Nodo aux;
-        actual.der = RotacionSimpleIzquierda(actual.der);
-        aux = RotacionSimpleDerecha(actual);
-        if(actual == raiz)
-            raiz = aux;
-        else
-            actual = aux;
-        return aux;
-    }
-    public Nodo RotacionDobleIzquierda(Nodo actual){
-        Nodo aux;
-        actual.izq = RotacionSimpleDerecha(actual.izq);
-        aux = RotacionSimpleIzquierda(actual);
-        return aux;
+    
+    public void nodosNivel(){
+     densidad(this.getRaiz(),VAltura(),0);
+     for(int i=0;i<VAltura().length;i++){
+     System.out.println("Nivel "+i+" :"+v[i]+" Nodos");
+     }
     }
     public void inorden(){
         inorden(raiz);
     }
-    public void Ginorden(DefaultTableModel tabla, int k){
-        Ginorden(raiz, tabla, k);
+    
+    public void GinordenCat(DefaultTableModel tabla){
+        GinordenCat(raiz, tabla);
     }
-    public void Ginorden(Nodo actual, DefaultTableModel tabla, int k){
+    public void GinordenCat(Nodo actual, DefaultTableModel tabla){
         if(actual != null){
-            Ginorden(actual.izq, tabla, k);
+            GinordenCat(actual.izquierda, tabla);
+            tabla.addRow(new Object[]{actual.categoria});
+            GinordenCat(actual.derecha, tabla);
+        }
+    }
+    
+    public void Ginorden(DefaultTableModel tabla){
+        Ginorden(raiz, tabla);
+    }
+    public void Ginorden(Nodo actual, DefaultTableModel tabla){
+        if(actual != null){
+            Ginorden(actual.izquierda, tabla);
             
             //System.out.println("CATEGORIA " +actual.categoria );
           //System.out.println(" ");
-            actual.Btree.Gprint(tabla, k);
-            Ginorden(actual.der, tabla, k);
+            actual.Btree.Gprint(tabla);
+            Ginorden(actual.derecha, tabla);
         }
     }
+    
     public void inorden(Nodo actual){
         if(actual != null){
-            inorden(actual.izq);
+            inorden(actual.izquierda);
             System.out.println("CATEGORIA " +actual.categoria );
             System.out.println(" ");
             actual.Btree.print();
-            inorden(actual.der);
+            inorden(actual.derecha);
         }
     }
     public void PreOrden(Nodo actual){
         if(actual != null){
             System.out.print(actual.categoria+ ",");
-            PreOrden(actual.izq);
-            PreOrden(actual.der);
+            PreOrden(actual.izquierda);
+            PreOrden(actual.derecha);
         }
     }
     public void PostOrden(Nodo actual){
         if(actual != null){
-            PostOrden(actual.izq);
-            PostOrden(actual.der);
+            PostOrden(actual.izquierda);
+            PostOrden(actual.derecha);
             System.out.print(actual.categoria+ ",");
         }
     }
+    
     public  BufferedWriter report;
     public void reporte() throws IOException{
         FileWriter file = new FileWriter("Reporte.dot");
@@ -308,13 +783,13 @@ public class arbolAVL {
     public void reporte(Nodo actual) throws IOException{
         num = String.valueOf(ent);
         
-        if(actual.izq != null){
+        if(actual.izquierda != null){
             report.write(actual.categoria);
             report.write("->");
-            report.write(actual.izq.categoria);
+            report.write(actual.izquierda.categoria);
             report.write("\n");
-            reporte(actual.izq);
-        }else if(actual.izq == null){
+            reporte(actual.izquierda);
+        }else if(actual.izquierda == null){
             report.write(actual.categoria);
             report.write("->");
             report.write("NULL" + num);
@@ -322,13 +797,13 @@ public class arbolAVL {
             ent++;
             num = String.valueOf(ent);
         }
-        if(actual.der !=null){
+        if(actual.derecha !=null){
             report.write(actual.categoria);
             report.write("->");
-            report.write(actual.der.categoria);
+            report.write(actual.derecha.categoria);
             report.write("\n");
-            reporte(actual.der);
-        }else if(actual.der == null){
+            reporte(actual.derecha);
+        }else if(actual.derecha == null){
             report.write(actual.categoria);
             report.write("->");
             report.write("NULL" + num);
