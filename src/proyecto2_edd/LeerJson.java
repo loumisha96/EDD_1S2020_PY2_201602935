@@ -22,11 +22,16 @@ public class LeerJson {
     arbolAVL avl;
     TablaHash hash;
     Usuario userlog;
-    public LeerJson(arbolAVL avl, TablaHash hash, Usuario userlog){
+    public LeerJson(arbolAVL avl, TablaHash hash){
         this.avl = avl;
         this.hash = hash;
+        
+    }
+
+    public void setUserlog(Usuario userlog) {
         this.userlog = userlog;
     }
+    
     public void CargaMasivaLibros(String path) throws org.json.simple.parser.ParseException {
         JSONParser parser = new JSONParser();
         try {
@@ -48,8 +53,6 @@ public class LeerJson {
                String Categoria = (String) rec.get("Categoria");
                Libro libro = new Libro(isbn, anio, title, Autor, Editorial, edicion, Categoria,userlog.carne , idioma);
                avl.add(libro, userlog);
-               
-                   
             }
             avl.inorden();
             

@@ -19,13 +19,17 @@ import org.json.simple.parser.ParseException;
 public class interfazSesion extends javax.swing.JFrame {
     LeerJson read;
     Usuario userLog;
+    
     /**
      * Creates new form interfazSesion
      */
-    public interfazSesion(LeerJson read, Usuario userLog) {
+    arbolAVL avl;
+    TablaHash hash;
+    public interfazSesion( LeerJson read, arbolAVL avl, TablaHash hash) {
         initComponents();
+        this.avl = avl;
+        this.hash = hash;
         this.read = read;
-        this.userLog = userLog;
         
     }
 
@@ -136,9 +140,10 @@ public class interfazSesion extends javax.swing.JFrame {
         int carnet = Integer.parseInt(user_txt.getText());
         Usuario userAux = read.hash.ingreso(carnet, pass_txt.getText());
         if(userAux!= null){
-            new Interfaz(read, userAux).setVisible(true);
+            new Interfaz(this,read, userAux).setVisible(true);
             this.setVisible(false);
             userLog = userAux;
+            read.setUserlog(userLog);
         }else{
             JOptionPane.showMessageDialog(null, "DATOS INCORRECTOS");
         }

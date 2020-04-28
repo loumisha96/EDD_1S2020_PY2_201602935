@@ -14,7 +14,8 @@ public class VisualizarInfoLibros extends javax.swing.JFrame {
     /**
      * Creates new form VisualizarInfoLibros
      */
-    public VisualizarInfoLibros(int anio, String autor, String cat, int edic, String edit, String idioma, int isbn, String title) {
+    Interfaz ven;
+    public VisualizarInfoLibros(Interfaz ven, int anio, String autor, String cat, int edic, String edit, String idioma, int isbn, String title) {
         initComponents();
         anio_txt.setText( Integer.toString(anio));
         autor_txt.setText(autor);
@@ -24,6 +25,7 @@ public class VisualizarInfoLibros extends javax.swing.JFrame {
         idioma_txt.setText(idioma);
         isbn_txt.setText(Integer.toString(isbn));
         title_txt.setText(title);
+        this.ven = ven;
     }
 
     /**
@@ -50,6 +52,7 @@ public class VisualizarInfoLibros extends javax.swing.JFrame {
         edicion_txt = new javax.swing.JLabel();
         cate_txt = new javax.swing.JLabel();
         idioma_txt = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -66,6 +69,13 @@ public class VisualizarInfoLibros extends javax.swing.JFrame {
         jLabel7.setText("CATEGORIA");
 
         jLabel8.setText("IDIOMA");
+
+        jButton1.setText("Regresar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -88,6 +98,9 @@ public class VisualizarInfoLibros extends javax.swing.JFrame {
                             .addComponent(jLabel8))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButton1)
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(idioma_txt, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE)
                             .addComponent(cate_txt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(edicion_txt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -133,13 +146,20 @@ public class VisualizarInfoLibros extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(idioma_txt))
-                .addContainerGap(58, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1)
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {anio_txt, autor_txt, cate_txt, edicion_txt, editorial_txt, idioma_txt, isbn_txt, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7, jLabel8, title_txt});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        ven.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -184,6 +204,7 @@ public class VisualizarInfoLibros extends javax.swing.JFrame {
     private javax.swing.JLabel editorial_txt;
     private javax.swing.JLabel idioma_txt;
     private javax.swing.JLabel isbn_txt;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

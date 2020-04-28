@@ -27,7 +27,8 @@ public class Interfaz extends javax.swing.JFrame {
     DefaultTableModel tabla;
     Usuario userLog;
     /** Creates new form Interfaz */
-    public Interfaz(LeerJson read, Usuario userLog) {
+    interfazSesion ven;
+    public Interfaz( interfazSesion ven,LeerJson read, Usuario userLog) {
         initComponents();
         s = new Servidor(5000);
         Thread t = new Thread(s);
@@ -36,6 +37,7 @@ public class Interfaz extends javax.swing.JFrame {
         crear = new InterfazCrear(read, this, userLog);
         tabla =  (DefaultTableModel)jTable.getModel();
         this.userLog = userLog;
+        this.ven = ven;
         
     }
 
@@ -50,6 +52,9 @@ public class Interfaz extends javax.swing.JFrame {
 
         jMenu5 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuBar2 = new javax.swing.JMenuBar();
+        jMenu8 = new javax.swing.JMenu();
+        jMenu9 = new javax.swing.JMenu();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
@@ -60,10 +65,18 @@ public class Interfaz extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jMenu6 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
+        jMenu7 = new javax.swing.JMenu();
+        jMenu10 = new javax.swing.JMenu();
 
         jMenu5.setText("jMenu5");
 
         jMenuItem1.setText("jMenuItem1");
+
+        jMenu8.setText("File");
+        jMenuBar2.add(jMenu8);
+
+        jMenu9.setText("Edit");
+        jMenuBar2.add(jMenu9);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -142,6 +155,17 @@ public class Interfaz extends javax.swing.JFrame {
         });
         jMenuBar1.add(jMenu4);
 
+        jMenu7.setText("Reportes");
+        jMenuBar1.add(jMenu7);
+
+        jMenu10.setText("Cerrar Sesión");
+        jMenu10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu10MouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(jMenu10);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -214,7 +238,7 @@ public class Interfaz extends javax.swing.JFrame {
                   int anio = b.key[i].anio;
                   int edic = b.key[i].edicion;
                   String idio = b.key[i].idioma;
-                  info = new VisualizarInfoLibros(anio, autor, cat, edic, edit, idio, isbn, title);
+                  info = new VisualizarInfoLibros(this,anio, autor, cat, edic, edit, idio, isbn, title);
                   info.setVisible(true);
                }
             }
@@ -237,6 +261,11 @@ public class Interfaz extends javax.swing.JFrame {
         EliminarCategoria eCat = new EliminarCategoria(read, this, userLog);
         eCat.setVisible(true);
     }//GEN-LAST:event_jMenu6MouseClicked
+
+    private void jMenu10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu10MouseClicked
+        ven.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jMenu10MouseClicked
 
     /**
      * @param args the command line arguments
@@ -277,12 +306,17 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JMenuItem CargaLibro;
     private javax.swing.JButton jButton1;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu10;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
+    private javax.swing.JMenu jMenu7;
+    private javax.swing.JMenu jMenu8;
+    private javax.swing.JMenu jMenu9;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable;
