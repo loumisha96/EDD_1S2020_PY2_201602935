@@ -25,11 +25,13 @@ public class interfazSesion extends javax.swing.JFrame {
      */
     arbolAVL avl;
     TablaHash hash;
-    public interfazSesion( LeerJson read, arbolAVL avl, TablaHash hash) {
+    Bloque bloque;
+    public interfazSesion( LeerJson read, arbolAVL avl, TablaHash hash, Bloque bloque) {
         initComponents();
         this.avl = avl;
         this.hash = hash;
         this.read = read;
+        this.bloque = bloque;
         
     }
 
@@ -137,10 +139,13 @@ public class interfazSesion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ingresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ingresarActionPerformed
-        int carnet = Integer.parseInt(user_txt.getText());
-        Usuario userAux = read.hash.ingreso(carnet, pass_txt.getText());
+       // int carnet = Integer.parseInt(user_txt.getText());
+        //Usuario userAux = read.hash.ingreso(carnet, pass_txt.getText());
+        Usuario userAux = read.hash.ingreso(201503476, "123456");
         if(userAux!= null){
-            new Interfaz(this,read, userAux).setVisible(true);
+            new Interfaz(this,read, userAux, bloque).setVisible(true);
+            user_txt.setText("");
+            pass_txt.setText("");
             this.setVisible(false);
             userLog = userAux;
             read.setUserlog(userLog);
@@ -157,7 +162,7 @@ public class interfazSesion extends javax.swing.JFrame {
         String path =abrir.getPath();
         System.out.println(path);
         try {
-            read.CargaMasivaUsuarios(path);
+            read.CargaMasivaUsuarios(path,bloque);
             JOptionPane.showMessageDialog(null, "DATOS CARGADOS");
         } catch (ParseException ex) {
             Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);

@@ -5,6 +5,9 @@
  */
 package proyecto2_edd;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -15,7 +18,7 @@ import javax.swing.table.DefaultTableModel;
 public class ArbolB {
     protected BTreeNode root;
 /*     */   int order;
-/*     */ 
+/*     */   int tam;
 /*     */   ArbolB(int paramInt)
 /*     */   {
 /*  28 */     if (paramInt < 1) {
@@ -46,27 +49,31 @@ public class ArbolB {
 /*  54 */     return localBTreeNode.getKey(i >> 1);
 /*     */   }
 /*     */ 
-/*     */   public void add(BTreeComparable paramBTreeComparable) {
+/*     */   public void add(BTreeComparable paramBTreeComparable, Bloque bloque) {
 /*  58 */     if (find(paramBTreeComparable) != null) {
 /*  59 */       return;
 /*     */     }
+                tam++;
 /*  61 */     BTreeNode localBTreeNode = findLeaf(paramBTreeComparable);
-/*     */ 
+
 /*  63 */     addHere(localBTreeNode, paramBTreeComparable, null, null);
 /*     */   }
 /*     */ 
-/*     */   public void insert(BTreeComparable paramBTreeComparable) {
-/*  67 */     add(paramBTreeComparable);
+/*     */   public void insert(BTreeComparable paramBTreeComparable, Bloque bloque) {
+/*  67 */     add(paramBTreeComparable ,bloque);
 /*     */   }
 /*     */ 
-/*     */   public void delete(BTreeComparable paramBTreeComparable, int carne) {
+/*     */   public void delete(BTreeComparable paramBTreeComparable, int carne, Bloque bloque) {
               
                     if (find(paramBTreeComparable) == null) 
       /*  72 */       return;
+                    tam--;
       /*     */     BTreeNode localBTreeNode = findNode(paramBTreeComparable);
                     for(int i =0; i<localBTreeNode.key.length; i++){
                         if(localBTreeNode.key[i]!= null && paramBTreeComparable.ISBN == localBTreeNode.key[i].ISBN){
                             if(localBTreeNode.key[i].carnet == carne){
+                                NodoDato d = new NodoDato((Libro)paramBTreeComparable, 3);
+                                bloque.datos.insertarDato(d);
                                 
                             }else{
                                 JOptionPane.showMessageDialog(null,"No tiene permisos");
@@ -92,9 +99,7 @@ public class ArbolB {
 /*  71 */     
 /*     */   }
 /*     */ 
-/*     */   public void remove(BTreeComparable paramBTreeComparable, int carne) {
-/*  90 */     delete(paramBTreeComparable, carne);
-/*     */   }
+/*     */   
 /*     */ 
 /*     */   private BTreeNode findNode(BTreeComparable paramBTreeComparable)
 /*     */   {
@@ -375,6 +380,63 @@ public class ArbolB {
             }
 
         }
+    }
+    public  BufferedWriter report;
+    public  void reporte() throws IOException{
+        
+        FileWriter file = new FileWriter("Reporte.dot");
+        report = new BufferedWriter(file);
+        report.write("digraph G{");
+        report.write("node[shape=record, style=filled, color = Gray95];");
+        report.write("\n");
+        report.write(apunt(root));
+        report.write(reporte(root));
+        report.write("}");
+        report.close();
+    
+    }
+    public String apunt(BTreeNode actual) throws IOException{
+       String texto="";
+        if(actual!= null){
+            for(int i=0; i<actual.key.length; i++){
+                if(actual.key[0] != null &&actual.child[i]!= null ){
+                    texto += "node" + actual.key[0].id + ":f" + i+"->node"+ actual.child[i].key[0].id + ";\n";
+                    if(j== actual.key.length-1){
+                        texto += actual.key[0].id + "->"+ actual.child[j].key[0].id;
+                    }
+                    report.write(texto);
+                    report.write("\n");
+                    texto ="";
+                 }
+            }
+            for(int j = 0; j< actual.key.length;j++)
+                texto+= apunt(actual.child[j]);
+        }
+        return texto;
+    }
+    int j = 0;
+    public String reporte( BTreeNode actual) throws IOException{
+        String texto="";
+        if(actual!= null){
+            texto = "node" + Integer.toString(actual.key[0].id)+ "[label = \"";
+            for(int i=0; i<actual.key.length; i++){
+                if(actual.key[i]!=null){
+                    texto += "<f0>" +actual.key[i].title +"(" + actual.key[i].ISBN +")" ;
+                }
+                if(i+1<actual.key.length && actual.key[i+1] != null)
+                    texto = texto + "|";
+            }
+            texto =  texto +"\"];\n";
+            report.write(texto);
+            texto ="";
+            for(int i=0; i<actual.child.length; i++){
+                reporte(actual.child[i]);
+                
+            }
+        
+        }
+        return texto;
+        
     }
 
 }

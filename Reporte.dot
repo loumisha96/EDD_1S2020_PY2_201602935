@@ -1,0 +1,15 @@
+digraph G{node[shape=record, style=filled, color = Gray95];
+node10768:f0->node10763;
+
+node10768:f1->node10770;
+
+node10768:f2->node10838;
+
+node10768:f3->node10910;
+
+node10768[label = "<f0>Planeación estratégica aplicada(10768)|<f0>El camino y la meta(10831)|<f0>Las ventas en el mundo actual(10907)"];
+node10763[label = "<f0>Curso de derecho constitucional(10763)|<f0>Canales de comercialización(10765)"];
+node10770[label = "<f0>Marketing(10770)|<f0>Relación de la vida y virtudes del beato Hno. Pedro de San José de Betancurt(10830)"];
+node10838[label = "<f0>Gestión de la calidad en pequeñas y medianas empresas; memoria del proyecto copatrocinado por OEA /GTZ, 1982-2000(10838)|<f0>El mapa; una guía para el mejoramiento de la calidad en la pequeña y mediana empresa, basada en el método de W. Edwards Deming(10839)"];
+node10910[label = "<f0>Problemas y métodos de investigación en la historia de la filosofía(10910)|<f0>La Educación de los padres(10912)|<f0>La Odisea(10916)"];
+}

@@ -20,11 +20,11 @@ public class TablaHash {
     public int funcionHash(int carne){
         return carne%45;
     }
-    public void insertar(int carnet, String nombre, String apellido, String carrera , String password){
-        Hash[funcionHash(carnet)].insertar(carnet, nombre, apellido, carrera, password);
+    public void insertar(int carnet, String nombre, String apellido, String carrera , String password, Bloque bloque){
+        Hash[funcionHash(carnet)].insertar(carnet, nombre, apellido, carrera, password, bloque);
     }
-    public void Editar(int carnet, String nombre, String apellido, String carrera , String password){
-        Hash[funcionHash(carnet)].Editar(carnet, nombre, apellido, carrera, password);
+    public void Editar(Usuario u, Bloque bloque){
+        Hash[funcionHash(u.carne)].Editar(u,bloque);
     }
     public void Eliminar(int carnet){
         Hash[funcionHash(carnet)].Eliminar(carnet);

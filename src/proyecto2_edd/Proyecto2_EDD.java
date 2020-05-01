@@ -21,8 +21,11 @@ public class Proyecto2_EDD {
         TablaHash hash = new TablaHash();
        
        LeerJson read = new LeerJson(avl, hash);
-       interfazSesion ven = new interfazSesion(read, avl,hash);
+       ListaNodoRed list = new ListaNodoRed();
        
+       list.RegistrarNodo("ip1");
+       Bloque bloque = new Bloque();
+       interfazSesion ven = new interfazSesion(read, avl,hash, bloque);
        ven.setVisible(true);
        
         

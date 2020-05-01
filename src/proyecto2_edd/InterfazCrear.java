@@ -17,11 +17,13 @@ public class InterfazCrear extends javax.swing.JFrame {
     LeerJson read;
     Interfaz inter;
     Usuario userLog;
-    public InterfazCrear(LeerJson read , Interfaz inter, Usuario userLog) {
+    Bloque bloque;
+    public InterfazCrear(LeerJson read , Interfaz inter, Usuario userLog, Bloque bloque) {
         initComponents();
         this.read = read;
         this.inter = inter;
         this.userLog = userLog;
+        this.bloque = bloque;
     }
 
     /**
@@ -190,13 +192,13 @@ public class InterfazCrear extends javax.swing.JFrame {
         int anio = Integer.parseInt(anio_txt.getText());
         int edicion =Integer.parseInt(edicion_txt.getText());
         Libro libro = new Libro(isbn, anio, title_txt.getText(), autor_txt.getText(), editorial_txt.getText(), edicion, categoria_txt.getText(), 201602935, idioma_txt.getText());
-        read.avl.add(libro, userLog);
+        read.avl.add(libro, userLog, bloque);
         inter.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_guardarLibroActionPerformed
 
     private void guardarCatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarCatActionPerformed
-        read.avl.add(cate_txt.getText(), userLog);
+        read.avl.add(cate_txt.getText(), userLog, bloque);
         inter.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_guardarCatActionPerformed

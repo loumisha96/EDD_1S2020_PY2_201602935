@@ -21,10 +21,12 @@ public class EliminarCategoria extends javax.swing.JFrame {
     LeerJson read ;
     Usuario userLog;
     Interfaz ven;
-    public EliminarCategoria(LeerJson read,Interfaz ven, Usuario userLog) {
+    Bloque bloque;
+    public EliminarCategoria(LeerJson read,Interfaz ven, Usuario userLog, Bloque bloque) {
         initComponents();
         this.read = read;
         this.userLog = userLog;
+        this.bloque = bloque;
         tabla =  (DefaultTableModel)jTable1.getModel();
         read.avl.GinordenCat(tabla);
         ven.setVisible(false);
@@ -106,7 +108,7 @@ public class EliminarCategoria extends javax.swing.JFrame {
         int pos = jTable1.getSelectedRow();
         if(pos!=-1 ){
             String cat = (String)tabla.getValueAt(pos,0);
-            read.avl.remove(cat, userLog.carne);
+            read.avl.remove(cat, userLog.carne, bloque);
         }else{
             JOptionPane.showMessageDialog(null, "Seleccione el libro");
         }
