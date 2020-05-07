@@ -28,9 +28,10 @@ public class ReportePorCateg extends javax.swing.JFrame {
     public ReportePorCateg(LeerJson read,Interfaz ven) {
         initComponents();
         this.read = read;
+        this.ven = ven;
         tabla =  (DefaultTableModel)jTable1.getModel();
         read.avl.GinordenCat(tabla);
-        ven.setVisible(false);
+        
     }
 
     /**
@@ -102,7 +103,12 @@ public class ReportePorCateg extends javax.swing.JFrame {
             String cat = (String)tabla.getValueAt(pos,0);
             Nodo a =read.avl.buscarNodo(cat);
             try {
-                a.Btree.reporte();
+               String ruta = a.Btree.reporte(cat);
+               Reporte r = new Reporte(this);
+              r.Imagen(ruta);
+              /* r.Imagen("Reporte.jpg");
+               r.setVisible(true*/
+               
             } catch (IOException ex) {
                 Logger.getLogger(ReportePorCateg.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -113,8 +119,9 @@ public class ReportePorCateg extends javax.swing.JFrame {
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        ven.setVisible(true);
         this.setVisible(false);
+        ven.setVisible(true);
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

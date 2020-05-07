@@ -1,15 +1,27 @@
-digraph G{node[shape=record, style=filled, color = Gray95];
-node10768:f0->node10763;
+digraph G{node[shape=record, style=filled, color = Gray70];
+node10844:f0->node10774;
 
-node10768:f1->node10770;
+node10844:f1->node10848;
 
-node10768:f2->node10838;
+node10774:f0->node10772;
 
-node10768:f3->node10910;
+node10774:f1->node10775;
 
-node10768[label = "<f0>Planeación estratégica aplicada(10768)|<f0>El camino y la meta(10831)|<f0>Las ventas en el mundo actual(10907)"];
-node10763[label = "<f0>Curso de derecho constitucional(10763)|<f0>Canales de comercialización(10765)"];
-node10770[label = "<f0>Marketing(10770)|<f0>Relación de la vida y virtudes del beato Hno. Pedro de San José de Betancurt(10830)"];
-node10838[label = "<f0>Gestión de la calidad en pequeñas y medianas empresas; memoria del proyecto copatrocinado por OEA /GTZ, 1982-2000(10838)|<f0>El mapa; una guía para el mejoramiento de la calidad en la pequeña y mediana empresa, basada en el método de W. Edwards Deming(10839)"];
-node10910[label = "<f0>Problemas y métodos de investigación en la historia de la filosofía(10910)|<f0>La Educación de los padres(10912)|<f0>La Odisea(10916)"];
+node10774:f2->node10840;
+
+node10848:f0->node10846;
+
+node10848:f1->node10927;
+
+node10848:f2->node10932;
+
+node10844[label = "<f0>El ocaso de un régimen(10844)"];
+node10774[label = "<f0>Optimización de rendimiento y aseguramiento de inocuidad en la industria de quesería; una guía para la pequeña y mediana empresa(10774)|<f0>La idea del hombre(10786)"];
+node10772[label = "<f0>Las Ventas en el mundo actual(10772)|<f0>Procesamiento de carnes y embutidos; elaboración, estandarización, control de calidad(10773)"];
+node10775[label = "<f0>Producción higiénica de la leche cruda; una guía para la pequeña y mediana empresa(10775)|<f0>Moral para intelectuales(10783)"];
+node10840[label = "<f0>Constitución pastoral Gaudium et spes, sobre la Iglesia en el mundo actual(10840)|<f0>Introducción a la ética(10842)"];
+node10848[label = "<f0>Historia de la provincia de San Vicente de Chiapa y Guatemala de la orden de Predicadores(10848)|<f0>Psicología aplicada a la enseñanza(10930)"];
+node10846[label = "<f0>Educación política nacional(10846)|<f0>De hombres sociales y movimientos políticos / C. Wright Mills.(10847)"];
+node10927[label = "<f0>Evaluación de impacto en formación empresarial ; el caso FUNDES(10927)|<f0>Cómo resolver el problema de falta de tiempo(10928)"];
+node10932[label = "<f0>Pan Am: an airline and its aircraft(10932)|<f0>La Mujer de pelo largo / Leonor Paz y Paz G.(10933)|<f0>El libro de la piedad y de la muerte(10934)"];
 }

@@ -5,30 +5,37 @@
  */
 package proyecto2_edd;
 
+import java.io.IOException;
+import java.util.Observable;
+import java.util.Observer;
 import org.json.simple.parser.ParseException;
 
 /**
  *
  * @author lourd
  */
-public class Proyecto2_EDD {
+public class Proyecto2_EDD implements Observer{
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws ParseException {
-        arbolAVL avl = new arbolAVL();
-        TablaHash hash = new TablaHash();
-       
-       LeerJson read = new LeerJson(avl, hash);
-       ListaNodoRed list = new ListaNodoRed();
-       
-       list.RegistrarNodo("ip1");
-       Bloque bloque = new Bloque();
-       interfazSesion ven = new interfazSesion(read, avl,hash, bloque);
-       ven.setVisible(true);
-       
+    public static void main(String[] args) throws ParseException, IOException {
         
+       arbolAVL avl = new arbolAVL();
+       TablaHash hash = new TablaHash();
+       Datos data = new Datos();
+       LeerJson read = new LeerJson(avl, hash, data);
+       Servidor s  = new Servidor(5000, read);
+       Thread t = new Thread(s);
+       t.start();
+       ListaNodoRed list = new ListaNodoRed();
+       interfazSesion ven = new interfazSesion(read, avl,hash, data, list);
+       ven.setVisible(true);
+    }
+
+    @Override
+    public void update(Observable o, Object o1) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

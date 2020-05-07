@@ -28,7 +28,7 @@ public class arbolAVL {
     Comparator<String> comparador;
     public arbolAVL(){	
     }
-    public boolean add(Libro libro, Usuario userLog, Bloque bloque) {
+    public boolean add(Libro libro, Usuario userLog, Datos data) {
     	Nodo nodo = new Nodo(libro.categoria, userLog);
     	boolean salir = false;
     	boolean der = false;
@@ -37,16 +37,16 @@ public class arbolAVL {
     	int altIzq, altDer;
         if(raizTmp == null){
     		this.raiz = nodo;
-                this.raiz.Btree.add(libro, bloque);
+                this.raiz.Btree.add(libro, data);
                 NodoDato d = new NodoDato(libro.categoria, 4);
-                bloque.datos.insertarDato(d);
+                data.insertarDato(d);
                 return true;
     	}else
     	if(this.contains(nodo.getcategoria())){
                 Nodo a = buscarNodo(nodo.categoria);
-                a.Btree.add(libro, bloque);
+                a.Btree.add(libro, data);
                 NodoDato d = new NodoDato(libro.categoria, 4);
-                bloque.datos.insertarDato(d);
+                data.insertarDato(d);
                 
     		return false;
     	}
@@ -72,16 +72,16 @@ public class arbolAVL {
     		}
     		if(der){
                     raizTmp.setDerecha(nodo);
-                    raizTmp.derecha.Btree.add(libro, bloque);
+                    raizTmp.derecha.Btree.add(libro, data);
                     NodoDato d = new NodoDato(libro.categoria, 4);
-                    bloque.datos.insertarDato(d);
+                    data.insertarDato(d);
                     
                 }
                 else{
                     raizTmp.setIzquierda(nodo);
                     NodoDato d = new NodoDato(libro.categoria, 4);
-                     bloque.datos.insertarDato(d);
-                    raizTmp.izquierda.Btree.add(libro, bloque);
+                     data.insertarDato(d);
+                    raizTmp.izquierda.Btree.add(libro, data);
                     
                     
                 }
@@ -117,7 +117,7 @@ public class arbolAVL {
     		return true;
     	}
     }
-    public boolean add(String libro, Usuario userLog, Bloque bloque) {
+    public boolean add(String libro, Usuario userLog, Datos data) {
     	Nodo nodo = new Nodo(libro,userLog );
     	boolean salir = false;
     	boolean der = false;
@@ -127,13 +127,13 @@ public class arbolAVL {
         if(raizTmp == null){
     		this.raiz = nodo;
                 NodoDato d = new NodoDato(libro, 4);
-                bloque.datos.insertarDato(d);
+                data.insertarDato(d);
                 return true;
     	}else
     	if(this.contains(nodo.getcategoria())){
                 Nodo a = buscarNodo(nodo.categoria);
                 NodoDato d = new NodoDato(libro, 4);
-                bloque.datos.insertarDato(d);
+                data.insertarDato(d);
                 return false;
     	}
     	else{    	
@@ -159,12 +159,12 @@ public class arbolAVL {
     		if(der){
                     raizTmp.setDerecha(nodo);
                     NodoDato d = new NodoDato(libro, 4);
-                    bloque.datos.insertarDato(d);
+                    data.insertarDato(d);
                 }
                 else{
                     raizTmp.setIzquierda(nodo);
                     NodoDato d = new NodoDato(libro, 4);
-                    bloque.datos.insertarDato(d);
+                    data.insertarDato(d);
                     
                 }
                 while(equilibrado(this.getRaiz())<0){
@@ -332,11 +332,11 @@ public class arbolAVL {
     	return pila.pop();
     }
     
-    public void clear( int carnet, Bloque bloque){
+    public void clear( int carnet, Datos data){
     	Iterator iter = this.iterator();
     	
     	while(iter.hasNext()){
-    		remove(iter.next(), carnet, bloque);
+    		remove(iter.next(), carnet, data);
     	}
     }
     public boolean contains(Object o) throws ClassCastException, NullPointerException{
@@ -401,7 +401,7 @@ public class arbolAVL {
     	
     	return iter;
     }
-    public boolean remove(Object o, int carnet, Bloque bloque) throws ClassCastException, NullPointerException{
+    public boolean remove(Object o, int carnet, Datos data) throws ClassCastException, NullPointerException{
     	Nodo borrar=null,mirar=null,cambiar=null, nPadre = null;
     	Nodo raizTmp = this.getRaiz();
     	String c_aux, d_aux;
@@ -420,7 +420,7 @@ public class arbolAVL {
                 salir = true;
 	    	borrar = raizTmp;
                 NodoDato d = new NodoDato(borrar.categoria, 5);
-                bloque.datos.insertarDato(d);
+                data.insertarDato(d);
             }
             else
                 JOptionPane.showMessageDialog(null,"No tiene permisos");
@@ -456,8 +456,8 @@ public class arbolAVL {
     	if(salir){
                 if(borrar.userLog.carne == carnet){
                     NodoDato d = new NodoDato(borrar.categoria, 5);
-                    bloque.datos.insertarDato(d);
-                    bloque.op++;
+                    data.insertarDato(d);
+                    
                 
                     mirar = borrar;
 
@@ -787,28 +787,33 @@ public class arbolAVL {
     }
     
     public  BufferedWriter report;
-    public void reporte() throws IOException{
+    public String reporte() throws IOException{
         FileWriter file = new FileWriter("Reporte.dot");
         report = new BufferedWriter(file);
         report.write("digraph G{");
-        report.write("node[shape=circle, style=filled, color = Gray95];");
+        report.write("node[shape=circle, style=filled, color = Gray70];");
         report.write("\n");
         reporte(raiz);
         report.write("}");
         report.close();
+        ProcessBuilder p;
+        p = new ProcessBuilder("dot", "-Tpng", "-o", "Reporte.png", "Reporte.dot");
+        p.redirectErrorStream(true);
+        p.start();
+        return "Reporte.png";
     }
     int ent = 0;
     String num;
     public void reporte(Nodo actual) throws IOException{
         num = String.valueOf(ent);
         if(actual.getIzquierda() != null){
-            report.write(actual.categoria + " (" +  Integer.toString(actual.Btree.tam) + ")" );
+            report.write(actual.categoria + "_" +  Integer.toString(actual.Btree.tam) );
             report.write("->");
-            report.write(actual.getIzquierda().categoria + " (" +  Integer.toString(actual.getIzquierda().Btree.tam) + ")");
+            report.write(actual.getIzquierda().categoria + "_" +  Integer.toString(actual.getIzquierda().Btree.tam));
             report.write("\n");
             reporte(actual.getIzquierda());
         }else if(actual.getIzquierda() == null){
-            report.write(actual.categoria + "(" +  Integer.toString(actual.Btree.tam) + ")");
+            report.write(actual.categoria + "_" +  Integer.toString(actual.Btree.tam));
             report.write("->");
             report.write("NULL" + num);
             report.write("\n");
@@ -816,13 +821,13 @@ public class arbolAVL {
             num = String.valueOf(ent);
         }
         if(actual.getDerecha() !=null){
-            report.write(actual.categoria + "(" +  Integer.toString(actual.Btree.tam) + ")");
+            report.write(actual.categoria + "_" +  Integer.toString(actual.Btree.tam));
             report.write("->");
-            report.write(actual.getDerecha().categoria + " (" +  Integer.toString(actual.getDerecha().Btree.tam) + ")");
+            report.write(actual.getDerecha().categoria + "_" +  Integer.toString(actual.getDerecha().Btree.tam));
             report.write("\n");
             reporte(actual.getDerecha());
         }else if(actual.getDerecha() == null){
-            report.write(actual.categoria + "(" +  Integer.toString(actual.Btree.tam) + ")");
+            report.write(actual.categoria + "_" +  Integer.toString(actual.Btree.tam));
             report.write("->");
             report.write("NULL" + num);
             report.write("\n");
@@ -830,4 +835,103 @@ public class arbolAVL {
             num = String.valueOf(ent);
         }
     }
+     public void reportePreorden(Nodo actual) throws IOException{
+	if(actual != null)
+    {
+    	if(actual == raiz){
+    		report.write(actual.categoria);
+    		
+	       	reportePreorden(actual.getIzquierda());
+	        reportePreorden(actual.getDerecha());
+		}
+		else{
+                    report.write("->");
+                    report.write(actual.categoria); 
+       		
+                    reportePreorden(actual.getIzquierda());
+                    reportePreorden(actual.getDerecha());
+		}
+        
+    }
+}
+    public String reporteRecorrido(int op) throws IOException{
+            String name = "";
+            if(op==0)
+                name = "ReportePreorden.dot";
+            else if(op==1)
+                name = "ReporteInorden.dot";
+            else
+                name = "ReportePostorden.dot";
+            FileWriter file = new FileWriter(name);
+            report = new BufferedWriter(file);
+            report.write("digraph G{\n");
+            report.write("rankdir = LR;\n");
+            report.write("node [shape= record];\n");
+            String ruta = "";
+            switch (op) {
+                case 0:
+                    reportePreorden(raiz);
+                    ruta = "ReportePreorden.jpg";
+                    break;
+                case 1:
+                    reporteInorden(raiz);
+                    ruta = "ReporteInorden.jpg";
+                    break;
+                default:
+                    reportePostorden(raiz);
+                    ruta = "ReportePost.jpg";
+                    break;
+            }
+            report.write("}");
+            report.close();
+            ProcessBuilder p;
+            p = new ProcessBuilder("dot", "-Tpng", "-o", ruta, name);
+            p.redirectErrorStream(true);
+            p.start();
+            return ruta;
+    }
+    public void reporteInorden(Nodo actual) throws IOException{
+	if(actual != null)
+        {
+            if(actual == raiz.getDerecha()){
+                    reporteInorden(actual.getIzquierda());
+                    //report.write("->");
+                    report.write(actual.categoria);
+                    report.write("->");
+                    reporteInorden(actual.getDerecha());
+            }else if(actual == raiz.getIzquierda()){
+                reporteInorden(actual.getIzquierda());
+               // report.write("->");
+                report.write(actual.categoria);
+                report.write("->");
+                reporteInorden(actual.getDerecha());
+            }
+            else{
+                    reporteInorden(actual.getIzquierda());
+                    report.write(actual.categoria);
+                    reporteInorden(actual.getDerecha());
+            }
+
+    }
+}
+    public void reportePostorden(Nodo actual) throws IOException{
+	if(actual != null)
+        {
+            if(actual == raiz){
+                reportePostorden(actual.getIzquierda());
+                reportePostorden(actual.getDerecha());
+                report.write(actual.categoria);
+
+            }else{
+
+                reportePostorden(actual.getIzquierda());
+                reportePostorden(actual.getDerecha());
+                report.write(actual.categoria);
+                report.write("->");
+
+            }
+
+        }
+}
+
 }

@@ -5,7 +5,9 @@
  */
 package proyecto2_edd;
 
+import java.awt.Desktop;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import javax.swing.JOptionPane;
@@ -49,21 +51,23 @@ public class ArbolB {
 /*  54 */     return localBTreeNode.getKey(i >> 1);
 /*     */   }
 /*     */ 
-/*     */   public void add(BTreeComparable paramBTreeComparable, Bloque bloque) {
+/*     */   public void add(BTreeComparable paramBTreeComparable, Datos data) {
 /*  58 */     if (find(paramBTreeComparable) != null) {
 /*  59 */       return;
 /*     */     }
-                tam++;
+              tam++;
+              NodoDato d = new NodoDato((Libro)paramBTreeComparable, 2);
+              data.insertarDato(d);
 /*  61 */     BTreeNode localBTreeNode = findLeaf(paramBTreeComparable);
 
 /*  63 */     addHere(localBTreeNode, paramBTreeComparable, null, null);
 /*     */   }
 /*     */ 
-/*     */   public void insert(BTreeComparable paramBTreeComparable, Bloque bloque) {
-/*  67 */     add(paramBTreeComparable ,bloque);
+/*     */   public void insert(BTreeComparable paramBTreeComparable, Datos data) {
+/*  67 */     add(paramBTreeComparable, data);
 /*     */   }
 /*     */ 
-/*     */   public void delete(BTreeComparable paramBTreeComparable, int carne, Bloque bloque) {
+/*     */   public void delete(BTreeComparable paramBTreeComparable, int carne, Datos data) {
               
                     if (find(paramBTreeComparable) == null) 
       /*  72 */       return;
@@ -73,7 +77,7 @@ public class ArbolB {
                         if(localBTreeNode.key[i]!= null && paramBTreeComparable.ISBN == localBTreeNode.key[i].ISBN){
                             if(localBTreeNode.key[i].carnet == carne){
                                 NodoDato d = new NodoDato((Libro)paramBTreeComparable, 3);
-                                bloque.datos.insertarDato(d);
+                                data.insertarDato(d);
                                 
                             }else{
                                 JOptionPane.showMessageDialog(null,"No tiene permisos");
@@ -382,17 +386,24 @@ public class ArbolB {
         }
     }
     public  BufferedWriter report;
-    public  void reporte() throws IOException{
+       public  String reporte(String cat) throws IOException{
         
         FileWriter file = new FileWriter("Reporte.dot");
         report = new BufferedWriter(file);
         report.write("digraph G{");
-        report.write("node[shape=record, style=filled, color = Gray95];");
+        report.write("node[shape=record, style=filled, color = Gray70];");
         report.write("\n");
         report.write(apunt(root));
         report.write(reporte(root));
         report.write("}");
         report.close();
+        
+        ProcessBuilder p;
+        
+        p = new ProcessBuilder("dot", "-Tpng", "-o", "Reporte.jpg" ,"Reporte.dot");
+        p.redirectErrorStream(true);
+        p.start();
+        return "Reporte.jpg";
     
     }
     public String apunt(BTreeNode actual) throws IOException{

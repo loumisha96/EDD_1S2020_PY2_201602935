@@ -19,15 +19,27 @@ public class Datos {
     public void insertarDato(NodoDato nuevo){
         if(primero == null){
             primero = nuevo;
-            primero.sig = nuevo;
-            ultimo = nuevo;
+           // primero.sig = nuevo;
             op = 0;
         }else{
-            ultimo.sig = nuevo;
-            ultimo = nuevo;
+            NodoDato aux = primero;
+            while(aux.sig != null){
+                aux = aux.sig;
+            }
+            aux.sig = nuevo;
             op++;
         }
-            
+          System.out.println("******************"); 
+          //print();
+    }
+    public void print(){
+        NodoDato aux = primero;
+        while (aux.sig != null){
+            System.out.println(aux.tipo);
+            aux = aux.sig;
+        }
+        System.out.println(aux.tipo);
+        
     }
     
     

@@ -15,12 +15,13 @@ public class EditarUsuario extends javax.swing.JFrame {
      * Creates new form EditarUsuario
      */
     Usuario userLog;
-    Bloque bloque;
+    
     TablaHash hash;
     Interfaz ven;
-    public EditarUsuario(Usuario u, TablaHash hash, Bloque b, Interfaz ven) {
+    Datos data;
+    public EditarUsuario(Usuario u, TablaHash hash, Interfaz ven, Datos data) {
         this.userLog = u;
-        this.bloque =b;
+        this.data = data;
         this.hash = hash;
         this.ven = ven;
         initComponents();
@@ -179,7 +180,7 @@ public class EditarUsuario extends javax.swing.JFrame {
         userLog.Apellido = jTextField2.getText();
         userLog.Carrera = jTextField1.getText();
         userLog.Password = jPasswordField1.getText();
-        hash.Editar(userLog, bloque);
+        hash.Editar(userLog, data);
         jTextField4.setText("");
         jTextField3.setText("");
         jTextField2.setText("");

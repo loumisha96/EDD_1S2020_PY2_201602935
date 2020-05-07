@@ -5,6 +5,10 @@
  */
 package proyecto2_edd;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
 /**
  *
  * @author lourd
@@ -20,11 +24,14 @@ public class TablaHash {
     public int funcionHash(int carne){
         return carne%45;
     }
-    public void insertar(int carnet, String nombre, String apellido, String carrera , String password, Bloque bloque){
-        Hash[funcionHash(carnet)].insertar(carnet, nombre, apellido, carrera, password, bloque);
+    public void insertar(int carnet, String nombre, String apellido, String carrera , String password, Datos data){
+        Hash[funcionHash(carnet)].insertar(carnet, nombre, apellido, carrera, password,data);
     }
-    public void Editar(Usuario u, Bloque bloque){
-        Hash[funcionHash(u.carne)].Editar(u,bloque);
+    public void Editar(Usuario u, Datos data){
+        Hash[funcionHash(u.carne)].Editar(u, data);
+    }
+    public void Editar(int carnet, String nombre, String apellido, String carrera , String password, Datos data){
+        Hash[funcionHash(carnet)].Editar(carnet, nombre, apellido, carrera, password,data);
     }
     public void Eliminar(int carnet){
         Hash[funcionHash(carnet)].Eliminar(carnet);
@@ -35,6 +42,46 @@ public class TablaHash {
     public void print(){
         for(int i =0; i< Hash.length; i++){
              Hash[i].print();
+        }
+    }
+    public  BufferedWriter report;
+    public void reporte () throws IOException{
+        FileWriter file = new FileWriter("Reporte.dot");
+        report = new BufferedWriter(file);
+        report.write("digraph G{");
+        report.write("node[shape=record, width =.1, height = .1, style=filled, color = Gray95];\n");
+        report.write("rankdir=LR\n");
+        report.write("\n");
+        
+        for(int i = 0; i<Hash.length; i++){
+            if(Hash[i].primero != null){
+                report.write(i + "[label = \"{<ref>|<data>" + i+" |}\"]\n");
+                report.write(Integer.toString(i));
+                report.write("->");
+                report.write("U" +Integer.toString(j) + "\n");
+                listaReporte(Hash[i]);
+                
+            }
+        }
+        report.write("}");
+        report.close();
+    }
+    int j=0;
+    public void listaReporte(Usuarios user) throws IOException{
+        Usuario aux = user.primero;
+        for(int i =0; i<=user.tam; i++){
+            if(aux.sig != null){
+                report.write("U" +j + "[label = \"{<ref>|<data>" + aux.Nombre + " " + aux.Apellido+" |}\"]\n");
+                aux = aux.sig;
+                report.write("U" + Integer.toString(j));
+                report.write("->");
+                report.write("U" + Integer.toString(j+1) + "\n");
+                j++;
+                
+            }else{
+                report.write("U" +j + "[label = \"{<ref>|<data>" + aux.Nombre + " " + aux.Apellido+" |}\"]\n");
+                j++;
+            }
         }
     }
     

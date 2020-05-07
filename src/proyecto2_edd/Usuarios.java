@@ -15,7 +15,7 @@ public class Usuarios {
     public Usuarios() {
         this.primero = null;
     }
-    public void insertar(int carnet, String nombre, String apellido, String carrera , String password, Bloque bloque){
+    public void insertar(int carnet, String nombre, String apellido, String carrera , String password, Datos data){
         Usuario nuevo = new  Usuario(carnet, nombre, apellido, carrera, password);
         if(primero == null){
             primero = nuevo;
@@ -26,7 +26,7 @@ public class Usuarios {
             tam++;
         }
         NodoDato d = new NodoDato(nuevo, 0);
-        bloque.datos.insertarDato(d);
+        data.insertarDato(d);
         
     }
     public Usuario buscar(int carnet){
@@ -38,11 +38,24 @@ public class Usuarios {
             return aux;
         else return null;
     }
-    public void Editar(Usuario u, Bloque bloque){
+    public void Editar(int carnet, String nombre, String apellido, String carrera , String password, Datos data){
+        Usuario aux = buscar(carnet);
+        if(aux!=null){
+            aux.carne = carnet;
+            aux.Nombre = nombre;
+            aux.Apellido = apellido;
+            aux.Carrera = carrera;
+            aux.Password = password;
+            NodoDato d = new NodoDato(aux, 1);
+            data.insertarDato(d);
+            
+        }
+    }
+    public void Editar(Usuario u, Datos data){
         Usuario aux = buscar(u.carne);
         if(aux!=null){
             NodoDato d = new NodoDato(aux, 1);
-            bloque.datos.insertarDato(d);
+            data.insertarDato(d);
             
         }
     }

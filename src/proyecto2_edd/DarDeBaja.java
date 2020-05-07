@@ -26,10 +26,10 @@ public class DarDeBaja extends javax.swing.JFrame {
     LeerJson read ;
     Usuario userLog;
     Interfaz ven;
-    Bloque bloque;
-    public DarDeBaja(LeerJson read, Interfaz ven, Usuario userLog, Bloque bloque) {
+    Datos data;
+    public DarDeBaja(LeerJson read, Interfaz ven, Usuario userLog, Datos data) {
         initComponents();
-        this.bloque = bloque;
+        this.data = data;
         title_txt.addKeyListener(new KeyAdapter(){
         @Override
         public void keyReleased(final KeyEvent e){
@@ -172,7 +172,7 @@ public class DarDeBaja extends javax.swing.JFrame {
             String cat = (String)tabla.getValueAt(pos,2);
             Nodo a =read.avl.buscarNodo(cat);
             Libro libro = new Libro(isbn, 0, null, null, null, 0, null, 0, null);
-            a.Btree.delete(libro, userLog.carne, bloque);
+            a.Btree.delete(libro, userLog.carne, data);
             isbn_txt.setText("");
             title_txt.setText("");
         }else{

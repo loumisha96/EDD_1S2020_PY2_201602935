@@ -1,13 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package proyecto2_edd;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -74,20 +69,19 @@ public class Bloque {
         return nonce;
     }
 
-    public void setNonce(String input) {
-        int nonce=0;
-        String cadena;
-        while(true){
-            cadena = SHA256(input+String.valueOf(nonce));
-            
-            if(cadena.substring(0, 4).equals("0000"))
-                break;
-            nonce++;
+ 
+    public void setNonce() throws InterruptedException {
+        
+        String cadena = SHA256();
+        while(!cadena.substring(0, 4).equals("0000")){
+            this.nonce++;
+            cadena = SHA256();
         }
         setHash(cadena);
-        this.nonce = nonce;
+        
     }
-    public  String SHA256(String input) {
+    public  String SHA256() {
+       String input =(Integer.toString(getIndex())+getTimestamp()+ getPreviousHash()+ Data()+Integer.toString(nonce));
        String toReturn = null;
        try{
            MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -150,14 +144,12 @@ public class Bloque {
         }
         return cad;
     }
-    public void asignar(int index){
-        
-        String input =(Integer.toString(getIndex())+getTimestamp()+ getPreviousHash()+ Data()+Integer.toString(0));
-        setNonce(input);
+    public void asignar(int index) throws InterruptedException{
+        setNonce();
     }
-    Bloque(){
+    Bloque(Datos datos){
        this.sig = null;
        this.ant = null;
-       this.datos = new Datos();
+       this.datos = datos;
     }
 }

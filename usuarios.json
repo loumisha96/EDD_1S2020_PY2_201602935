@@ -4,21 +4,21 @@
 			"Carnet": 201503476,
 			"Nombre": "Ricardo",
 			"Apellido": "Cutz",
-			"Carrera": "Ingenieria en Sistemas",
+			"Carrera": "Ingenieria_en_Sistemas",
 			"Password": "123456"
 		},
 		{
 			"Carnet": 201503477,
 			"Nombre": "Juanito",
 			"Apellido": "Hernandez",
-			"Carrera": "Ingenieria Civil",
+			"Carrera": "Ingenieria_Civil",
 			"Password": "123456"
 		},
 		{
 			"Carnet": 202005878,
 			"Nombre": "Antonio",
 			"Apellido": "Hernandez",
-			"Carrera": "Ingenieria Electrica",
+			"Carrera": "Ingenieria_Electrica",
 			"Password": "123456"
 		}
 	]

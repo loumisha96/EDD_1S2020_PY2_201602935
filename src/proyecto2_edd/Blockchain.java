@@ -13,7 +13,7 @@ public class Blockchain {
       this.Genesis = null; 
       
     }
-  public void NuevoBloque(Bloque bloque){
+  public void NuevoBloque(Bloque bloque) throws InterruptedException{
       if(Genesis == null){
           Genesis = bloque;
           Genesis.setIndex(index);

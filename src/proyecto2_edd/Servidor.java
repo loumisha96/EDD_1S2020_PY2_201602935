@@ -10,42 +10,56 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.json.simple.parser.ParseException;
 
 /**
  *
  * @author lourd
  */
-public class Servidor implements Runnable {
+public class Servidor extends Observable implements Runnable{
     
-    private ArrayList<Socket>clientes;
+    
     private int puerto;
-    public Servidor(int puerto){
+    private LeerJson read;
+    public Servidor(int puerto, LeerJson read){
         this.puerto = puerto;
-        this.clientes = new ArrayList();
+        this.read = read;
+        
     }
     public void run (){
         ServerSocket servidor = null;
         Socket sc = null;
         DataInputStream in;
+        DataOutputStream out;
         try{
             servidor =new ServerSocket(puerto);
             System.out.println("servidor iniciado");
                 while(true){
                     sc = servidor.accept();
                     System.out.println("Cliente conectado");
-                    clientes.add(sc);
+                    in = new DataInputStream((sc.getInputStream()));
+                    //out = new DataOutputStream(sc.getOutputStream());
+                    String mensaje = in.readUTF();
+                    read.LeerJsonGeneral(mensaje);
+                    System.out.println(mensaje);
+                    this.setChanged();
+                    this.notifyObservers(mensaje);
+                    sc.close();
+                    System.out.println("Cliente desconectado");
+                    
                 }
         } catch(IOException ex){
-    }
+    }   catch (ParseException ex) {
+            Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
+        }
     
     
  }
  public void enviarInfo(){
-     for(Socket sock: clientes){
+     /*for(Socket sock: clientes){
          try {
              DataOutputStream dos = new DataOutputStream(sock.getOutputStream());
              //enviar info
@@ -53,7 +67,14 @@ public class Servidor implements Runnable {
          } catch (IOException ex) {
              Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
          }
-     }
+     }*/
  }
+ public static  void main(String[] args){
+     //Servidor s = new Servidor(5000);
+     //s.run();
+        
+    }
+
+    
     
 }
