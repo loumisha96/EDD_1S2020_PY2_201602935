@@ -1,0 +1,5 @@
+digraph G{
+rankdir = LR;
+node [shape= record];
+0[label =<INDEX: 0<BR/>TIMESTAMP: 12-05-20::00:41:25<BR/>NONCE: 36837<BR/>PREVIOUSHASH: 0000<BR/>HASH: 0000f94290daa06ac078f014be217c211fdcd30a81a787f5b214d566dfb23db2 >]
+}

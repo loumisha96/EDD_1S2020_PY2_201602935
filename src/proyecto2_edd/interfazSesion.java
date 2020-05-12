@@ -17,19 +17,12 @@ import org.json.simple.parser.ParseException;
  * @author lourd
  */
 public class interfazSesion extends javax.swing.JFrame {
-    static LeerJson read;
+   
     static Usuario userLog;
-    static arbolAVL avl;
-    static TablaHash hash;
-    static Datos data;
-    static ListaNodoRed list;
-    public interfazSesion( LeerJson read, arbolAVL avl, TablaHash hash, Datos data, ListaNodoRed list) {
+    Proyecto2_EDD p;
+    public interfazSesion(Proyecto2_EDD p) {
         initComponents();
-        this.avl = avl;
-        this.hash = hash;
-        this.read = read;
-        this.data = data;
-        this.list = list;
+        this.p = p;
     }
 
     @SuppressWarnings("unchecked")
@@ -133,19 +126,19 @@ public class interfazSesion extends javax.swing.JFrame {
     private void ingresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ingresarActionPerformed
         //int carnet = Integer.parseInt(user_txt.getText());
         //Usuario userAux = read.hash.ingreso(carnet, pass_txt.getText());
-        Usuario userAux = read.hash.ingreso(201503476, "123456");
+        Usuario userAux =p.read.hash.ingreso(201503476, "123456");
         if(userAux!= null){
-            new Interfaz(this,read, userAux, data).setVisible(true);
+            userLog = userAux;
+            p.read.setUserlog(userLog);
+            new Interfaz(this, p).setVisible(true);
             user_txt.setText("");
             pass_txt.setText("");
             this.setVisible(false);
-            userLog = userAux;
-            read.setUserlog(userLog);
+            
             //String json = "Json.json" ;
             //Cliente c;
             //c = new Cliente(5000, json, list);
             //c.run();
-            
             
         }else{
             JOptionPane.showMessageDialog(null, "DATOS INCORRECTOS");
@@ -160,7 +153,7 @@ public class interfazSesion extends javax.swing.JFrame {
         String path =abrir.getPath();
         System.out.println(path);
         try {
-            read.CargaMasivaUsuarios(path);
+            p.read.CargaMasivaUsuarios(path);
             JOptionPane.showMessageDialog(null, "DATOS CARGADOS");
         } catch (ParseException ex) {
             Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
@@ -171,8 +164,8 @@ public class interfazSesion extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_user_txtActionPerformed
     public static void main(String[]args){
-        interfazSesion v = new interfazSesion(read, avl, hash, data, list);
-        v.setVisible(true);
+        //interfazSesion v = new interfazSesion(p);
+        //v.setVisible(true);
     }
     public void Update(String json){
         //read.LeerJsonGeneral(json);

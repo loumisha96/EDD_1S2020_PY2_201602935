@@ -9,6 +9,7 @@ package proyecto2_edd;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -21,22 +22,21 @@ import org.json.simple.parser.ParseException;
  * @author lourd
  */
 public class Interfaz extends javax.swing.JFrame {
-    private Servidor s;
-    LeerJson read;
+    
     DefaultTableModel tabla;
     Usuario userLog;
     interfazSesion ven;
-    Datos data ;
-    public Interfaz( interfazSesion ven,LeerJson read, Usuario userLog, Datos data) {
+    Proyecto2_EDD p;
+    public Interfaz( interfazSesion ven, Proyecto2_EDD p) {
         initComponents();
         /*s = new Servidor(5000);
         Thread t = new Thread(s);
         t.start();*/
-        this.data = data;
-        this.read = read;
+        this.p = p;
         tabla =  (DefaultTableModel)jTable.getModel();
-        this.userLog = userLog;
+        this.userLog = ven.userLog;
         this.ven = ven;
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -64,18 +64,18 @@ public class Interfaz extends javax.swing.JFrame {
         jMenu6 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
         jMenu7 = new javax.swing.JMenu();
-        jMenuItem4 = new javax.swing.JMenuItem();
         jMenu17 = new javax.swing.JMenu();
         jMenu18 = new javax.swing.JMenu();
         jMenu19 = new javax.swing.JMenu();
         jMenu20 = new javax.swing.JMenu();
-        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenu21 = new javax.swing.JMenu();
         jMenu11 = new javax.swing.JMenu();
         jMenu16 = new javax.swing.JMenu();
+        jMenu24 = new javax.swing.JMenu();
         jMenu13 = new javax.swing.JMenu();
-        jMenuItem13 = new javax.swing.JMenuItem();
-        jMenuItem14 = new javax.swing.JMenuItem();
         jMenu15 = new javax.swing.JMenu();
+        jMenu22 = new javax.swing.JMenu();
+        jMenu23 = new javax.swing.JMenu();
         jMenu10 = new javax.swing.JMenu();
         jMenu14 = new javax.swing.JMenu();
 
@@ -183,9 +183,6 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
-        jMenuItem4.setText("Usuarios");
-        jMenu7.add(jMenuItem4);
-
         jMenu17.setText("Preorden AVL");
         jMenu17.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -218,8 +215,13 @@ public class Interfaz extends javax.swing.JFrame {
         });
         jMenu7.add(jMenu20);
 
-        jMenuItem5.setText("Blockchain");
-        jMenu7.add(jMenuItem5);
+        jMenu21.setText("Blockchain");
+        jMenu21.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu21MouseClicked(evt);
+            }
+        });
+        jMenu7.add(jMenu21);
 
         jMenu11.setText("Libros/Categoria");
         jMenu11.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -237,6 +239,14 @@ public class Interfaz extends javax.swing.JFrame {
         });
         jMenu7.add(jMenu16);
 
+        jMenu24.setText("Usuarios");
+        jMenu24.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu24MouseClicked(evt);
+            }
+        });
+        jMenu7.add(jMenu24);
+
         jMenuBar1.add(jMenu7);
 
         jMenu13.setText(" Usuario");
@@ -246,24 +256,29 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
-        jMenuItem13.setText("Editar");
-        jMenuItem13.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenuItem13MouseClicked(evt);
-            }
-        });
-        jMenu13.add(jMenuItem13);
-
-        jMenuItem14.setText("Eliminar");
-        jMenuItem14.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenuItem14MouseClicked(evt);
-            }
-        });
-        jMenu13.add(jMenuItem14);
-
         jMenu15.setText("Crear");
+        jMenu15.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu15MouseClicked(evt);
+            }
+        });
         jMenu13.add(jMenu15);
+
+        jMenu22.setText("Eliminar");
+        jMenu22.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu22MouseClicked(evt);
+            }
+        });
+        jMenu13.add(jMenu22);
+
+        jMenu23.setText("Editar");
+        jMenu23.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu23MouseClicked(evt);
+            }
+        });
+        jMenu13.add(jMenu23);
 
         jMenuBar1.add(jMenu13);
 
@@ -315,7 +330,7 @@ public class Interfaz extends javax.swing.JFrame {
         String path =abrir.getPath();
         System.out.println(path);
         try {
-            read.CargaMasivaLibros(path);
+            p.read.CargaMasivaLibros(path);
             JOptionPane.showMessageDialog(null, "DATOS CARGADOS");
             //read.avl.inorden();
         } catch (ParseException ex) {
@@ -324,14 +339,14 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_CargaLibroActionPerformed
 
     private void jMenu4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu4MouseClicked
-       InterfazCrear crear = new InterfazCrear(read, this, userLog, data);
+       InterfazCrear crear = new InterfazCrear(p.read, this, userLog, p.data);
         crear.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jMenu4MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         LimpiarTabla(tabla);
-        read.avl.Ginorden(tabla);
+        p.read.avl.Ginorden(tabla);
     }//GEN-LAST:event_jButton1ActionPerformed
     public void LimpiarTabla(DefaultTableModel tabla){
         for(int i =0; i<tabla.getRowCount(); i++){
@@ -343,7 +358,7 @@ public class Interfaz extends javax.swing.JFrame {
         int pos = jTable.getSelectedRow();
         int isbn = (int)tabla.getValueAt(pos, 0);
         String cat = (String)tabla.getValueAt(pos,2);
-        Nodo a =read.avl.buscarNodo(cat);
+        Nodo a =p.read.avl.buscarNodo(cat);
         Libro libro = new Libro(isbn, 0, null, null, null, 0, null, 0, null);
         BTreeNode b = a.Btree.Serch(libro);
         VisualizarInfoLibros info;
@@ -371,12 +386,12 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenu3MouseClicked
 
     private void jMenu2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MouseClicked
-        DarDeBaja baja = new DarDeBaja(read, this, userLog, data);
+        DarDeBaja baja = new DarDeBaja(p.read, this, userLog, p.data);
         baja.setVisible(true);
     }//GEN-LAST:event_jMenu2MouseClicked
 
     private void jMenu6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu6MouseClicked
-        EliminarCategoria eCat = new EliminarCategoria(read, this, userLog, data);
+        EliminarCategoria eCat = new EliminarCategoria(p.read, this, userLog, p.data);
         eCat.setVisible(true);
     }//GEN-LAST:event_jMenu6MouseClicked
 
@@ -386,8 +401,8 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenu10MouseClicked
 
     private void jMenu7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu7MouseClicked
-        try {
-            String ruta =read.avl.reporte();
+       /* try {
+            String ruta =p.read.avl.reporte();
             Reporte r = new Reporte(this);
             r.Imagen(ruta);
             //r.setVisible(true);
@@ -395,14 +410,14 @@ public class Interfaz extends javax.swing.JFrame {
             
         } catch (IOException ex) {
             Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
 
 
         
     }//GEN-LAST:event_jMenu7MouseClicked
 
     private void jMenu11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu11MouseClicked
-        ReportePorCateg r = new ReportePorCateg(read, this);
+        ReportePorCateg r = new ReportePorCateg(p.read, this);
         r.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jMenu11MouseClicked
@@ -411,35 +426,34 @@ public class Interfaz extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenu13MouseClicked
 
-    private void jMenuItem14MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem14MouseClicked
-        EliminarUsuario eU = new EliminarUsuario(userLog, ven.hash, this);
-        eU.setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_jMenuItem14MouseClicked
-
-    private void jMenuItem13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem13MouseClicked
-        EditarUsuario edU = new EditarUsuario(userLog, ven.hash, this, data);
-        edU.setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_jMenuItem13MouseClicked
-
     private void jMenu14MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu14MouseClicked
-        Blockchain chain = new Blockchain();//esto no va aca
-        Bloque bloque = new Bloque(data);
-        read.CrearJsonBloque(bloque);
-        data = new Datos();
-        try {
-            chain.NuevoBloque(bloque);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+        
+        if(p.data.primero != null){
+            Bloque bloque = new Bloque(p.data);
+            
+            
+            
+            try {
+                p.chain.NuevoBloque(bloque);
+                p.read.CrearJsonBloque(bloque);
+                p.data = new Datos();
+                JOptionPane.showMessageDialog(null, "Guardado");
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (NoSuchAlgorithmException ex) {
+                Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "No se han registrado nuevas actividades");
         }
+        
             
     }//GEN-LAST:event_jMenu14MouseClicked
 
     private void jMenu16MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu16MouseClicked
         
         try {
-            String ruta =read.avl.reporte();
+            String ruta =p.read.avl.reporte();
             Reporte r = new Reporte(this);
             r.Imagen(ruta);
             //r.setVisible(true);
@@ -453,7 +467,7 @@ public class Interfaz extends javax.swing.JFrame {
     private void jMenu17MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu17MouseClicked
         //preorden
         try {
-            String ruta =read.avl.reporteRecorrido(0);
+            String ruta =p.read.avl.reporteRecorrido(0);
             Reporte r = new Reporte(this);
             r.Imagen(ruta);
             //r.setVisible(true);
@@ -464,7 +478,7 @@ public class Interfaz extends javax.swing.JFrame {
 
     private void jMenu18MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu18MouseClicked
             try {
-            String ruta =read.avl.reporteRecorrido(1);
+            String ruta =p.read.avl.reporteRecorrido(1);
             Reporte r = new Reporte(this);
             r.Imagen(ruta);
             //r.setVisible(true);
@@ -476,7 +490,7 @@ public class Interfaz extends javax.swing.JFrame {
     private void jMenu19MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu19MouseClicked
             //postorden
             try {
-            String ruta =read.avl.reporteRecorrido(2);
+            String ruta =p.read.avl.reporteRecorrido(2);
             Reporte r = new Reporte(this);
             r.Imagen(ruta);
             //r.setVisible(true);
@@ -487,7 +501,60 @@ public class Interfaz extends javax.swing.JFrame {
 
     private void jMenu20MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu20MouseClicked
             //nodos de la red
+               try {
+            String ruta =p.list.Reporte();
+            Reporte r = new Reporte(this);
+            r.Imagen(ruta);
+            //r.setVisible(true);
+        } catch (IOException ex) {
+            Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jMenu20MouseClicked
+
+    private void jMenu21MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu21MouseClicked
+       //Blockchain
+          //nodos de la red
+        try {
+            String ruta =p.chain.Reporte();
+            Reporte r = new Reporte(this);
+            r.Imagen(ruta);
+            //r.setVisible(true);
+        } catch (IOException ex) {
+            Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jMenu21MouseClicked
+
+    private void jMenu22MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu22MouseClicked
+            //eliminar
+            EliminarUsuario eU = new EliminarUsuario(userLog, p.hash, this);
+            eU.setVisible(true);
+            this.setVisible(false);
+    }//GEN-LAST:event_jMenu22MouseClicked
+
+    private void jMenu23MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu23MouseClicked
+        //editar
+        EditarUsuario edU = new EditarUsuario(userLog, p.hash, this, p.data);
+        edU.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jMenu23MouseClicked
+
+    private void jMenu15MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu15MouseClicked
+        //Crear usuario
+        CrearUsuario cU = new CrearUsuario(p.hash, this, p.data);
+        cU.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jMenu15MouseClicked
+
+    private void jMenu24MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu24MouseClicked
+        try {
+            //reporte usuario
+            String ruta =p.hash.reporte();
+            Reporte r = new Reporte(this);
+            r.Imagen(ruta);
+        } catch (IOException ex) {
+            Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jMenu24MouseClicked
 
     /**
      * @param args the command line arguments
@@ -541,6 +608,10 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu19;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu20;
+    private javax.swing.JMenu jMenu21;
+    private javax.swing.JMenu jMenu22;
+    private javax.swing.JMenu jMenu23;
+    private javax.swing.JMenu jMenu24;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
@@ -552,11 +623,7 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem12;
-    private javax.swing.JMenuItem jMenuItem13;
-    private javax.swing.JMenuItem jMenuItem14;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JScrollPane jScrollPane1;

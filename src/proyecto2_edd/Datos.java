@@ -29,7 +29,7 @@ public class Datos {
             aux.sig = nuevo;
             op++;
         }
-          System.out.println("******************"); 
+          
           //print();
     }
     public void print(){

@@ -8,6 +8,7 @@ package proyecto2_edd;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 
 /**
  *
@@ -76,7 +77,7 @@ public class ListaNodoRed {
              aux2.Sig = aux.Sig;
         tam--;
     }
-    public void InsertarBloqueNuevo(Bloque bloque) throws InterruptedException{
+    public void InsertarBloqueNuevo(Bloque bloque) throws InterruptedException, NoSuchAlgorithmException{
         NodoDeRed aux = primero;
         while(aux != null){
             aux.bloque.NuevoBloque(bloque);

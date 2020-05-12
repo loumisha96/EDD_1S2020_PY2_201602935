@@ -15,21 +15,33 @@ import org.json.simple.parser.ParseException;
  * @author lourd
  */
 public class Proyecto2_EDD implements Observer{
-
-    /**
-     * @param args the command line arguments
-     */
+     
+    
+       public arbolAVL avl;
+       public TablaHash hash;
+       public Datos data;
+       public Blockchain chain;
+       public LeerJson read;
+       public Servidor s ;
+       public ListaNodoRed list;
+    
+     public Proyecto2_EDD(){
+         avl = new arbolAVL();
+         hash = new TablaHash();
+         data = new Datos();
+         chain = new Blockchain();
+         read = new LeerJson(avl, hash, data);
+         s  = new Servidor(5000, read);
+         list = new ListaNodoRed();
+     }
     public static void main(String[] args) throws ParseException, IOException {
-        
-       arbolAVL avl = new arbolAVL();
-       TablaHash hash = new TablaHash();
-       Datos data = new Datos();
-       LeerJson read = new LeerJson(avl, hash, data);
-       Servidor s  = new Servidor(5000, read);
-       Thread t = new Thread(s);
+       Proyecto2_EDD p = new Proyecto2_EDD();
+       
+       Thread t = new Thread(p.s);
+      // p.read.CargaMasivaUsuarios("fd"); 
        t.start();
-       ListaNodoRed list = new ListaNodoRed();
-       interfazSesion ven = new interfazSesion(read, avl,hash, data, list);
+       //Cliente cliente = new Cliente();
+       interfazSesion ven = new interfazSesion(p);
        ven.setVisible(true);
     }
 

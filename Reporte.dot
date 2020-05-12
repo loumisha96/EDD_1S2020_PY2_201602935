@@ -1,27 +1,15 @@
 digraph G{node[shape=record, style=filled, color = Gray70];
-node10844:f0->node10774;
+node10795:f0->node10793;
 
-node10844:f1->node10848;
+node10795:f1->node10797;
 
-node10774:f0->node10772;
+node10795:f2->node10855;
 
-node10774:f1->node10775;
+node10795:f3->node10858;
 
-node10774:f2->node10840;
-
-node10848:f0->node10846;
-
-node10848:f1->node10927;
-
-node10848:f2->node10932;
-
-node10844[label = "<f0>El ocaso de un régimen(10844)"];
-node10774[label = "<f0>Optimización de rendimiento y aseguramiento de inocuidad en la industria de quesería; una guía para la pequeña y mediana empresa(10774)|<f0>La idea del hombre(10786)"];
-node10772[label = "<f0>Las Ventas en el mundo actual(10772)|<f0>Procesamiento de carnes y embutidos; elaboración, estandarización, control de calidad(10773)"];
-node10775[label = "<f0>Producción higiénica de la leche cruda; una guía para la pequeña y mediana empresa(10775)|<f0>Moral para intelectuales(10783)"];
-node10840[label = "<f0>Constitución pastoral Gaudium et spes, sobre la Iglesia en el mundo actual(10840)|<f0>Introducción a la ética(10842)"];
-node10848[label = "<f0>Historia de la provincia de San Vicente de Chiapa y Guatemala de la orden de Predicadores(10848)|<f0>Psicología aplicada a la enseñanza(10930)"];
-node10846[label = "<f0>Educación política nacional(10846)|<f0>De hombres sociales y movimientos políticos / C. Wright Mills.(10847)"];
-node10927[label = "<f0>Evaluación de impacto en formación empresarial ; el caso FUNDES(10927)|<f0>Cómo resolver el problema de falta de tiempo(10928)"];
-node10932[label = "<f0>Pan Am: an airline and its aircraft(10932)|<f0>La Mujer de pelo largo / Leonor Paz y Paz G.(10933)|<f0>El libro de la piedad y de la muerte(10934)"];
+node10795[label = "<f0>Viajar es vivir (parábola imperfecta) / Juan José Arévalo Bermejo.(10795)|<f0>Historia de la provincia de San Vicente de Chiapa y Guatemala de la orden de Predicadores(10854)|<f0>Communicating through letters and reports(10857)"];
+node10793[label = "<f0>El misterio de María(10793)|<f0>Mil quinientas [1,500]... máximas y sentencias de los más destacados filósofos de todos los tiempos(10794)"];
+node10797[label = "<f0>El misterio de la vida(10797)|<f0>María Chapdelaine(10798)"];
+node10855[label = "<f0>Descripción geográfico-moral de la diócesis de Goathemala, v 1(10855)|<f0>Descripción geográfico-moral de la diócesis de Goathemala, v 2(10856)"];
+node10858[label = "<f0>Aprender a dibujar : un método garantizado(10858)|<f0>Desarrollo organizacional : estrategias de interrelación humana para el desarrollo de organizaciones v 2 : Desarrollo organizacional: estrategias y modelos(10939)|<f0>Desarrollo organizacional : estrategias de interrelación humana para el desarrollo de organizaciones v 3 El modelo de cuadro organizacional GRID(10940)"];
 }

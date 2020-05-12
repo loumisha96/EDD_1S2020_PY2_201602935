@@ -13,7 +13,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import netscape.javascript.JSObject;
+
 
 /**
  *
@@ -47,6 +47,9 @@ public class Cliente {
         } catch (IOException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    public void enviarBloque(String bloque){
+        
     }
     public static  void main(String[] args){
         

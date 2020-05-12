@@ -45,11 +45,11 @@ public class TablaHash {
         }
     }
     public  BufferedWriter report;
-    public void reporte () throws IOException{
-        FileWriter file = new FileWriter("Reporte.dot");
+    public String reporte () throws IOException{
+        FileWriter file = new FileWriter("ReporteUsuarios.dot");
         report = new BufferedWriter(file);
         report.write("digraph G{");
-        report.write("node[shape=record, width =.1, height = .1, style=filled, color = Gray95];\n");
+        report.write("node[shape=record, width =.1, height = .1, style=filled, color = Gray70];\n");
         report.write("rankdir=LR\n");
         report.write("\n");
         
@@ -65,13 +65,20 @@ public class TablaHash {
         }
         report.write("}");
         report.close();
+        ProcessBuilder p;
+            p = new ProcessBuilder("dot", "-Tpng", "-o", "ReporteUsuarios.jpg", "ReporteUsuarios.dot");
+            p.redirectErrorStream(true);
+            p.start();
+            return "ReporteUsuarios.jpg";
     }
     int j=0;
     public void listaReporte(Usuarios user) throws IOException{
         Usuario aux = user.primero;
         for(int i =0; i<=user.tam; i++){
             if(aux.sig != null){
-                report.write("U" +j + "[label = \"{<ref>|<data>" + aux.Nombre + " " + aux.Apellido+" |}\"]\n");
+                report.write("U" +j + "[label = < NOMBRE: " + aux.Nombre + " " + aux.Apellido+"<BR/>");
+                report.write("CARNET: " +  Integer.toString(aux.carne) + "<BR/>");
+                report.write("PASSWORD: " + aux.PassEncrip + ">]\n");
                 aux = aux.sig;
                 report.write("U" + Integer.toString(j));
                 report.write("->");
@@ -79,7 +86,9 @@ public class TablaHash {
                 j++;
                 
             }else{
-                report.write("U" +j + "[label = \"{<ref>|<data>" + aux.Nombre + " " + aux.Apellido+" |}\"]\n");
+                report.write("U" +j + "[label = < NOMBRE: " + aux.Nombre + " " + aux.Apellido+"<BR/>");
+                report.write("CARNET: " +  Integer.toString(aux.carne) + "<BR/>");
+                report.write("PASSWORD: " + aux.PassEncrip + ">]\n");
                 j++;
             }
         }

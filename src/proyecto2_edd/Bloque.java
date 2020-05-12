@@ -2,7 +2,9 @@
 package proyecto2_edd;
 
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -17,7 +19,8 @@ public class Bloque {
     Datos datos;
     String PreviousHash;
     String Hash;
-    int nonce;
+    
+    static int nonce;
     Bloque sig;
     Bloque ant;
     public int getIndex() {
@@ -34,7 +37,7 @@ public class Bloque {
 
     public void setTimestamp() {
         Calendar cal = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("DD-MM-YY::HH:MM:SS");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-YY::HH:mm:ss");
         this.timestamp = sdf.format(cal.getTime());
         
     }
@@ -70,30 +73,38 @@ public class Bloque {
     }
 
  
-    public void setNonce() throws InterruptedException {
-        
-        String cadena = SHA256();
-        while(!cadena.substring(0, 4).equals("0000")){
-            this.nonce++;
-            cadena = SHA256();
+    public String setNonce() throws InterruptedException, NoSuchAlgorithmException {
+        String input =(Integer.toString(getIndex())+getTimestamp()+ getPreviousHash()+ Data()+Integer.toString(nonce));
+        String cadena = new String(new char[4]).replace('\0', '0');
+        String hash = create(getSHA(input));
+        while(!hash.substring(0,4).equals(cadena)){
+            nonce++;
+            input =(Integer.toString(getIndex())+getTimestamp()+ getPreviousHash()+ Data()+Integer.toString(nonce));
+            hash = create(getSHA(input));
         }
-        setHash(cadena);
+        setHash(hash);
+        return hash;
         
     }
-    public  String SHA256() {
-       String input =(Integer.toString(getIndex())+getTimestamp()+ getPreviousHash()+ Data()+Integer.toString(nonce));
-       String toReturn = null;
-       try{
-           MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            digest.reset();
-            digest.update(input.getBytes("utf8"));
-            toReturn = String.format("%064x", new BigInteger(1, digest.digest()));
-       }
-          catch (Exception e) {
-	    e.printStackTrace();
-	}
-        return toReturn;
+    
+    public static byte[] getSHA(String input) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        return md.digest(input.getBytes(StandardCharsets.UTF_8));
+        
     }
+    public static String create(byte[] bytes){
+        StringBuilder hex = new StringBuilder();
+        for(int j = 0; j<bytes.length; j++){
+            String hexAux = Integer.toHexString(0xff & bytes[j]);
+            if(hexAux.length()==1){
+                hex.append('0');
+               // hex.append('0');
+            }
+            hex.append(hexAux);
+        }
+        return hex.toString();
+    }
+    
     public String Data(){
         String cad="";
         NodoDato aux = datos.primero;
@@ -135,8 +146,8 @@ public class Bloque {
                     if(aux.tipo ==4 )
                         cad += "CREAR_CATEGORIA";
                     else
-                        cad += "EDITAR_USUARIO";
-                    cad += "NOMBRE" +aux.libro.categoria;
+                        cad += "EDITAR_CATEGORIA";
+                    cad += "NOMBRE" +aux.Categoria;
                     break;
                 default:
                     break;
@@ -144,12 +155,11 @@ public class Bloque {
         }
         return cad;
     }
-    public void asignar(int index) throws InterruptedException{
-        setNonce();
-    }
     Bloque(Datos datos){
+        
        this.sig = null;
        this.ant = null;
        this.datos = datos;
+       
     }
 }

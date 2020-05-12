@@ -5,6 +5,10 @@
  */
 package proyecto2_edd;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 /**
  *
  * @author lourd
@@ -17,12 +21,14 @@ public class Usuarios {
     }
     public void insertar(int carnet, String nombre, String apellido, String carrera , String password, Datos data){
         Usuario nuevo = new  Usuario(carnet, nombre, apellido, carrera, password);
+        nuevo.PassEncrip = getMD5(nuevo.Password);
         if(primero == null){
             primero = nuevo;
             tam=0;
         }else{
             nuevo.sig = primero;
             primero = nuevo;
+            
             tam++;
         }
         NodoDato d = new NodoDato(nuevo, 0);
@@ -102,4 +108,21 @@ public class Usuarios {
         }    
         
     }
+    public static String getMD5(String input) {
+        try {
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        byte[] messageDigest = md.digest(input.getBytes());
+        BigInteger number = new BigInteger(1, messageDigest);
+        String hashtext = number.toString(16);
+
+        while (hashtext.length() < 32) {
+        hashtext = "0" + hashtext;
+        }
+        return hashtext;
+        }
+        catch (NoSuchAlgorithmException e) {
+        throw new RuntimeException(e);
+        }
+    }
+
 }

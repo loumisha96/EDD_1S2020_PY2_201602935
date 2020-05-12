@@ -27,9 +27,10 @@ public class EliminarCategoria extends javax.swing.JFrame {
         this.read = read;
         this.userLog = userLog;
         this.data = data;
+        this.ven = ven;
         tabla =  (DefaultTableModel)jTable1.getModel();
         read.avl.GinordenCat(tabla);
-        ven.setVisible(false);
+       // ven.setVisible(false);
         
     }
 
@@ -117,8 +118,11 @@ public class EliminarCategoria extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-           ven.setVisible(true);
-           this.setVisible(false);
+          
+        
+        ven.setVisible(true);
+        this.setVisible(false);
+           
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**

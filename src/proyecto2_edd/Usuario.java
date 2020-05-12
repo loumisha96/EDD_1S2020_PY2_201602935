@@ -15,6 +15,7 @@ public class Usuario {
     String Apellido;
     String Carrera;
     String Password;
+    String PassEncrip;
     Usuario sig;
     arbolAVL avlUser;
     public Usuario(int carnet, String nombre, String apellido, String carrera , String password){
