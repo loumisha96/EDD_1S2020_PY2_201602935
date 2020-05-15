@@ -181,8 +181,8 @@ public class DarDeBaja extends javax.swing.JFrame {
         
         LimpiarTabla();
         filtro();
-        System.out.println("******************************************************************************************************");
-        read.avl.inorden();
+       // System.out.println("******************************************************************************************************");
+        //read.avl.inorden();
         read.avl.Ginorden(tabla);
         
         

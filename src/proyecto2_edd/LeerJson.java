@@ -5,12 +5,15 @@
  */
 package proyecto2_edd;
 
+import java.awt.FileDialog;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -101,10 +104,18 @@ public class LeerJson {
         System.out.println(json.toJSONString());
         
         try {
-            FileWriter file = new  FileWriter("Bloque.json");
-            file.write(json.toJSONString());
-            file.flush();
-            file.close();
+            /*JFileChooser guardar = new JFileChooser();
+            guardar.showSaveDialog(null);
+            guardar.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);*/
+            
+            JFileChooser chooser = new JFileChooser("Json");
+            chooser.showSaveDialog(null);
+            chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+            File file = chooser.getSelectedFile();
+            FileWriter file2 = new  FileWriter(file);
+            file2.write(json.toJSONString());
+            file2.flush();
+            file2.close();
             
         } catch (IOException ex) {
             Logger.getLogger(LeerJson.class.getName()).log(Level.SEVERE, null, ex);
@@ -147,6 +158,7 @@ public class LeerJson {
                         json2.put("Autor", aux.libro.autor);
                         json2.put("Edicion", aux.libro.edicion);
                         json2.put("Categoria", aux.libro.categoria);
+                        json2.put("Carnet", aux.libro.carnet);
                         creL.add(json2);
                         json1.put("CREAR_LIBRO", creL);
                         break;
@@ -163,6 +175,7 @@ public class LeerJson {
                 case 4:
                     {
                         json2.put("NOMBRE", aux.Categoria);
+                        json2.put("CARNET", aux.carnet);
                         creC.add(json2);
                         json1.put("CREAR_CATEGORIA", creC);
                         break;
@@ -170,6 +183,7 @@ public class LeerJson {
                 case 5:
                     {
                         json2.put("NOMBRE", aux.Categoria);
+                        json2.put("CARNET", aux.carnet);
                         eliC.add(json2);
                         json1.put("ELIMINAR_CATEGORIA", eliC);
                         break;
@@ -180,24 +194,23 @@ public class LeerJson {
             aux = aux.sig;
         }
     }
-    public void LeerJsonGeneral(String json) throws IOException, ParseException{
-        JSONParser parser = new JSONParser();
-        
-            Object  obj = parser.parse(new FileReader("Bloque.json"));
+    public void LeerJsonGeneral(File json) throws IOException, ParseException{
+            JSONParser parser = new JSONParser();
+            Object  obj = parser.parse(new FileReader(json));
             JSONObject jsonObject =  (JSONObject) obj;
-            JSONArray datos = (JSONArray) jsonObject.get("DATA");
-            System.out.println("lkj");
+            JSONObject datos = (JSONObject) jsonObject.get("DATA");
+            //JSONArray datos = (JSONArray) jsonObject.get("DATA");
             for(int i =0; i<datos.size(); i++){
-                JSONObject rec = (JSONObject) datos.get(i);
-                JSONArray u = (JSONArray) rec.get("CREAR_USUARIO");
-                JSONArray u1 = (JSONArray) rec.get("EDITAR_USUARIO");
-                JSONArray u2 = (JSONArray) rec.get("CREAR_LIBRO");
-                JSONArray u3 = (JSONArray) rec.get("ELIMINAR_LIBRO");
-                JSONArray u4 =  (JSONArray) rec.get("CREAR_CATEGORIA");
-                JSONArray u5 = (JSONArray) rec.get("ELIMINAR_CATEGORIA");
+                //JSONObject rec = (JSONObject) datos.get(i);
+                JSONArray u = (JSONArray) datos.get("CREAR_USUARIO");
+                JSONArray u1 = (JSONArray)datos.get("EDITAR_USUARIO");
+                JSONArray u2 = (JSONArray) datos.get("CREAR_LIBRO");
+                JSONArray u3 = (JSONArray) datos.get("ELIMINAR_LIBRO");
+                JSONArray u4 =  (JSONArray) datos.get("CREAR_CATEGORIA");
+                JSONArray u5 = (JSONArray) datos.get("ELIMINAR_CATEGORIA");
                 if(u!=null){
                    for(int j = 0; j<u.size(); j++){
-                        JSONObject u6 = (JSONObject) u.get(i);
+                        JSONObject u6 = (JSONObject) u.get(j);
                         long Carnet = (long) u6.get("Carnet");
                         int carnet = (int)Carnet;
                         String Nombre = (String) u6.get("Nombre");
@@ -209,8 +222,8 @@ public class LeerJson {
                 }
                  if(u1!=null){
                     for(int j = 0; j<u1.size(); j++){
-                        JSONObject u6 = (JSONObject) u1.get(i);
-                        long Carnet = (long) rec.get("Carnet");
+                        JSONObject u6 = (JSONObject) u1.get(j);
+                        long Carnet = (long) u6.get("Carnet");
                         int carnet = (int)Carnet;
                         String Nombre = (String) u6.get("Nombre");
                         String Apellido = (String) u6.get("Apellido");
@@ -220,7 +233,7 @@ public class LeerJson {
                     }
                 }if(u2 != null){
                     for(int j = 0; j<u2.size(); j++){
-                        JSONObject u6 = (JSONObject) u2.get(i);
+                        JSONObject u6 = (JSONObject) u2.get(j);
                         long ISBN = (long) u6.get("ISBN");
                         int isbn = (int)ISBN;
                         long ANIO = (long) u6.get("Año");
@@ -232,13 +245,16 @@ public class LeerJson {
                         long Edicion = (long) u6.get("Edicion");
                         int edicion = (int)Edicion;
                         String Categoria = (String) u6.get("Categoria");
-                        Libro libro = new Libro(isbn, anio, title, Autor, Editorial, edicion, Categoria,userlog.carne , idioma);
-                        avl.add(libro, userlog, data);
+                        long Carnet = (long) u6.get("Carnet");
+                        int carnet = (int) Carnet;
+                        Libro libro = new Libro(isbn, anio, title, Autor, Editorial, edicion, Categoria, carnet , idioma);
+                        Usuario auxus = hash.buscar(carnet);
+                        avl.add(libro,  auxus, data);
                     }
                 }
                 if(u3 != null){
                     for(int j = 0; j<u3.size(); j++){
-                        JSONObject u6 = (JSONObject) u3.get(i);
+                        JSONObject u6 = (JSONObject) u3.get(j);
                         long ISBN = (long) u6.get("ISBN");
                         int isbn = (int)ISBN;
                         String Categoria = (String) u6.get("Categoria");
@@ -248,9 +264,13 @@ public class LeerJson {
                     }
                 }if(u4 != null){
                     for(int j = 0; j<u4.size(); j++){
-                        JSONObject u6 = (JSONObject) u4.get(i);
-                        String cat = (String) u6.get("Nombre");
-                        avl.add(cat, userlog, data);
+                        JSONObject u6 = (JSONObject) u4.get(j);
+                        long Carnet = (long) u6.get("CARNET");
+                        String cat = (String) u6.get("NOMBRE");
+                        
+                        int carnet = (int) Carnet;
+                        Usuario auxus = hash.buscar(carnet);
+                        avl.add(cat, auxus, data);
                     }
                     
                 }

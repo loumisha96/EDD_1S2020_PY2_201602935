@@ -199,6 +199,7 @@ public class InterfazCrear extends javax.swing.JFrame {
     }//GEN-LAST:event_guardarLibroActionPerformed
 
     private void guardarCatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarCatActionPerformed
+        System.out.println(cate_txt.getText());
         read.avl.add(cate_txt.getText(), userLog, data);
         inter.setVisible(true);
         this.setVisible(false);

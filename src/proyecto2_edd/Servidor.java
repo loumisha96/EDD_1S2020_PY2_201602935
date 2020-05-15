@@ -43,7 +43,7 @@ public class Servidor extends Observable implements Runnable{
                     in = new DataInputStream((sc.getInputStream()));
                     //out = new DataOutputStream(sc.getOutputStream());
                     String mensaje = in.readUTF();
-                    read.LeerJsonGeneral(mensaje);
+                  //  read.LeerJsonGeneral(mensaje);
                     System.out.println(mensaje);
                     this.setChanged();
                     this.notifyObservers(mensaje);
@@ -52,9 +52,7 @@ public class Servidor extends Observable implements Runnable{
                     
                 }
         } catch(IOException ex){
-    }   catch (ParseException ex) {
-            Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    }
     
     
  }

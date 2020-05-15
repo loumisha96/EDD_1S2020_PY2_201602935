@@ -1,15 +1,4 @@
-digraph G{node[shape=record, style=filled, color = Gray70];
-node10795:f0->node10793;
-
-node10795:f1->node10797;
-
-node10795:f2->node10855;
-
-node10795:f3->node10858;
-
-node10795[label = "<f0>Viajar es vivir (parábola imperfecta) / Juan José Arévalo Bermejo.(10795)|<f0>Historia de la provincia de San Vicente de Chiapa y Guatemala de la orden de Predicadores(10854)|<f0>Communicating through letters and reports(10857)"];
-node10793[label = "<f0>El misterio de María(10793)|<f0>Mil quinientas [1,500]... máximas y sentencias de los más destacados filósofos de todos los tiempos(10794)"];
-node10797[label = "<f0>El misterio de la vida(10797)|<f0>María Chapdelaine(10798)"];
-node10855[label = "<f0>Descripción geográfico-moral de la diócesis de Goathemala, v 1(10855)|<f0>Descripción geográfico-moral de la diócesis de Goathemala, v 2(10856)"];
-node10858[label = "<f0>Aprender a dibujar : un método garantizado(10858)|<f0>Desarrollo organizacional : estrategias de interrelación humana para el desarrollo de organizaciones v 2 : Desarrollo organizacional: estrategias y modelos(10939)|<f0>Desarrollo organizacional : estrategias de interrelación humana para el desarrollo de organizaciones v 3 El modelo de cuadro organizacional GRID(10940)"];
+digraph G{node[shape=circle, style=filled, color = Gray70];
+nueva_0->NULL2
+nueva_0->NULL3
 }

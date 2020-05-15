@@ -1,12 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package proyecto2_edd;
 
 
+import java.awt.FileDialog;
 import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -401,19 +397,7 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenu10MouseClicked
 
     private void jMenu7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu7MouseClicked
-       /* try {
-            String ruta =p.read.avl.reporte();
-            Reporte r = new Reporte(this);
-            r.Imagen(ruta);
-            //r.setVisible(true);
-            
-            
-        } catch (IOException ex) {
-            Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
-
-
-        
+       
     }//GEN-LAST:event_jMenu7MouseClicked
 
     private void jMenu11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu11MouseClicked
@@ -427,20 +411,16 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenu13MouseClicked
 
     private void jMenu14MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu14MouseClicked
+
         
         if(p.data.primero != null){
             Bloque bloque = new Bloque(p.data);
-            
-            
-            
             try {
                 p.chain.NuevoBloque(bloque);
                 p.read.CrearJsonBloque(bloque);
                 p.data = new Datos();
                 JOptionPane.showMessageDialog(null, "Guardado");
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (NoSuchAlgorithmException ex) {
+            } catch (InterruptedException | NoSuchAlgorithmException ex) {
                 Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
             }
         }else{
@@ -456,9 +436,6 @@ public class Interfaz extends javax.swing.JFrame {
             String ruta =p.read.avl.reporte();
             Reporte r = new Reporte(this);
             r.Imagen(ruta);
-            //r.setVisible(true);
-            
-            
         } catch (IOException ex) {
             Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -470,7 +447,6 @@ public class Interfaz extends javax.swing.JFrame {
             String ruta =p.read.avl.reporteRecorrido(0);
             Reporte r = new Reporte(this);
             r.Imagen(ruta);
-            //r.setVisible(true);
         } catch (IOException ex) {
             Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -481,7 +457,7 @@ public class Interfaz extends javax.swing.JFrame {
             String ruta =p.read.avl.reporteRecorrido(1);
             Reporte r = new Reporte(this);
             r.Imagen(ruta);
-            //r.setVisible(true);
+            
         } catch (IOException ex) {
             Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -493,7 +469,6 @@ public class Interfaz extends javax.swing.JFrame {
             String ruta =p.read.avl.reporteRecorrido(2);
             Reporte r = new Reporte(this);
             r.Imagen(ruta);
-            //r.setVisible(true);
         } catch (IOException ex) {
             Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -505,7 +480,6 @@ public class Interfaz extends javax.swing.JFrame {
             String ruta =p.list.Reporte();
             Reporte r = new Reporte(this);
             r.Imagen(ruta);
-            //r.setVisible(true);
         } catch (IOException ex) {
             Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -513,12 +487,10 @@ public class Interfaz extends javax.swing.JFrame {
 
     private void jMenu21MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu21MouseClicked
        //Blockchain
-          //nodos de la red
         try {
             String ruta =p.chain.Reporte();
             Reporte r = new Reporte(this);
             r.Imagen(ruta);
-            //r.setVisible(true);
         } catch (IOException ex) {
             Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -556,10 +528,6 @@ public class Interfaz extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenu24MouseClicked
 
-    /**
-     * @param args the command line arguments
-     */
-    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

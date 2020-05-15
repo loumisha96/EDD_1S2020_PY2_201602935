@@ -1,13 +1,13 @@
-digraph G{node[shape=record, width =.1, height = .1, style=filled, color = Gray95];
+digraph G{node[shape=record, width =.1, height = .1, style=filled, color = Gray70];
 rankdir=LR
 
 1[label = "{<ref>|<data>1 |}"]
-1->U0
-U0[label = < NOMBRE: Ricardo Cutz<BR/>CARNET: 201503476<BR/>PASSWORD: e10adc3949ba59abbe56e057f20f883e>]
+1->U3
+U3[label = < NOMBRE: Ricardo Cutz<BR/>CARNET: 201503476<BR/>PASSWORD: e10adc3949ba59abbe56e057f20f883e>]
 2[label = "{<ref>|<data>2 |}"]
-2->U1
-U1[label = < NOMBRE: Juanito Hernandez<BR/>CARNET: 201503477<BR/>PASSWORD: e10adc3949ba59abbe56e057f20f883e>]
+2->U4
+U4[label = < NOMBRE: Juanito Hernandez<BR/>CARNET: 201503477<BR/>PASSWORD: e10adc3949ba59abbe56e057f20f883e>]
 23[label = "{<ref>|<data>23 |}"]
-23->U2
-U2[label = < NOMBRE: Antonio Hernandez<BR/>CARNET: 202005878<BR/>PASSWORD: e10adc3949ba59abbe56e057f20f883e>]
+23->U5
+U5[label = < NOMBRE: Antonio Hernandez<BR/>CARNET: 202005878<BR/>PASSWORD: e10adc3949ba59abbe56e057f20f883e>]
 }

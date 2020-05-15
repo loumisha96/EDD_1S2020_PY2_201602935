@@ -5,7 +5,11 @@
  */
 package proyecto2_edd;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import org.json.simple.parser.ParseException;
@@ -36,13 +40,27 @@ public class Proyecto2_EDD implements Observer{
      }
     public static void main(String[] args) throws ParseException, IOException {
        Proyecto2_EDD p = new Proyecto2_EDD();
+       File archivo = new File("Json");
+        if (archivo.isDirectory()) {
+            //List<String> res = new ArrayList<>();
+            File[] cont = archivo.listFiles();
+            for(int i = 0; i< cont.length; i++){
+                p.read.LeerJsonGeneral(cont[i]);
+                p.data = new Datos();
+            }
+        
+        }
+           // p.read.LeerJsonGeneral("Bloque.json");
+        
+        Thread t = new Thread(p.s);
+        // p.read.CargaMasivaUsuarios("fd"); 
+         t.start();
+         //Cliente cliente = new Cliente();
+         interfazSesion ven = new interfazSesion(p);
+         ven.setVisible(true);
+        
        
-       Thread t = new Thread(p.s);
-      // p.read.CargaMasivaUsuarios("fd"); 
-       t.start();
-       //Cliente cliente = new Cliente();
-       interfazSesion ven = new interfazSesion(p);
-       ven.setVisible(true);
+       
     }
 
     @Override

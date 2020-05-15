@@ -8,6 +8,7 @@ package proyecto2_edd;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -52,7 +53,7 @@ public class Usuarios {
             aux.Apellido = apellido;
             aux.Carrera = carrera;
             aux.Password = password;
-            NodoDato d = new NodoDato(aux, 1);
+            NodoDato d = new NodoDato(aux, 1 );
             data.insertarDato(d);
             
         }
@@ -67,12 +68,18 @@ public class Usuarios {
     }
     public Usuario buscarIngreso(int carnet, String pass){
         Usuario aux = primero;
-        while(aux.carne !=  carnet && aux.sig != null){
+        if(primero != null){
+            while(aux.carne !=  carnet && aux.sig != null){
             aux = aux.sig;
         }
         if(aux.carne == carnet && aux.Password.equals(pass))
             return aux;
         else return null;
+        }else{
+            JOptionPane.showMessageDialog(null, "No se han registrado usuarios");
+            return null;
+        }
+        
                 
     }
     public void Eliminar(int carnet){

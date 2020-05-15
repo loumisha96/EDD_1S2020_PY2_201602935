@@ -14,18 +14,21 @@ public class NodoDato {
     Libro libro;
     String Categoria;
     NodoDato sig;
+    int carnet;
     int tipo;
     
     public NodoDato(Usuario usuario, int tipo){
         this.usuario = usuario;
         this.tipo = tipo;
+        
     }
     public NodoDato(Libro libro, int tipo){
         this.libro = libro;
         this.tipo = tipo;
     }
-    public NodoDato(String cat, int tipo){
+    public NodoDato(String cat, int tipo, int carnet){
         this.Categoria = cat;
         this.tipo = tipo;
+        this.carnet = carnet;
     }
 }

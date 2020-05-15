@@ -33,8 +33,9 @@ public class Nodo {
         return categoria;
     }
 
-    public void setcategoria(String categoria) {
+    public void setcategoria(String categoria, Usuario userLog) {
         this.categoria = categoria;
+        this.userLog = userLog;
     }
     public int getFactorE(){
         int altDer = 0;

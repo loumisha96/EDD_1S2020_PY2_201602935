@@ -387,8 +387,8 @@ public class ArbolB {
     }
     public  BufferedWriter report;
        public  String reporte(String cat) throws IOException{
-        
-        FileWriter file = new FileWriter("Reporte.dot");
+        String name = cat + ".dot";
+        FileWriter file = new FileWriter(name);
         report = new BufferedWriter(file);
         report.write("digraph G{");
         report.write("node[shape=record, style=filled, color = Gray70];");
@@ -399,17 +399,17 @@ public class ArbolB {
         report.close();
         
         ProcessBuilder p;
-        
-        p = new ProcessBuilder("dot", "-Tpng", "-o", "Reporte.jpg" ,"Reporte.dot");
+        String ima = cat + ".jpg";
+        p = new ProcessBuilder("dot", "-Tpng", "-o", ima , name);
         p.redirectErrorStream(true);
         p.start();
-        return "Reporte.jpg";
+        return ima;
     
     }
     public String apunt(BTreeNode actual) throws IOException{
        String texto="";
         if(actual!= null){
-            for(int i=0; i<actual.key.length; i++){
+            for(int i=0; i<=actual.key.length; i++){
                 if(actual.key[0] != null &&actual.child[i]!= null ){
                     texto += "node" + actual.key[0].id + ":f" + i+"->node"+ actual.child[i].key[0].id + ";\n";
                     if(j== actual.key.length-1){

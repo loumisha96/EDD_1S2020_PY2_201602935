@@ -38,14 +38,14 @@ public class arbolAVL {
         if(raizTmp == null){
     		this.raiz = nodo;
                 this.raiz.Btree.add(libro, data);
-                NodoDato d = new NodoDato(libro.categoria, 4);
+                NodoDato d = new NodoDato(libro.categoria, 4, userLog.carne);
                 data.insertarDato(d);
                 return true;
     	}else
     	if(this.contains(nodo.getcategoria())){
                 Nodo a = buscarNodo(nodo.categoria);
                 a.Btree.add(libro, data);
-                NodoDato d = new NodoDato(libro.categoria, 4);
+                NodoDato d = new NodoDato(libro.categoria, 4, userLog.carne);
                 data.insertarDato(d);
                 
     		return false;
@@ -73,13 +73,13 @@ public class arbolAVL {
     		if(der){
                     raizTmp.setDerecha(nodo);
                     raizTmp.derecha.Btree.add(libro, data);
-                    NodoDato d = new NodoDato(libro.categoria, 4);
+                    NodoDato d = new NodoDato(libro.categoria, 4, userLog.carne);
                     data.insertarDato(d);
                     
                 }
                 else{
                     raizTmp.setIzquierda(nodo);
-                    NodoDato d = new NodoDato(libro.categoria, 4);
+                    NodoDato d = new NodoDato(libro.categoria, 4, userLog.carne);
                      data.insertarDato(d);
                     raizTmp.izquierda.Btree.add(libro, data);
                     
@@ -126,13 +126,13 @@ public class arbolAVL {
     	int altIzq, altDer;
         if(raizTmp == null){
     		this.raiz = nodo;
-                NodoDato d = new NodoDato(libro, 4);
+                NodoDato d = new NodoDato(libro, 4, userLog.carne);
                 data.insertarDato(d);
                 return true;
     	}else
     	if(this.contains(nodo.getcategoria())){
                 Nodo a = buscarNodo(nodo.categoria);
-                NodoDato d = new NodoDato(libro, 4);
+                NodoDato d = new NodoDato(libro, 4, userLog.carne);
                 data.insertarDato(d);
                 return false;
     	}
@@ -158,12 +158,12 @@ public class arbolAVL {
     		}
     		if(der){
                     raizTmp.setDerecha(nodo);
-                    NodoDato d = new NodoDato(libro, 4);
+                    NodoDato d = new NodoDato(libro, 4, userLog.carne);
                     data.insertarDato(d);
                 }
                 else{
                     raizTmp.setIzquierda(nodo);
-                    NodoDato d = new NodoDato(libro, 4);
+                    NodoDato d = new NodoDato(libro, 4, userLog.carne);
                     data.insertarDato(d);
                     
                 }
@@ -419,7 +419,7 @@ public class arbolAVL {
             if(raizTmp.userLog.carne == carnet){
                 salir = true;
 	    	borrar = raizTmp;
-                NodoDato d = new NodoDato(borrar.categoria, 5);
+                NodoDato d = new NodoDato(borrar.categoria, 5, carnet);
                 data.insertarDato(d);
             }
             else
@@ -455,7 +455,7 @@ public class arbolAVL {
     	//existe el nodo a borrar?
     	if(salir){
                 if(borrar.userLog.carne == carnet){
-                    NodoDato d = new NodoDato(borrar.categoria, 5);
+                    NodoDato d = new NodoDato(borrar.categoria, 5, carnet);
                     data.insertarDato(d);
                     
                 
@@ -477,19 +477,19 @@ public class arbolAVL {
 	    			nPadre.setDerecha(null);
 	    		}
 	    		//nos lo cargamos
-	    		borrar.setcategoria(null);
+	    		borrar.setcategoria(null, borrar.userLog);
 	    	}
 	    	
 	    	//solo tiene un hijo? (o 2 pero en la misma altura) entonces la altura de ese subarbol será 1 o 2 (altura raiz = 1)
 	    	else if(borrar.getAltura()<=2){
 
 	    		if(borrar.getIzquierda()!=null){
-	    			borrar.setcategoria(borrar.getIzquierda().getcategoria());
+	    			borrar.setcategoria(borrar.getIzquierda().getcategoria(), borrar.userLog);
 	    			borrar.setIzquierda(null);
 	    		}
 	    		
 	    		else if(borrar.getDerecha()!=null){
-	    			borrar.setcategoria(borrar.getDerecha().getcategoria());
+	    			borrar.setcategoria(borrar.getDerecha().getcategoria(), borrar.userLog);
 	    			borrar.setDerecha(null);
 	    		}
 	    	}
@@ -521,10 +521,10 @@ public class arbolAVL {
 		    	//si el nodo que hemos cambiado se ha quedado con algún hijo...
 		    	if(cambiar.getIzquierda()!=null || cambiar.getDerecha()!=null){
 			    	if(cambiar.getIzquierda()!=null){
-			    		cambiar.setcategoria(cambiar.getIzquierda().getcategoria());
+			    		cambiar.setcategoria(cambiar.getIzquierda().getcategoria(), cambiar.userLog);
 			    		cambiar.setIzquierda(null);
 			    	}else if(cambiar.getDerecha()!=null){
-			    		cambiar.setcategoria(cambiar.getDerecha().getcategoria());
+			    		cambiar.setcategoria(cambiar.getDerecha().getcategoria(), cambiar.userLog);
 			    		cambiar.setDerecha(null);
 			    	}
 		    	}
@@ -535,8 +535,8 @@ public class arbolAVL {
 			    	}else{
 			    		papa.setDerecha(null);
 			    	}
-			    	cambiar.setcategoria(borrar.getcategoria());
-			    	borrar.setcategoria(c_aux);
+			    	cambiar.setcategoria(borrar.getcategoria(), cambiar.userLog);
+			    	borrar.setcategoria(c_aux, borrar.userLog);
 		    	}		    
 	    	}
 	    	

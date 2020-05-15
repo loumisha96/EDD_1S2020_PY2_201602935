@@ -39,6 +39,9 @@ public class TablaHash {
     public Usuario ingreso(int carnet, String pass){
        return  Hash[funcionHash(carnet)].buscarIngreso(carnet, pass);
     }
+    public Usuario buscar(int carnet){
+        return Hash[funcionHash(carnet)].buscar(carnet);
+    }
     public void print(){
         for(int i =0; i< Hash.length; i++){
              Hash[i].print();
