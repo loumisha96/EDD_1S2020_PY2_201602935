@@ -36,6 +36,7 @@ public class Cliente {
         DataOutputStream out;
         try {
             
+            
             Socket sc = new Socket(ip, puerto);
             in = new DataInputStream(sc.getInputStream());
             out = new DataOutputStream(sc.getOutputStream());
@@ -47,6 +48,9 @@ public class Cliente {
         } catch (IOException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    public void buscarPuerto(){
+        
     }
     public void enviarBloque(String bloque){
         

@@ -124,30 +124,35 @@ public class interfazSesion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ingresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ingresarActionPerformed
-        //int carnet = Integer.parseInt(user_txt.getText());
-        //Usuario userAux = read.hash.ingreso(carnet, pass_txt.getText());
-        Usuario userAux =p.read.hash.ingreso(201503476, "123456");
-        if(userAux!= null){
-            userLog = userAux;
-            p.read.setUserlog(userLog);
-            new Interfaz(this, p).setVisible(true);
-            user_txt.setText("");
-            pass_txt.setText("");
-            this.setVisible(false);
-            
-            //String json = "Json.json" ;
-            //Cliente c;
-            //c = new Cliente(5000, json, list);
-            //c.run();
-            
-        }else{
-            JOptionPane.showMessageDialog(null, "DATOS INCORRECTOS");
+        if(user_txt.getText() == null && pass_txt.getText() == null)
+            JOptionPane.showMessageDialog(null, "INGRESAR DATOS");
+        else{
+            int carnet = Integer.parseInt(user_txt.getText());
+            Usuario userAux = p.read.hash.ingreso(carnet, pass_txt.getText());
+            //Usuario userAux =p.read.hash.ingreso(201503476, "123456");
+            if(userAux!= null){
+                userLog = userAux;
+                p.read.setUserlog(userLog);
+                new Interfaz(this, p).setVisible(true);
+                user_txt.setText("");
+                pass_txt.setText("");
+                this.setVisible(false);
+
+                //String json = "Json.json" ;
+                //Cliente c;
+                //c = new Cliente(5000, json, list);
+                //c.run();
+
+            }else{
+                JOptionPane.showMessageDialog(null, "DATOS INCORRECTOS");
+            }
         }
+        
         
     }//GEN-LAST:event_ingresarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        JFileChooser file = new JFileChooser();
+        JFileChooser file = new JFileChooser("build");
         file.showOpenDialog(this);
         File abrir=file.getSelectedFile();
         String path =abrir.getPath();

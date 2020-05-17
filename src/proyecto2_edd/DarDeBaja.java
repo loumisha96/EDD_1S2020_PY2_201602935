@@ -168,8 +168,8 @@ public class DarDeBaja extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         int pos = jTable1.getSelectedRow();
         if(pos !=-1 ){
-            int isbn = (int)tabla.getValueAt(pos, 0);
-            String cat = (String)tabla.getValueAt(pos,2);
+            int isbn = (int)jTable1.getValueAt(pos, 0);
+            String cat = (String)jTable1.getValueAt(pos,2);
             Nodo a =read.avl.buscarNodo(cat);
             Libro libro = new Libro(isbn, 0, null, null, null, 0, null, 0, null);
             a.Btree.delete(libro, userLog.carne, data);
@@ -182,7 +182,7 @@ public class DarDeBaja extends javax.swing.JFrame {
         LimpiarTabla();
         filtro();
        // System.out.println("******************************************************************************************************");
-        //read.avl.inorden();
+       // read.avl.inorden();
         read.avl.Ginorden(tabla);
         
         

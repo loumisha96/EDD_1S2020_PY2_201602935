@@ -1,4 +1,6 @@
 digraph G{node[shape=circle, style=filled, color = Gray70];
-nueva_0->NULL2
-nueva_0->NULL3
+Consulta_12->NULL0
+Consulta_12->Epico_21
+Epico_21->NULL1
+Epico_21->NULL2
 }

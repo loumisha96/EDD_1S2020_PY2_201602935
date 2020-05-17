@@ -89,8 +89,10 @@ public class Reporte extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
-        rcat.setVisible(true);
+        if(rcat != null){
+            rcat.setVisible(true);
+        }else
+            ven.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -134,10 +136,15 @@ public class Reporte extends javax.swing.JFrame {
     }
     public void Imagen(String ruta){
         ImageIcon f = new ImageIcon(ruta);
-        Icon img = new ImageIcon(f.getImage().getScaledInstance(jLabel1.getWidth(),jLabel1.getHeight(), Image.SCALE_DEFAULT));
+        Icon icono = f;
+        jLabel1.setIcon(icono);
+        jScrollPane1.add(jLabel1);
+        jScrollPane1.setViewportView(jLabel1);
+        this.setVisible(true);
+       /* Icon img = new ImageIcon(f.getImage().getScaledInstance(jLabel1.getWidth(),jLabel1.getHeight(), Image.SCALE_DEFAULT));
         jLabel1.setIcon(img);
         this.repaint();
-        this.setVisible(true);
+        this.setVisible(true);*/
         
         
                 

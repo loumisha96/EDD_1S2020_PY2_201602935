@@ -21,6 +21,7 @@ public class NodoDeRed {
        this.ip1 = ip1;
        this.bloque = null;
        this.index =0;
+       this.listNodosRed = new ListaNodoRed();
     }
     
     

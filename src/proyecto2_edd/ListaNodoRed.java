@@ -28,7 +28,7 @@ public class ListaNodoRed {
         if(primero == null){
             primero = nuevo;
             ultimo = nuevo;
-            tam++;
+            tam=0;
         }else{
             primero.listNodosRed.RegistrarNodo(ip1);//inserto la ip en el primero nodo
            /* NodoDeRed ant = primero; 
@@ -56,6 +56,19 @@ public class ListaNodoRed {
                 aux.listNodosRed = ant.listNodosRed;//empiezo a actualizar las listas
             }
             aux.listNodosRed = ant.listNodosRed;//lista de aux = a la lista del anterior*/
+        
+    }
+    public void print(){
+        NodoDeRed aux = primero;
+        if (aux != null){
+            while(aux.Sig != null){
+            System.out.println(aux.ip1);
+            System.out.println(tam);
+            aux = aux.Sig;
+        }
+        System.out.println(aux.ip1);
+            System.out.println(tam);
+        }
         
     }
     public void EliminarNodo(String ip){
@@ -93,22 +106,22 @@ public class ListaNodoRed {
             reporte.write("rankdir = LR;\n");
             reporte.write("node [shape= record];\n");
             NodoDeRed aux = primero;
-            for(int i= 0; i<=tam; i++){
+            for(int i= 0; i<tam; i++){
                 if(aux.Sig != null){
-                    reporte.write(i);
+                    reporte.write(Integer.toString(i));
                     reporte.write("[label = \"{<ref> | <data>");
                     reporte.write(aux.ip1);
                     reporte.write(" | }\"]\n");
-                    reporte.write(i+1);
+                    reporte.write(Integer.toString(i+1));
                     reporte.write("[label = \"{<ref> | <data>");
                     reporte.write(aux.Sig.ip1);
                     reporte.write(" | }\"]\n");
-                    reporte.write(i);
+                    reporte.write(Integer.toString(i));
                     reporte.write("->");
-                    reporte.write(i+1+ "\n");
+                    reporte.write(Integer.toString(i+1)+ "\n");
                     aux = aux.Sig;
                 }else  if(i==tam && aux != null && aux.Sig == null){
-                    reporte.write(i);
+                    reporte.write(Integer.toString(i));
                     reporte.write("[label = \"{<ref> | <data>");
                     reporte.write(aux.ip1);
                     reporte.write(" | }\"]\n");

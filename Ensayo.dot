@@ -1,0 +1,15 @@
+digraph G{node[shape=record, style=filled, color = Gray70];
+node10858:f0->node10856;
+
+node10858:f1->node11856;
+
+node10858:f2->node12856;
+
+node10858:f3->node13856;
+
+node10858[label = "<f0>Aprender a dibujar : un método garantizado(10858)|<f0>Aprender a dibujar(11858)|<f0>dibujar(12858)"];
+node10856[label = "<f0>Descripción geográfico-moral de la diócesis de Goathemala, v 2(10856)|<f0>Communicating through letters and reports(10857)"];
+node11856[label = "<f0>Descripción geográfico-moral(11856)|<f0>Communicating(11857)"];
+node12856[label = "<f0>Descripción (12856)|<f0>reports(12857)"];
+node13856[label = "<f0>diócesis de Goathemala, v 2(13856)|<f0>letters and reports(13857)|<f0>método garantizado(13858)"];
+}

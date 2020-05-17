@@ -22,9 +22,11 @@ public class NodoDato {
         this.tipo = tipo;
         
     }
-    public NodoDato(Libro libro, int tipo){
+    public NodoDato(Libro libro, int tipo, int carnet){
         this.libro = libro;
         this.tipo = tipo;
+        this.carnet = carnet;
+        
     }
     public NodoDato(String cat, int tipo, int carnet){
         this.Categoria = cat;

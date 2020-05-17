@@ -27,7 +27,7 @@ public class Proyecto2_EDD implements Observer{
        public Blockchain chain;
        public LeerJson read;
        public Servidor s ;
-       public ListaNodoRed list;
+       public  static ListaNodoRed list;
     
      public Proyecto2_EDD(){
          avl = new arbolAVL();
@@ -35,11 +35,12 @@ public class Proyecto2_EDD implements Observer{
          data = new Datos();
          chain = new Blockchain();
          read = new LeerJson(avl, hash, data);
-         s  = new Servidor(5000, read);
+         
          list = new ListaNodoRed();
+         s  = new Servidor(6000, list);
      }
     public static void main(String[] args) throws ParseException, IOException {
-       Proyecto2_EDD p = new Proyecto2_EDD();
+       /*Proyecto2_EDD p = new Proyecto2_EDD();
        File archivo = new File("Json");
         if (archivo.isDirectory()) {
             //List<String> res = new ArrayList<>();
@@ -50,17 +51,17 @@ public class Proyecto2_EDD implements Observer{
             }
         
         }
-           // p.read.LeerJsonGeneral("Bloque.json");
-        
         Thread t = new Thread(p.s);
-        // p.read.CargaMasivaUsuarios("fd"); 
-         t.start();
-         //Cliente cliente = new Cliente();
-         interfazSesion ven = new interfazSesion(p);
-         ven.setVisible(true);
+        t.start();
+        Cliente cliente = new Cliente(6000,"Cliente1", list);
+        cliente.run();
+        /*Cliente cliente2 = new Cliente(6000,"Cliente2", list);
+        cliente2.run();
+        Cliente cliente3 = new Cliente(6000,"Cliente3", list);
+        cliente3.run();*/
+         //interfazSesion ven = new interfazSesion(p);
+         //ven.setVisible(true);
         
-       
-       
     }
 
     @Override

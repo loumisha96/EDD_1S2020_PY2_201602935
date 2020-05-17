@@ -39,7 +39,7 @@ public class LeerJson {
     public void CargaMasivaLibros(String path) throws org.json.simple.parser.ParseException {
         JSONParser parser = new JSONParser();
         try {
-            Object obj =parser.parse(new FileReader("CargaLibros.json"));
+            Object obj =parser.parse(new FileReader(path));
             JSONObject jsonObject =  (JSONObject) obj;
             JSONArray book = (JSONArray) jsonObject.get("libros");
             for(int i = 0; i<book.size(); i++){
@@ -69,7 +69,7 @@ public class LeerJson {
     public void CargaMasivaUsuarios(String path)throws org.json.simple.parser.ParseException{
         JSONParser parser = new JSONParser();
         try {
-            Object  obj = parser.parse(new FileReader("usuarios.json"));
+            Object  obj = parser.parse(new FileReader(path));
             JSONObject jsonObject =  (JSONObject) obj;
             JSONArray user = (JSONArray) jsonObject.get("Usuarios");
             for(int i =0; i<user.size(); i++){
@@ -104,10 +104,6 @@ public class LeerJson {
         System.out.println(json.toJSONString());
         
         try {
-            /*JFileChooser guardar = new JFileChooser();
-            guardar.showSaveDialog(null);
-            guardar.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);*/
-            
             JFileChooser chooser = new JFileChooser("Json");
             chooser.showSaveDialog(null);
             chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
@@ -168,6 +164,7 @@ public class LeerJson {
                         json2.put("ISBN", aux.libro.ISBN);
                         json2.put("Titulo", aux.libro.title);
                         json2.put("Categoria", aux.libro.categoria);
+                        json2.put("Carnet", aux.carnet);
                         eliL.add(json2);
                         json1.put("ELIMINAR_LIBRO", eliL);
                         break;
@@ -259,8 +256,11 @@ public class LeerJson {
                         int isbn = (int)ISBN;
                         String Categoria = (String) u6.get("Categoria");
                         Nodo a =avl.buscarNodo(Categoria);
+                        long Carnet = (long) u6.get("Carnet");
+                        int carnet = (int) Carnet;
                         Libro libro = new Libro(isbn, 0, null, null, null, 0, null, 0, null);
-                        a.Btree.delete(libro, userlog.carne, data);
+                        Usuario auxus = hash.buscar(carnet);
+                        a.Btree.delete(libro, auxus.carne, data);
                     }
                 }if(u4 != null){
                     for(int j = 0; j<u4.size(); j++){

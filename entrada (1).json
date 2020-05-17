@@ -1,0 +1,354 @@
+{
+  "libros": [
+{
+      "ISBN": 1,
+      "Año": 1965,
+      "Idioma": "Español",
+      "Titulo": "Educación y sociedad : introducción a la sociología de la educación",
+      "Editorial": "ACC Art Books",
+      "Autor": "ESPEJO CALLADO, JORGE",
+      "Edicion": 1,
+      "Categoria": "Epico"
+    },
+    {
+      "ISBN": 2,
+      "Año": 1963,
+      "Idioma": "Ingles",
+      "Titulo": "La rebelión de las masas",
+      "Editorial": "ACCE",
+      "Autor": "ESPEJO T., ROMILIO",
+      "Edicion": 1,
+      "Categoria": "Epico"
+    },
+    {
+      "ISBN": 3,
+      "Año": 1999,
+      "Idioma": "Frances",
+      "Titulo": "La Guerra y la paz",
+      "Editorial": "Access Press",
+      "Autor": "ESPESO DÍEZ, MARÍA BELÉN",
+      "Edicion": 1,
+      "Categoria": "Epico"
+    },
+    {
+      "ISBN": 4,
+      "Año": 2000,
+      "Idioma": "Frances",
+      "Titulo": "Educación en valores a partir de los clásicos greco-latinos; una propuesta de intervención en secundaria",
+      "Editorial": "Acción Católica Guatemalteca",
+      "Autor": "ESPICH, JAMES E",
+      "Edicion": 1,
+      "Categoria": "Epico"
+    },
+    {
+      "ISBN": 5,
+      "Año": 1962,
+      "Idioma": "Español",
+      "Titulo": "Política y sociedad en una época de transición",
+      "Editorial": "Acción Ciudadana",
+      "Autor": "ESPIGARES FONG, LILIAN PATRICIA",
+      "Edicion": 2,
+      "Categoria": "Epico"
+    },
+{
+      "ISBN": 6,
+      "Año": 1951,
+      "Idioma": "Español",
+      "Titulo": "Introducción al estudio de la música",
+      "Editorial": "Acento",
+      "Autor": "ESPINA, ANTONIO",
+      "Edicion": 4,
+      "Categoria": "Epico"
+    },
+{
+      "ISBN": 10877,
+      "Año": 1965,
+      "Idioma": "Español",
+      "Titulo": "Educación y sociedad : introducción a la sociología de la educación",
+      "Editorial": "ACC Art Books",
+      "Autor": "ESPEJO CALLADO, JORGE",
+      "Edicion": 1,
+      "Categoria": "Epico"
+    },
+    {
+      "ISBN": 10878,
+      "Año": 1963,
+      "Idioma": "Ingles",
+      "Titulo": "La rebelión de las masas",
+      "Editorial": "ACCE",
+      "Autor": "ESPEJO T., ROMILIO",
+      "Edicion": 1,
+      "Categoria": "Epico"
+    },
+    {
+      "ISBN": 10884,
+      "Año": 1999,
+      "Idioma": "Frances",
+      "Titulo": "La Guerra y la paz",
+      "Editorial": "Access Press",
+      "Autor": "ESPESO DÍEZ, MARÍA BELÉN",
+      "Edicion": 1,
+      "Categoria": "Epico"
+    },
+    {
+      "ISBN": 10886,
+      "Año": 2000,
+      "Idioma": "Frances",
+      "Titulo": "Educación en valores a partir de los clásicos greco-latinos; una propuesta de intervención en secundaria",
+      "Editorial": "Acción Católica Guatemalteca",
+      "Autor": "ESPICH, JAMES E",
+      "Edicion": 1,
+      "Categoria": "Epico"
+    },
+    {
+      "ISBN": 10890,
+      "Año": 1962,
+      "Idioma": "Español",
+      "Titulo": "Política y sociedad en una época de transición",
+      "Editorial": "Acción Ciudadana",
+      "Autor": "ESPIGARES FONG, LILIAN PATRICIA",
+      "Edicion": 2,
+      "Categoria": "Epico"
+    },
+{
+      "ISBN": 10894,
+      "Año": 1951,
+      "Idioma": "Español",
+      "Titulo": "Introducción al estudio de la música",
+      "Editorial": "Acento",
+      "Autor": "ESPINA, ANTONIO",
+      "Edicion": 4,
+      "Categoria": "Epico"
+    },
+    {
+      "ISBN": 10896,
+      "Año": 1962,
+      "Idioma": "Español",
+      "Titulo": "Sociología de la educación",
+      "Editorial": "ACEPRENSA",
+      "Autor": "ESPINA, WIFREDO",
+      "Edicion": 3,
+      "Categoria": "Epico"
+    },
+    {
+      "ISBN": 10902,
+      "Año": 1966,
+      "Idioma": "Español",
+      "Titulo": "El hombre y el dinero: (vistos a la luz de la enseñanza de la Biblia y el Evangelio) / Jacques Ellul ; versión castellana Juan Gil Albert.",
+      "Editorial": "ACER",
+      "Autor": "ESPINAR, JAIME",
+      "Edicion": 4,
+      "Categoria": "Epico"
+    },
+    {
+      "ISBN": 10905,
+      "Año": 1937,
+      "Idioma": "Español",
+      "Titulo": "¡España, despierta! (Lo que es el nacional-sindicalismo) por X.Y.Z.",
+      "Editorial": "ACERVO",
+      "Autor": "ESPINAS, JOSÉ MARÍA",
+      "Edicion": 4,
+      "Categoria": "Epico"
+    },
+    {
+      "ISBN": 10891,
+      "Año": 1972,
+      "Idioma": "Español",
+      "Titulo": "Sociología de la educación",
+      "Editorial": "Acción Democrática Boliviana",
+      "Autor": "ESPINA CASTELLANOS, CANDY ANAHÍ",
+      "Edicion": 3,
+      "Categoria": "Epico"
+    },
+    {
+      "ISBN": 10892,
+      "Año": 1989,
+      "Idioma": "Español",
+      "Titulo": "Multinational financial management",
+      "Editorial": "Acción Social Empresarial, ASE",
+      "Autor": "ESPINA PAZ, WENDY LISSETTE",
+      "Edicion": 2,
+      "Categoria": "Epico"
+    },
+    {
+      "ISBN": 10893,
+      "Año": 1961,
+      "Idioma": "Español",
+      "Titulo": "Corporation accounts and statements; an advanced course",
+      "Editorial": "ACE Books",
+      "Autor": "ESPINA SANDOVAL, KEVIN ALEJANDRO",
+      "Edicion": 4,
+      "Categoria": "Epico"
+    },
+{
+      "ISBN": 10874,
+      "Año": 1969,
+      "Idioma": "Español",
+      "Titulo": "Introducción a la vida política",
+      "Editorial": "Acali",
+      "Autor": "ESPARZA, MIGUEL ÁNGEL",
+      "Edicion": 2,
+      "Categoria": "Epico"
+    },
+    {
+      "ISBN": 10875,
+      "Año": 1966,
+      "Idioma": "Español",
+      "Titulo": "El lenguaje y la vida humana",
+      "Editorial": "Acantilado",
+      "Autor": "ESPASA-CALPE",
+      "Edicion": 1,
+      "Categoria": "Epico"
+    },
+    {
+      "ISBN": 10876,
+      "Año": 1964,
+      "Idioma": "Aleman",
+      "Titulo": "Sociología de la educación",
+      "Editorial": "ACANTO",
+      "Autor": "ESPEJA, JESÚS",
+      "Edicion": 1,
+      "Categoria": "Epico"
+    },
+    {
+      "ISBN": 10763,
+      "Año": 1891,
+      "Idioma": "Español",
+      "Titulo": "Curso de derecho constitucional",
+      "Editorial": "3M España",
+      "Autor": "ESCOBAR, DAVID",
+      "Edicion": 2,
+      "Categoria": "Consulta"
+    },
+    {
+      "ISBN": 10765,
+      "Año": 1999,
+      "Idioma": "Ingles",
+      "Titulo": "Canales de comercialización",
+      "Editorial": "3R EDITORES",
+      "Autor": "ESCOBAR, FRANCISCO",
+      "Edicion": 1,
+      "Categoria": "Consulta"
+    },
+    {
+      "ISBN": 10856,
+      "Año": 1958,
+      "Idioma": "Español",
+      "Titulo": "Descripción geográfico-moral de la diócesis de Goathemala, v 2",
+      "Editorial": "Academia Iberoamericana de Poesía",
+      "Autor": "ESPAÑA. LEYES, DECRETOS, ETC",
+      "Edicion": 3,
+      "Categoria": "Ensayo"
+    },
+    {
+      "ISBN": 10857,
+      "Año": 1983,
+      "Idioma": "Español",
+      "Titulo": "Communicating through letters and reports",
+      "Editorial": "Academia Méxicana de Jurisprudencia y Legislación, Correspondiente de la de España",
+      "Autor": "ESPAÑA. MINISTERIO DE CULTURA",
+      "Edicion": 2,
+      "Categoria": "Ensayo"
+    },
+    {
+      "ISBN": 10858,
+      "Año": 1985,
+      "Idioma": "Español",
+      "Titulo": "Aprender a dibujar : un método garantizado",
+      "Editorial": "Academia Nacional de la Historia",
+      "Autor": "ESPAÑA. MINISTERIO DE EDUCACIÓN Y CIENCIA",
+      "Edicion": 3,
+      "Categoria": "Ensayo"
+    },
+    {
+      "ISBN": 11856,
+      "Año": 1958,
+      "Idioma": "Español",
+      "Titulo": "Descripción geográfico-moral",
+      "Editorial": "Academia Iberoamericana de Poesía",
+      "Autor": "ESPAÑA. LEYES, DECRETOS, ETC",
+      "Edicion": 3,
+      "Categoria": "Ensayo"
+    },
+    {
+      "ISBN": 11857,
+      "Año": 1983,
+      "Idioma": "Español",
+      "Titulo": "Communicating",
+      "Editorial": "Academia Méxicana de Jurisprudencia y Legislación, Correspondiente de la de España",
+      "Autor": "ESPAÑA. MINISTERIO DE CULTURA",
+      "Edicion": 2,
+      "Categoria": "Ensayo"
+    },
+    {
+      "ISBN": 11858,
+      "Año": 1985,
+      "Idioma": "Español",
+      "Titulo": "Aprender a dibujar",
+      "Editorial": "Academia Nacional de la Historia",
+      "Autor": "ESPAÑA. MINISTERIO DE EDUCACIÓN Y CIENCIA",
+      "Edicion": 3,
+      "Categoria": "Ensayo"
+    },
+    {
+      "ISBN": 12856,
+      "Año": 1958,
+      "Idioma": "Español",
+      "Titulo": "Descripción ",
+      "Editorial": "Academia Iberoamericana de Poesía",
+      "Autor": "ESPAÑA. LEYES, DECRETOS, ETC",
+      "Edicion": 3,
+      "Categoria": "Ensayo"
+    },
+    {
+      "ISBN": 12857,
+      "Año": 1983,
+      "Idioma": "Español",
+      "Titulo": "reports",
+      "Editorial": "Academia Méxicana de Jurisprudencia y Legislación, Correspondiente de la de España",
+      "Autor": "ESPAÑA. MINISTERIO DE CULTURA",
+      "Edicion": 2,
+      "Categoria": "Ensayo"
+    },
+    {
+      "ISBN": 12858,
+      "Año": 1985,
+      "Idioma": "Español",
+      "Titulo": "dibujar",
+      "Editorial": "Academia Nacional de la Historia",
+      "Autor": "ESPAÑA. MINISTERIO DE EDUCACIÓN Y CIENCIA",
+      "Edicion": 3,
+      "Categoria": "Ensayo"
+    },
+    {
+      "ISBN": 13856,
+      "Año": 1958,
+      "Idioma": "Español",
+      "Titulo": "diócesis de Goathemala, v 2",
+      "Editorial": "Academia Iberoamericana de Poesía",
+      "Autor": "ESPAÑA. LEYES, DECRETOS, ETC",
+      "Edicion": 3,
+      "Categoria": "Ensayo"
+    },
+    {
+      "ISBN": 13857,
+      "Año": 1983,
+      "Idioma": "Español",
+      "Titulo": "letters and reports",
+      "Editorial": "Academia Méxicana de Jurisprudencia y Legislación, Correspondiente de la de España",
+      "Autor": "ESPAÑA. MINISTERIO DE CULTURA",
+      "Edicion": 2,
+      "Categoria": "Ensayo"
+    },
+    {
+      "ISBN": 13858,
+      "Año": 1985,
+      "Idioma": "Español",
+      "Titulo": "método garantizado",
+      "Editorial": "Academia Nacional de la Historia",
+      "Autor": "ESPAÑA. MINISTERIO DE EDUCACIÓN Y CIENCIA",
+      "Edicion": 3,
+      "Categoria": "Ensayo"
+    }
+  ]
+}

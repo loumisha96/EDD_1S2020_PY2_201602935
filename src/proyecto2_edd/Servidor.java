@@ -24,9 +24,11 @@ public class Servidor extends Observable implements Runnable{
     
     private int puerto;
     private LeerJson read;
-    public Servidor(int puerto, LeerJson read){
+    public ListaNodoRed list;
+    public Servidor(int puerto , ListaNodoRed list){
         this.puerto = puerto;
-        this.read = read;
+        this.list = list;
+       // this.read = read;
         
     }
     public void run (){
@@ -48,6 +50,7 @@ public class Servidor extends Observable implements Runnable{
                     this.setChanged();
                     this.notifyObservers(mensaje);
                     sc.close();
+                    list.print();
                     System.out.println("Cliente desconectado");
                     
                 }
@@ -68,8 +71,8 @@ public class Servidor extends Observable implements Runnable{
      }*/
  }
  public static  void main(String[] args){
-     //Servidor s = new Servidor(5000);
-     //s.run();
+//     Servidor s = new Servidor(5000);
+  //   s.run();
         
     }
 

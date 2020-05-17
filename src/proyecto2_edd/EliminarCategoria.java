@@ -101,19 +101,23 @@ public class EliminarCategoria extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     public void LimpiarTabla(DefaultTableModel tabla){
-        for(int i =0; i<tabla.getRowCount(); i++){
+        for(int i =0; i<jTable1.getRowCount(); i++){
             tabla.removeRow(i);
+            i -=1;
         }
     }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         int pos = jTable1.getSelectedRow();
         if(pos!=-1 ){
-            String cat = (String)tabla.getValueAt(pos,0);
+            String cat = (String)jTable1.getValueAt(pos,0);
             read.avl.remove(cat, userLog.carne, data);
         }else{
             JOptionPane.showMessageDialog(null, "Seleccione el libro");
         }
         LimpiarTabla(tabla);
+        // read.avl.inorden();
+        System.out.println("**********************************************************************************");
+        read.avl.inorden();
         read.avl.GinordenCat(tabla);
     }//GEN-LAST:event_jButton1ActionPerformed
 

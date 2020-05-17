@@ -26,24 +26,34 @@ public class Usuarios {
         if(primero == null){
             primero = nuevo;
             tam=0;
+            NodoDato d = new NodoDato(nuevo, 0);
+            data.insertarDato(d);
         }else{
-            nuevo.sig = primero;
-            primero = nuevo;
+            Usuario encontrado = buscar(nuevo.carne);
+            if(encontrado!= null && primero == null){
+                nuevo.sig = primero;
+                primero = nuevo;
+                tam++;
+                NodoDato d = new NodoDato(nuevo, 0);
+                data.insertarDato(d);
+            }
             
-            tam++;
         }
-        NodoDato d = new NodoDato(nuevo, 0);
-        data.insertarDato(d);
+        
         
     }
     public Usuario buscar(int carnet){
         Usuario aux = primero;
-        while(aux.carne !=  carnet && aux.sig != null){
-            aux = aux.sig;
-        }
-        if(aux.carne == carnet)
-            return aux;
-        else return null;
+        if(primero!=null){
+            
+            while(aux.carne !=  carnet && aux.sig != null){
+                aux = aux.sig;
+            }
+            if(aux.carne == carnet)
+                return aux;
+            else return null;
+        }else
+            return null;
     }
     public void Editar(int carnet, String nombre, String apellido, String carrera , String password, Datos data){
         Usuario aux = buscar(carnet);

@@ -37,14 +37,14 @@ public class arbolAVL {
     	int altIzq, altDer;
         if(raizTmp == null){
     		this.raiz = nodo;
-                this.raiz.Btree.add(libro, data);
+                this.raiz.Btree.add(libro, data, userLog.carne);
                 NodoDato d = new NodoDato(libro.categoria, 4, userLog.carne);
                 data.insertarDato(d);
                 return true;
     	}else
     	if(this.contains(nodo.getcategoria())){
                 Nodo a = buscarNodo(nodo.categoria);
-                a.Btree.add(libro, data);
+                a.Btree.add(libro, data, userLog.carne);
                 NodoDato d = new NodoDato(libro.categoria, 4, userLog.carne);
                 data.insertarDato(d);
                 
@@ -72,7 +72,7 @@ public class arbolAVL {
     		}
     		if(der){
                     raizTmp.setDerecha(nodo);
-                    raizTmp.derecha.Btree.add(libro, data);
+                    raizTmp.derecha.Btree.add(libro, data, userLog.carne);
                     NodoDato d = new NodoDato(libro.categoria, 4, userLog.carne);
                     data.insertarDato(d);
                     
@@ -81,7 +81,7 @@ public class arbolAVL {
                     raizTmp.setIzquierda(nodo);
                     NodoDato d = new NodoDato(libro.categoria, 4, userLog.carne);
                      data.insertarDato(d);
-                    raizTmp.izquierda.Btree.add(libro, data);
+                    raizTmp.izquierda.Btree.add(libro, data, userLog.carne);
                     
                     
                 }
@@ -416,15 +416,15 @@ public class arbolAVL {
 
     	//el nodo a borrar es la raiz?
     	if(this.compararcategoria((String)o, raizTmp.getcategoria())==0){
-            if(raizTmp.userLog.carne == carnet){
+            //if(raizTmp.userLog.carne == carnet){
                 salir = true;
 	    	borrar = raizTmp;
                 NodoDato d = new NodoDato(borrar.categoria, 5, carnet);
                 data.insertarDato(d);
-            }
-            else
-                JOptionPane.showMessageDialog(null,"No tiene permisos");
-	    }
+            //}
+            //else
+              //  JOptionPane.showMessageDialog(null,"No tiene permisos");
+	    //}
     	
     	//si no es la raiz, lo buscamos
         
@@ -454,9 +454,9 @@ public class arbolAVL {
 
     	//existe el nodo a borrar?
     	if(salir){
-                if(borrar.userLog.carne == carnet){
-                    NodoDato d = new NodoDato(borrar.categoria, 5, carnet);
-                    data.insertarDato(d);
+                //if(borrar.userLog.carne == carnet){
+                    NodoDato d2 = new NodoDato(borrar.categoria, 5, carnet);
+                    data.insertarDato(d2);
                     
                 
                     mirar = borrar;
@@ -485,11 +485,13 @@ public class arbolAVL {
 
 	    		if(borrar.getIzquierda()!=null){
 	    			borrar.setcategoria(borrar.getIzquierda().getcategoria(), borrar.userLog);
+                                borrar.Btree = borrar.getIzquierda().Btree;
 	    			borrar.setIzquierda(null);
 	    		}
 	    		
 	    		else if(borrar.getDerecha()!=null){
 	    			borrar.setcategoria(borrar.getDerecha().getcategoria(), borrar.userLog);
+                                borrar.Btree= borrar.getDerecha().Btree;
 	    			borrar.setDerecha(null);
 	    		}
 	    	}

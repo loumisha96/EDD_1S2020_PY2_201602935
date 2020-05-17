@@ -1,0 +1,66 @@
+{
+	"Usuarios":[
+		{
+			"Carnet": 201503476,
+			"Nombre": "Ricardo",
+			"Apellido": "Cutz",
+			"Carrera": "Ingenieria en Sistemas",
+			"Password": "123456"
+		},
+		{
+			"Carnet": 201503477,
+			"Nombre": "Juanito",
+			"Apellido": "Hernandez",
+			"Carrera": "Ingenieria Civil",
+			"Password": "123456"
+		},
+		{
+			"Carnet": 202005878,
+			"Nombre": "Antonio",
+			"Apellido": "Hernandez",
+			"Carrera": "Ingenieria Electrica",
+			"Password": "123456"
+		},
+{
+			"Carnet": 201500332,
+			"Nombre": "Gabriela",
+			"Apellido": "Raymudno",
+			"Carrera": "Ingenieria en Sistemas",
+			"Password": "123456"
+		},
+		{
+			"Carnet": 201700532,
+			"Nombre": "Jack",
+			"Apellido": "Sparrow",
+			"Carrera": "Ingenieria Civil",
+			"Password": "123456"
+		},
+		{
+			"Carnet": 202056878,
+			"Nombre": "Marco",
+			"Apellido": "Hernandez",
+			"Carrera": "Ingenieria Electrica",
+			"Password": "123456"
+		},{
+			"Carnet": 201609456,
+			"Nombre": "Aldo",
+			"Apellido": "Cuevas",
+			"Carrera": "Ingenieria en Sistemas",
+			"Password": "123456"
+		},
+		{
+			"Carnet": 201602478,
+			"Nombre": "Homero",
+			"Apellido": "King",
+			"Carrera": "Ingenieria Civil",
+			"Password": "123456"
+		},
+		{
+			"Carnet": 20202222,
+			"Nombre": "Dean",
+			"Apellido": "F",
+			"Carrera": "Ingenieria Electrica",
+			"Password": "123456"
+		}
+	]
+}

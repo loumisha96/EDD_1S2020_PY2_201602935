@@ -5,9 +5,9 @@
  */
 package proyecto2_edd;
 
-import java.awt.Desktop;
+
 import java.io.BufferedWriter;
-import java.io.File;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import javax.swing.JOptionPane;
@@ -51,20 +51,20 @@ public class ArbolB {
 /*  54 */     return localBTreeNode.getKey(i >> 1);
 /*     */   }
 /*     */ 
-/*     */   public void add(BTreeComparable paramBTreeComparable, Datos data) {
+/*     */   public void add(BTreeComparable paramBTreeComparable, Datos data, int carnet) {
 /*  58 */     if (find(paramBTreeComparable) != null) {
 /*  59 */       return;
 /*     */     }
               tam++;
-              NodoDato d = new NodoDato((Libro)paramBTreeComparable, 2);
+              NodoDato d = new NodoDato((Libro)paramBTreeComparable, 2, carnet);
               data.insertarDato(d);
 /*  61 */     BTreeNode localBTreeNode = findLeaf(paramBTreeComparable);
 
 /*  63 */     addHere(localBTreeNode, paramBTreeComparable, null, null);
 /*     */   }
 /*     */ 
-/*     */   public void insert(BTreeComparable paramBTreeComparable, Datos data) {
-/*  67 */     add(paramBTreeComparable, data);
+/*     */   public void insert(BTreeComparable paramBTreeComparable, Datos data, int carnet) {
+/*  67 */     add(paramBTreeComparable, data, carnet);
 /*     */   }
 /*     */ 
 /*     */   public void delete(BTreeComparable paramBTreeComparable, int carne, Datos data) {
@@ -76,7 +76,7 @@ public class ArbolB {
                     for(int i =0; i<localBTreeNode.key.length; i++){
                         if(localBTreeNode.key[i]!= null && paramBTreeComparable.ISBN == localBTreeNode.key[i].ISBN){
                             if(localBTreeNode.key[i].carnet == carne){
-                                NodoDato d = new NodoDato((Libro)paramBTreeComparable, 3);
+                                NodoDato d = new NodoDato((Libro)localBTreeNode.key[i], 3, carne);
                                 data.insertarDato(d);
                                 
                             }else{
