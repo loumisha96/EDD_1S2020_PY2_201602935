@@ -1,14 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package proyecto2_edd;
-
-import java.awt.Image;
-
+import java.io.File;
+import java.io.IOException;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 
 /**
  *
@@ -134,8 +130,13 @@ public class Reporte extends javax.swing.JFrame {
             }
         });
     }
-    public void Imagen(String ruta){
-        ImageIcon f = new ImageIcon(ruta);
+    public void Imagen(String ruta) throws IOException{
+        JFileChooser i = new JFileChooser();
+       // i.setCurrentDirectory(new File ("dist"));
+        i.setCurrentDirectory(new File (".").getCanonicalFile());
+        i.showOpenDialog(this);
+        File file = i.getSelectedFile();
+        ImageIcon f = new ImageIcon(file.getPath());
         Icon icono = f;
         jLabel1.setIcon(icono);
         jScrollPane1.add(jLabel1);

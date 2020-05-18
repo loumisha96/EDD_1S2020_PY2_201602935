@@ -7,6 +7,7 @@ package proyecto2_edd;
 
 import java.io.File;
 import java.io.IOException;
+
 import org.json.simple.parser.ParseException;
 
 /**
@@ -17,17 +18,20 @@ public class main {
     public static void main(String[] args) throws ParseException, IOException {
        Proyecto2_EDD p = new Proyecto2_EDD();
        File archivo = new File("Json");
+       
         if (archivo.isDirectory()) {
             //List<String> res = new ArrayList<>();
             File[] cont = archivo.listFiles();
-            for(int i = 0; i< cont.length; i++){
-                p.read.LeerJsonGeneral(cont[i]);
-                p.data = new Datos();
-            }
+            
+           for (File cont1 : cont) {
+               
+               p.read.LeerJsonGeneral(cont1);
+               p.data = new Datos();
+           }
         
         }
-        Thread t = new Thread(p.s);
-        t.start();
+        //Thread t = new Thread(p.s);
+        //t.start();
         /*Cliente cliente = new Cliente(6000,"Cliente1", p.list);
         cliente.run();*/
         /*Cliente cliente2 = new Cliente(6000,"Cliente2", list);

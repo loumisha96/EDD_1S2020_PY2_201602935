@@ -5,15 +5,18 @@
  */
 package proyecto2_edd;
 
-import java.awt.FileDialog;
+
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -39,30 +42,51 @@ public class LeerJson {
     public void CargaMasivaLibros(String path) throws org.json.simple.parser.ParseException {
         JSONParser parser = new JSONParser();
         try {
-            Object obj =parser.parse(new FileReader(path));
+             /*String charset = "UTF-8";
+            BufferedReader reader = new BufferedReader(
+        new InputStreamReader(
+            new FileInputStream(path), charset));*/
+            Object obj =parser.parse(new InputStreamReader(new FileInputStream(path), "utf-8"));
+            
             JSONObject jsonObject =  (JSONObject) obj;
             JSONArray book = (JSONArray) jsonObject.get("libros");
+            
             for(int i = 0; i<book.size(); i++){
+                
                JSONObject rec = (JSONObject) book.get(i);
+               
                long ISBN = (long) rec.get("ISBN");
                int isbn = (int)ISBN;
+               
+               String idioma = (String) rec.get("Idioma");
+               
+               
                long ANIO = (long) rec.get("Año");
                int anio = (int)ANIO;
-               String idioma = (String) rec.get("Idioma");
+               
                String title = (String) rec.get("Titulo");
+               
                String Editorial = (String) rec.get("Editorial");
+               
                String Autor = (String) rec.get("Autor");
+               
+               
                long Edicion = (long) rec.get("Edicion");
                int edicion = (int)Edicion;
+               
                String Categoria = (String) rec.get("Categoria");
+               
+               
                Libro libro = new Libro(isbn, anio, title, Autor, Editorial, edicion, Categoria,userlog.carne , idioma);
                avl.add(libro, userlog, data);
             }
            // avl.inorden();
         } catch (FileNotFoundException e) {
                 //manejo de error
+                JOptionPane.showMessageDialog(null, "ErrorFile");
         }catch (IOException e) {
                 //manejo de error
+                JOptionPane.showMessageDialog(null, "ErrorIO");
         }
             //manejo de error
     }
@@ -104,9 +128,12 @@ public class LeerJson {
         System.out.println(json.toJSONString());
         
         try {
-            JFileChooser chooser = new JFileChooser("Json");
-            chooser.showSaveDialog(null);
+            JFileChooser chooser = new JFileChooser();
+            chooser.setCurrentDirectory(new File ("dist"));
+            chooser.setCurrentDirectory(new File (".").getCanonicalFile());
             chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+            chooser.showSaveDialog(null);
+            
             File file = chooser.getSelectedFile();
             FileWriter file2 = new  FileWriter(file);
             file2.write(json.toJSONString());
@@ -147,7 +174,7 @@ public class LeerJson {
                 case 2:
                     {
                         json2.put("ISBN", aux.libro.ISBN);
-                        json2.put("Año", aux.libro.anio);
+                        json2.put("Anio", aux.libro.anio);
                         json2.put("Idioma", aux.libro.idioma);
                         json2.put("Titulo", aux.libro.title);
                         json2.put("Editorial", aux.libro.editorial);
@@ -192,9 +219,11 @@ public class LeerJson {
         }
     }
     public void LeerJsonGeneral(File json) throws IOException, ParseException{
-            JSONParser parser = new JSONParser();
-            Object  obj = parser.parse(new FileReader(json));
+          
+        JSONParser parser = new JSONParser();
+            Object obj =parser.parse(new FileReader(json));
             JSONObject jsonObject =  (JSONObject) obj;
+            
             JSONObject datos = (JSONObject) jsonObject.get("DATA");
             //JSONArray datos = (JSONArray) jsonObject.get("DATA");
             for(int i =0; i<datos.size(); i++){
@@ -210,11 +239,17 @@ public class LeerJson {
                         JSONObject u6 = (JSONObject) u.get(j);
                         long Carnet = (long) u6.get("Carnet");
                         int carnet = (int)Carnet;
+                        
                         String Nombre = (String) u6.get("Nombre");
+                        
                         String Apellido = (String) u6.get("Apellido");
+                        
                         String Carrera = (String) u6.get("Carrera");
+                        
                         String Password = (String) u6.get("Password");
+                        
                         hash.insertar(carnet, Nombre, Apellido, Carrera, Password, data);
+                        
                     }
                 }
                  if(u1!=null){
@@ -233,7 +268,7 @@ public class LeerJson {
                         JSONObject u6 = (JSONObject) u2.get(j);
                         long ISBN = (long) u6.get("ISBN");
                         int isbn = (int)ISBN;
-                        long ANIO = (long) u6.get("Año");
+                        long ANIO = (long) u6.get("Anio");
                         int anio = (int)ANIO;
                         String idioma = (String) u6.get("Idioma");
                         String title = (String) u6.get("Titulo");

@@ -5,11 +5,7 @@
  */
 package proyecto2_edd;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import org.json.simple.parser.ParseException;
@@ -26,7 +22,7 @@ public class Proyecto2_EDD implements Observer{
        public Datos data;
        public Blockchain chain;
        public LeerJson read;
-       public Servidor s ;
+      // public Servidor s ;
        public  static ListaNodoRed list;
     
      public Proyecto2_EDD(){
@@ -37,9 +33,9 @@ public class Proyecto2_EDD implements Observer{
          read = new LeerJson(avl, hash, data);
          
          list = new ListaNodoRed();
-         s  = new Servidor(6000, list);
+         //s  = new Servidor(6000, list);
      }
-    public static void main(String[] args) throws ParseException, IOException {
+   /* public static void main(String[] args) throws ParseException, IOException {
        /*Proyecto2_EDD p = new Proyecto2_EDD();
        File archivo = new File("Json");
         if (archivo.isDirectory()) {
@@ -62,7 +58,7 @@ public class Proyecto2_EDD implements Observer{
          //interfazSesion ven = new interfazSesion(p);
          //ven.setVisible(true);
         
-    }
+    //}
 
     @Override
     public void update(Observable o, Object o1) {

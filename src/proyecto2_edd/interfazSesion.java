@@ -6,6 +6,7 @@
 package proyecto2_edd;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -152,7 +153,12 @@ public class interfazSesion extends javax.swing.JFrame {
     }//GEN-LAST:event_ingresarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        JFileChooser file = new JFileChooser("build");
+        JFileChooser file = new JFileChooser();
+        try {
+            file.setCurrentDirectory(new File (".").getCanonicalFile());
+        } catch (IOException ex) {
+            Logger.getLogger(interfazSesion.class.getName()).log(Level.SEVERE, null, ex);
+        }
         file.showOpenDialog(this);
         File abrir=file.getSelectedFile();
         String path =abrir.getPath();

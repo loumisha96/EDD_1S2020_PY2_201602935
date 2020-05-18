@@ -20,7 +20,7 @@ public class Bloque {
     String PreviousHash;
     String Hash;
     
-    static int nonce;
+    int nonce;
     Bloque sig;
     Bloque ant;
     public int getIndex() {

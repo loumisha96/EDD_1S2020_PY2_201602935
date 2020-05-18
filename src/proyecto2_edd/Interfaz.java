@@ -320,7 +320,13 @@ public class Interfaz extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void CargaLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CargaLibroActionPerformed
-       JFileChooser file = new JFileChooser("build");
+        JFileChooser file = new JFileChooser("build");
+        file.setCurrentDirectory(new File ("dist"));
+        try {
+            file.setCurrentDirectory(new File (".").getCanonicalFile());
+        } catch (IOException ex) {
+            Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+        }
         file.showOpenDialog(this);
         File abrir=file.getSelectedFile();
         String path =abrir.getPath();
@@ -342,7 +348,7 @@ public class Interfaz extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         LimpiarTabla(tabla);
-        p.read.avl.inorden();
+       // p.read.avl.inorden();
         p.read.avl.Ginorden(tabla);
     }//GEN-LAST:event_jButton1ActionPerformed
     public void LimpiarTabla(DefaultTableModel tabla){

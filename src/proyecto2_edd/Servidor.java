@@ -11,9 +11,6 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Observable;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -70,11 +67,7 @@ public class Servidor extends Observable implements Runnable{
          }
      }*/
  }
- public static  void main(String[] args){
-//     Servidor s = new Servidor(5000);
-  //   s.run();
-        
-    }
+ 
 
     
     
