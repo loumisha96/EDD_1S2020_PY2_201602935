@@ -424,7 +424,7 @@ public class arbolAVL {
             }
             else
                 JOptionPane.showMessageDialog(null,"No tiene permisos");
-	    //}
+	    }
     	
     	//si no es la raiz, lo buscamos
         
@@ -457,7 +457,8 @@ public class arbolAVL {
                 if(borrar.userLog.carne == carnet){
                     NodoDato d2 = new NodoDato(borrar.categoria, 5, carnet);
                     data.insertarDato(d2);
-                    
+                
+                
                 
                     mirar = borrar;
 
@@ -575,13 +576,13 @@ public class arbolAVL {
     			mirar = padre(mirar);
     		}
     		return true;	    	
-        }else
+       }else
                     JOptionPane.showMessageDialog(null, "No tiene los permisos");
-        }}	
+        }	
     	return false;
-    
+
     }
-    
+
     public int size(){
     	return this.preOrden().size();
     }
