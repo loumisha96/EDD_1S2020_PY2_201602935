@@ -131,6 +131,7 @@ public class interfazSesion extends javax.swing.JFrame {
             int carnet = Integer.parseInt(user_txt.getText());
             Usuario userAux = p.read.hash.ingreso(carnet, pass_txt.getText());
             //Usuario userAux =p.read.hash.ingreso(201503476, "123456");
+            
             if(userAux!= null){
                 userLog = userAux;
                 p.read.setUserlog(userLog);

@@ -86,13 +86,13 @@ public class Usuarios {
             return aux;
         else return null;
         }else{
-            JOptionPane.showMessageDialog(null, "No se han registrado usuarios");
+            //JOptionPane.showMessageDialog(null, "No se han registrado usuarios");
             return null;
         }
         
                 
     }
-    public void Eliminar(int carnet){
+    public void Eliminar(int carnet, Datos data){
         Usuario aux = primero;
         Usuario aux1 = primero;
         while(aux.carne !=  carnet && aux.sig != null){
@@ -100,6 +100,8 @@ public class Usuarios {
             aux = aux.sig;
         }
         if(aux.carne == carnet){
+            NodoDato d = new NodoDato(aux, 6);
+            data.insertarDato(d);
             if(aux == primero){
                 primero = aux.sig;
                 aux.sig = null;

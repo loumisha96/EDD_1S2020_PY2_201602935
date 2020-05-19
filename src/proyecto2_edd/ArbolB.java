@@ -400,7 +400,7 @@ public class ArbolB {
         
         ProcessBuilder p;
         String ima = cat + ".jpg";
-        p = new ProcessBuilder("dot", "-Tpng", "-o", ima , name);
+        p = new ProcessBuilder("dot", "-Tpng", "-o", ima ,"-Gcharset=latin1", name);
         p.redirectErrorStream(true);
         p.start();
         return ima;

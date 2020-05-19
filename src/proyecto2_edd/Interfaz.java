@@ -505,13 +505,17 @@ public class Interfaz extends javax.swing.JFrame {
 
     private void jMenu22MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu22MouseClicked
             //eliminar
+            /*NodoDato d = new NodoDato(userLog, 4);
+            p.data.insertarDato(d);*/
             EliminarUsuario eU = new EliminarUsuario(userLog, p.hash, this);
+         
             eU.setVisible(true);
             this.setVisible(false);
     }//GEN-LAST:event_jMenu22MouseClicked
 
     private void jMenu23MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu23MouseClicked
         //editar
+        
         EditarUsuario edU = new EditarUsuario(userLog, p.hash, this, p.data);
         edU.setVisible(true);
         this.setVisible(false);

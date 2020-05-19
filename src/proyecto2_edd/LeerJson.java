@@ -153,6 +153,7 @@ public class LeerJson {
        JSONArray eliL = new JSONArray();
        JSONArray creC = new JSONArray();
        JSONArray eliC = new JSONArray();
+       JSONArray eliU = new JSONArray();
         JSONObject json2;
         for (int i = 0; i< b.datos.op+1; i++ ) {
            json2 = new JSONObject();
@@ -212,6 +213,12 @@ public class LeerJson {
                         json1.put("ELIMINAR_CATEGORIA", eliC);
                         break;
                     }
+                case 6:
+                    {
+                        json2.put("CARNET", aux.usuario.carne);
+                        eliU.add(json2);
+                        json1.put("ELIMINAR_USUARIO", eliU);
+                    }
                 default:
                     break;
             }
@@ -234,6 +241,7 @@ public class LeerJson {
                 JSONArray u3 = (JSONArray) datos.get("ELIMINAR_LIBRO");
                 JSONArray u4 =  (JSONArray) datos.get("CREAR_CATEGORIA");
                 JSONArray u5 = (JSONArray) datos.get("ELIMINAR_CATEGORIA");
+                JSONArray u7 = (JSONArray) datos.get("ELIMINAR_USUARIO");
                 if(u!=null){
                    for(int j = 0; j<u.size(); j++){
                         JSONObject u6 = (JSONObject) u.get(j);
@@ -314,6 +322,14 @@ public class LeerJson {
                         JSONObject u6 =  (JSONObject)u5.get(j);
                         String cat = (String) u6.get("Nombre");
                         avl.remove(cat, userlog.carne, data);
+                    }
+                }
+                if(u7!=null){
+                    for(int j = 0; j<u7.size(); j++){
+                        JSONObject u6 =  (JSONObject)u7.get(j);
+                        long Carnet = (long) u6.get("CARNET");
+                        int carnet = (int) Carnet;
+                        hash.Eliminar(carnet, data);
                     }
                 }
                     

@@ -5,6 +5,9 @@
  */
 package proyecto2_edd;
 
+import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -88,8 +91,21 @@ public class EliminarUsuario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        hash.Eliminar(u.carne);
+        hash.Eliminar(u.carne,ven.p.data);
         JOptionPane.showMessageDialog(null, "Su usuario ha sido eliminado");
+           if(ven.p.data.primero != null){
+            Bloque bloque = new Bloque(ven.p.data);
+            try {
+                ven.p.chain.NuevoBloque(bloque);
+                ven.p.read.CrearJsonBloque(bloque);
+                ven.p.data = new Datos();
+                JOptionPane.showMessageDialog(null, "Guardado");
+            } catch (InterruptedException | NoSuchAlgorithmException ex) {
+                Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "No se han registrado nuevas actividades");
+        }
         ven.ven.setVisible(true);
         this.setVisible(false);
         

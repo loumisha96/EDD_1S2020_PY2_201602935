@@ -803,7 +803,7 @@ public class arbolAVL {
         report.write("}");
         report.close();
         ProcessBuilder p;
-        p = new ProcessBuilder("dot", "-Tpng", "-o", "ReporteCategoria.png", "ReporteCategoria.dot");
+        p = new ProcessBuilder("dot", "-Tpng", "-o", "ReporteCategoria.png", "-Gcharset=latin1", "ReporteCategoria.dot");
         p.redirectErrorStream(true);
         p.start();
         return "ReporteCategoria.png";
@@ -893,21 +893,30 @@ public class arbolAVL {
             report.write("}");
             report.close();
             ProcessBuilder p;
-            p = new ProcessBuilder("dot", "-Tpng", "-o", ruta, name);
+            p = new ProcessBuilder("dot", "-Tpng", "-o", ruta, "-Gcharset=latin1", name);
             p.redirectErrorStream(true);
             p.start();
             return ruta;
     }
     public String reporteInorden(Nodo actual) throws IOException{
 	String dot = " ";
+        
         if(actual != null)
         {
             dot += reporteInorden(actual.getIzquierda());
             if(actual.getDerecha()!= null || actual.getIzquierda() != null)
-                dot += "->";
+                if(dot.charAt(dot.length()-2) == '>'){
+            } else {
+                    System.out.println(dot.charAt(dot.length()-2));
+                    dot += " ->";
+            }
             dot += actual.categoria;
             if(actual.getDerecha()!= null || actual.getIzquierda() != null)
-                dot += "->";
+                   if(dot.charAt(dot.length()-1) == '>'){
+            } else {
+                       System.out.println(dot.charAt(dot.length()-2));
+                    dot += " ->";
+            }
             
             dot +=reporteInorden(actual.getDerecha());
             

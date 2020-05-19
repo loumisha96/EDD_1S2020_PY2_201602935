@@ -33,8 +33,8 @@ public class TablaHash {
     public void Editar(int carnet, String nombre, String apellido, String carrera , String password, Datos data){
         Hash[funcionHash(carnet)].Editar(carnet, nombre, apellido, carrera, password,data);
     }
-    public void Eliminar(int carnet){
-        Hash[funcionHash(carnet)].Eliminar(carnet);
+    public void Eliminar(int carnet, Datos data){
+        Hash[funcionHash(carnet)].Eliminar(carnet, data);
     }
     public Usuario ingreso(int carnet, String pass){
        return  Hash[funcionHash(carnet)].buscarIngreso(carnet, pass);
@@ -69,7 +69,7 @@ public class TablaHash {
         report.write("}");
         report.close();
         ProcessBuilder p;
-            p = new ProcessBuilder("dot", "-Tpng", "-o", "ReporteUsuarios.jpg", "ReporteUsuarios.dot");
+            p = new ProcessBuilder("dot", "-Tpng", "-o", "ReporteUsuarios.jpg", "-Gcharset=latin1", "ReporteUsuarios.dot");
             p.redirectErrorStream(true);
             p.start();
             return "ReporteUsuarios.jpg";
